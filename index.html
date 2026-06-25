@@ -30,7 +30,7 @@
   header p { font-size: 13px; color: var(--muted); }
   .sync-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--teal-bg); color: var(--teal-text); }
   .sync-badge.error { background: #FCEBEB; color: #A32D2D; }
-  .sync-badge.loading { background: var(--surface); color: var(--muted); }
+  .sync-badge.loading { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
   main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
   .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
   .metric { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
@@ -44,17 +44,19 @@
   .tab.active { background: var(--white); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   select.filter { font-size: 13px; padding: 7px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; cursor: pointer; outline: none; }
   .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 2rem; }
-  .bday-row { display: flex; align-items: center; gap: 14px; padding: 13px 1.25rem; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  .bday-row { display: flex; align-items: center; gap: 10px; padding: 12px 1.25rem; border-bottom: 1px solid var(--border); transition: background 0.1s; flex-wrap: wrap; }
   .bday-row:last-child { border-bottom: none; }
   .bday-row:hover { background: var(--surface); }
   .avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
   .bday-name { font-size: 14px; font-weight: 500; color: var(--text); }
   .bday-date { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .bday-email { font-size: 11px; color: var(--muted); margin-top: 1px; }
   .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
   .badge-today { background: #FAECE7; color: #712B13; }
   .badge-soon  { background: #FAEEDA; color: #633806; }
   .badge-month { background: #E1F5EE; color: #085041; }
   .added-tag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--purple-bg); color: var(--purple-text); }
+  .row-actions { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
   .draft-section { margin-bottom: 2rem; }
   .draft-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
   select.vol-select { flex: 1; min-width: 200px; font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; cursor: pointer; outline: none; }
@@ -65,28 +67,31 @@
   button.primary:hover { background: #3C3489; }
   button.danger { color: #A32D2D; border-color: #F7C1C1; }
   button.danger:hover { background: #FCEBEB; }
+  button.email-btn { background: var(--teal-bg); color: var(--teal-text); border-color: #9FE1CB; }
+  button.email-btn:hover { background: #c4eedf; }
+  button.add-email-btn { background: var(--surface); color: var(--muted); border-style: dashed; font-size: 12px; padding: 5px 10px; }
   textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); background: var(--white); resize: vertical; font-family: inherit; line-height: 1.65; min-height: 100px; outline: none; }
   textarea:focus { border-color: var(--purple-text); }
-  input[type="text"], input[type="date"] { font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; outline: none; width: 100%; }
+  input[type="text"], input[type="date"], input[type="email"] { font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; outline: none; width: 100%; }
   input:focus { border-color: var(--purple-text); }
   .copy-confirm { font-size: 12px; color: var(--teal-text); margin-top: 6px; min-height: 16px; font-weight: 500; }
   .reminder-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 1.25rem; }
   .reminder-desc { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 360px; }
   .month-group-label { padding: 8px 1.25rem; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); background: var(--surface); border-bottom: 1px solid var(--border); }
   .empty { padding: 2rem; text-align: center; font-size: 14px; color: var(--muted); }
-  .add-form { padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; }
+  .add-form { padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; }
   .add-form label { font-size: 12px; font-weight: 500; color: var(--muted); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
   .form-msg { font-size: 12px; font-weight: 500; padding: 0 1.25rem 12px; min-height: 20px; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 100; align-items: center; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--white); border-radius: var(--radius); padding: 1.5rem; max-width: 520px; width: 90%; border: 1px solid var(--border); }
+  .modal { background: var(--white); border-radius: var(--radius); padding: 1.5rem; max-width: 520px; width: 90%; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
   .modal h2 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
   .modal p { font-size: 13px; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
   .modal textarea { min-height: 140px; margin-bottom: 10px; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--purple-text); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: -2px; margin-right: 6px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  @media (max-width: 600px) {
+  @media (max-width: 640px) {
     main { padding: 1rem; }
     .metrics { grid-template-columns: 1fr 1fr; }
     header { padding: 1rem; }
@@ -106,12 +111,12 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
     <span class="sync-badge loading" id="sync-badge"><span class="spinner"></span>Connecting...</span>
+    <button onclick="loadFromSheet()" style="font-size:12px;padding:5px 12px;">↺ Refresh</button>
     <button class="primary" onclick="document.getElementById('add-section').scrollIntoView({behavior:'smooth'})">+ Add volunteer</button>
   </div>
 </header>
 
 <main>
-
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">This month</div>
@@ -143,7 +148,6 @@
       <option value="7">July</option><option value="8">August</option><option value="9">September</option>
       <option value="10">October</option><option value="11">November</option><option value="12">December</option>
     </select>
-    <button onclick="loadFromSheet()" style="font-size:12px;padding:5px 12px;margin-left:auto;">↺ Refresh</button>
   </div>
 
   <div class="card"><div id="bday-list"><div class="empty"><span class="spinner"></span> Loading birthdays...</div></div></div>
@@ -184,11 +188,15 @@
       <div class="add-form">
         <div>
           <label for="add-name">Full name</label>
-          <input type="text" id="add-name" placeholder="e.g. Maria Santos" />
+          <input type="text" id="add-name" placeholder="Maria Santos" />
         </div>
         <div>
           <label for="add-date">Birthday</label>
           <input type="date" id="add-date" />
+        </div>
+        <div>
+          <label for="add-email">Email (optional)</label>
+          <input type="email" id="add-email" placeholder="maria@email.com" />
         </div>
         <div style="padding-bottom:1px;">
           <button class="primary" id="add-btn" onclick="addVolunteer()" style="height:36px;">Add</button>
@@ -197,32 +205,44 @@
       <div class="form-msg" id="form-msg"></div>
     </div>
   </div>
-
 </main>
 
 <div class="modal-overlay" id="email-modal">
   <div class="modal">
     <h2 id="modal-title">Birthday email</h2>
-    <p id="modal-desc"></p>
+    <p id="modal-desc" style="margin-bottom:6px;"></p>
+    <p id="modal-to" style="margin-bottom:1rem;font-size:13px;color:var(--text);"></p>
     <textarea id="modal-body"></textarea>
     <div class="modal-actions">
       <button onclick="closeModal()">Close</button>
-      <button class="primary" onclick="copyModal()">Copy email</button>
+      <button onclick="copyModal()">Copy</button>
+      <button class="email-btn" id="modal-send-btn" onclick="sendViaGmail()">Open in Gmail</button>
     </div>
     <div class="copy-confirm" id="modal-confirm"></div>
   </div>
 </div>
 
-<script>
-// ─── PASTE YOUR APPS SCRIPT WEB APP URL HERE ───────────────────────────────
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYhbPnI5CXv9RpukGykJgUnHvW5Nna8tuXEUls-wx17VBzn4o9uT8GYvHhSDjQvZVh/exec";
-// ────────────────────────────────────────────────────────────────────────────
+<div class="modal-overlay" id="add-email-modal">
+  <div class="modal">
+    <h2 id="add-email-modal-title">Add email address</h2>
+    <p id="add-email-modal-desc"></p>
+    <input type="email" id="add-email-input" placeholder="volunteer@email.com" style="margin-bottom:12px;" />
+    <div class="modal-actions">
+      <button onclick="closeAddEmailModal()">Cancel</button>
+      <button class="primary" onclick="saveEmail()">Save</button>
+    </div>
+    <div class="copy-confirm" id="add-email-confirm"></div>
+  </div>
+</div>
 
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxysDmSlGylwT_I-4gaeQYtnNxcbnhbSxaR5QK2De0iBauP8aPp3W7QS3fdYqVHw912/exec";
 const MONTHS = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
 const now = new Date();
 let VOLUNTEERS = [];
 let currentTab = 'upcoming';
 let msgIndex = 0;
+let currentEmailTarget = null;
 
 function colorFor(m) {
   if (m <= 3)  return { bg:"#FBEAF0", text:"#993556" };
@@ -249,63 +269,64 @@ async function loadFromSheet() {
     const json = await res.json();
     if (!json.success) throw new Error();
     VOLUNTEERS = json.data.map(r => ({
-      name: r.name,
+      name: String(r.name || ''),
       month: parseInt(r.month),
       day: parseInt(r.day),
+      email: String(r.email || '').trim(),
       added: r.added === true || r.added === "TRUE"
     }));
     setSyncBadge('ok', 'Synced');
     render();
   } catch(e) {
-    setSyncBadge('error', 'Could not connect — check your URL');
+    setSyncBadge('error', 'Could not connect');
   }
 }
 
 function setSyncBadge(state, text) {
   const b = document.getElementById('sync-badge');
-  b.className = 'sync-badge' + (state === 'error' ? ' error' : state === 'loading' ? ' loading' : '');
-  b.innerHTML = state === 'loading' ? `<span class="spinner"></span>${text}` : text;
+  b.className = 'sync-badge' + (state==='error'?' error':state==='loading'?' loading':'');
+  b.innerHTML = state==='loading' ? `<span class="spinner"></span>${text}` : text;
 }
 
 function setTab(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('month-filter').style.display = tab === 'month' ? 'block' : 'none';
+  document.getElementById('month-filter').style.display = tab==='month' ? 'block' : 'none';
   render();
 }
 
 function render() {
   const list = document.getElementById('bday-list');
   let filtered = [];
-  if (currentTab === 'upcoming') {
-    filtered = VOLUNTEERS.map(v => ({...v, days: daysUntil(v.month, v.day)}))
-      .filter(v => v.days <= 30).sort((a,b) => a.days - b.days);
-  } else if (currentTab === 'month') {
+  if (currentTab==='upcoming') {
+    filtered = VOLUNTEERS.map(v=>({...v,days:daysUntil(v.month,v.day)}))
+      .filter(v=>v.days<=30).sort((a,b)=>a.days-b.days);
+  } else if (currentTab==='month') {
     const m = parseInt(document.getElementById('month-filter').value);
-    filtered = VOLUNTEERS.filter(v => v.month === m)
-      .map(v => ({...v, days: daysUntil(v.month, v.day)})).sort((a,b) => a.day - b.day);
+    filtered = VOLUNTEERS.filter(v=>v.month===m)
+      .map(v=>({...v,days:daysUntil(v.month,v.day)})).sort((a,b)=>a.day-b.day);
   } else {
-    filtered = VOLUNTEERS.map(v => ({...v, days: daysUntil(v.month, v.day)}))
-      .sort((a,b) => (a.month*100+a.day)-(b.month*100+b.day));
+    filtered = VOLUNTEERS.map(v=>({...v,days:daysUntil(v.month,v.day)}))
+      .sort((a,b)=>(a.month*100+a.day)-(b.month*100+b.day));
   }
 
   if (!filtered.length) {
     list.innerHTML = '<div class="empty">No birthdays in this range.</div>';
-  } else if (currentTab === 'all') {
-    let html = ''; let lastMonth = null;
+  } else if (currentTab==='all') {
+    let html=''; let lastMonth=null;
     filtered.forEach(v => {
-      if (v.month !== lastMonth) { html += `<div class="month-group-label">${MONTHS[v.month]}</div>`; lastMonth = v.month; }
-      html += rowHTML(v);
+      if (v.month!==lastMonth) { html+=`<div class="month-group-label">${MONTHS[v.month]}</div>`; lastMonth=v.month; }
+      html+=rowHTML(v);
     });
     list.innerHTML = html;
   } else {
     list.innerHTML = filtered.map(rowHTML).join('');
   }
 
-  const todayV = VOLUNTEERS.filter(v => daysUntil(v.month,v.day) === 0);
-  const soonV  = VOLUNTEERS.filter(v => { const d=daysUntil(v.month,v.day); return d>0&&d<=7; });
-  const monthV = VOLUNTEERS.filter(v => v.month === now.getMonth()+1);
+  const todayV = VOLUNTEERS.filter(v=>daysUntil(v.month,v.day)===0);
+  const soonV  = VOLUNTEERS.filter(v=>{const d=daysUntil(v.month,v.day);return d>0&&d<=7;});
+  const monthV = VOLUNTEERS.filter(v=>v.month===now.getMonth()+1);
   document.getElementById('stat-today').textContent = todayV.length;
   document.getElementById('stat-today-names').textContent = todayV.length ? todayV.map(v=>v.name.split(' ')[0]).join(', ') : 'none today';
   document.getElementById('stat-soon').textContent = soonV.length;
@@ -331,7 +352,13 @@ function rowHTML(v) {
   else if (v.days<=7) badge=`<span class="badge badge-soon">In ${v.days}d</span>`;
   else if (v.days<=30) badge='<span class="badge badge-month">This month</span>';
   const addedTag = v.added ? '<span class="added-tag">New</span>' : '';
-  const safeName = v.name.replace(/'/g,"\\'");
+  const safeName = v.name.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const emailDisplay = v.email
+    ? `<div class="bday-email">${v.email}</div>`
+    : '';
+  const emailBtn = v.email
+    ? `<button class="email-btn" onclick="quickEmail('${safeName}')" style="font-size:12px;padding:5px 10px;">Send email</button>`
+    : `<button class="add-email-btn" onclick="openAddEmailModal('${safeName}',${v.month},${v.day})" style="font-size:12px;padding:5px 10px;">+ Add email</button>`;
   const removeBtn = v.added
     ? `<button class="danger" onclick="removeVolunteer('${safeName}',${v.month},${v.day})" style="font-size:12px;padding:5px 10px;">Remove</button>`
     : '';
@@ -340,60 +367,15 @@ function rowHTML(v) {
     <div style="flex:1;min-width:0;">
       <div class="bday-name">${v.name} ${addedTag}</div>
       <div class="bday-date">${MONTHS[v.month]} ${v.day}</div>
+      ${emailDisplay}
     </div>
     ${badge}
-    <button onclick="quickDraft('${safeName}')" style="font-size:12px;padding:5px 10px;">Draft</button>
-    ${removeBtn}
+    <div class="row-actions">
+      <button onclick="quickDraft('${safeName}')" style="font-size:12px;padding:5px 10px;">Draft</button>
+      ${emailBtn}
+      ${removeBtn}
+    </div>
   </div>`;
-}
-
-async function addVolunteer() {
-  const nameEl = document.getElementById('add-name');
-  const dateEl = document.getElementById('add-date');
-  const msgEl  = document.getElementById('form-msg');
-  const btn    = document.getElementById('add-btn');
-  const name   = nameEl.value.trim();
-  const dateVal= dateEl.value;
-  if (!name) { nameEl.focus(); return; }
-  if (!dateVal) { dateEl.focus(); return; }
-  const d = new Date(dateVal + 'T00:00:00');
-  const month = d.getMonth()+1;
-  const day   = d.getDate();
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>';
-  msgEl.style.color = 'var(--muted)';
-  msgEl.textContent = 'Saving...';
-  try {
-    const res = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action:'add', name, month, day, added: true })
-    });
-    const json = await res.json();
-    if (!json.success) throw new Error();
-    nameEl.value = ''; dateEl.value = '';
-    msgEl.style.color = 'var(--teal-text)';
-    msgEl.textContent = `${name} added and saved!`;
-    setTimeout(()=>msgEl.textContent='', 3000);
-    await loadFromSheet();
-  } catch(e) {
-    msgEl.style.color = '#A32D2D';
-    msgEl.textContent = 'Could not save. Check your connection.';
-  }
-  btn.disabled = false;
-  btn.textContent = 'Add';
-}
-
-async function removeVolunteer(name, month, day) {
-  if (!confirm(`Remove ${name}?`)) return;
-  try {
-    await fetch(SCRIPT_URL, {
-      method:'POST',
-      body: JSON.stringify({ action:'remove', name, month, day })
-    });
-    await loadFromSheet();
-  } catch(e) {
-    alert('Could not remove. Check your connection.');
-  }
 }
 
 const MESSAGES = [
@@ -422,25 +404,90 @@ function copyDraft() {
     setTimeout(()=>document.getElementById('copy-confirm').textContent='',2000);
   });
 }
-function openEmailModal() {
-  const name = document.getElementById('draft-select').value;
-  const body = document.getElementById('draft-text').value;
-  if (!name||!body) { alert('Please select a volunteer and generate a message first.'); return; }
-  document.getElementById('modal-title').textContent=`Email to ${name}`;
-  document.getElementById('modal-desc').textContent=`Subject: Happy Birthday, ${name.split(' ')[0]}!`;
-  document.getElementById('modal-body').value=body;
-  document.getElementById('modal-confirm').textContent='';
+
+function openEmailModal(name, body) {
+  if (!name) {
+    name = document.getElementById('draft-select').value;
+    body = document.getElementById('draft-text').value;
+  }
+  if (!name || !body) { alert('Please select a volunteer and generate a message first.'); return; }
+  const v = VOLUNTEERS.find(v=>v.name===name);
+  const first = name.split(' ')[0];
+  const subject = `Happy Birthday, ${first}!`;
+  document.getElementById('modal-title').textContent = `Email to ${name}`;
+  document.getElementById('modal-desc').textContent = `Subject: ${subject}`;
+  document.getElementById('modal-to').textContent = v && v.email ? `To: ${v.email}` : 'No email saved for this volunteer';
+  document.getElementById('modal-body').value = body;
+  document.getElementById('modal-confirm').textContent = '';
+  document.getElementById('modal-send-btn').style.display = (v && v.email) ? 'block' : 'none';
   document.getElementById('email-modal').classList.add('open');
 }
+
+function quickEmail(name) {
+  const v = VOLUNTEERS.find(v=>v.name===name);
+  if (!v || !v.email) return;
+  const msg = MESSAGES[msgIndex % MESSAGES.length](name);
+  msgIndex++;
+  openEmailModal(name, msg);
+}
+
+function sendViaGmail() {
+  const to = document.getElementById('modal-to').textContent.replace('To: ','');
+  const subject = document.getElementById('modal-desc').textContent.replace('Subject: ','');
+  const body = document.getElementById('modal-body').value;
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.open(gmailUrl, '_blank');
+}
+
+function copyModal() {
+  const subj = document.getElementById('modal-desc').textContent;
+  const body = document.getElementById('modal-body').value;
+  navigator.clipboard.writeText(`${subj}\n\n${body}`).then(()=>{
+    document.getElementById('modal-confirm').textContent='Copied!';
+    setTimeout(()=>document.getElementById('modal-confirm').textContent='',2000);
+  });
+}
+function closeModal() { document.getElementById('email-modal').classList.remove('open'); }
+document.getElementById('email-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+function openAddEmailModal(name, month, day) {
+  currentEmailTarget = { name, month, day };
+  document.getElementById('add-email-modal-title').textContent = `Add email for ${name}`;
+  document.getElementById('add-email-modal-desc').textContent = 'This will be saved to the shared sheet for everyone to use.';
+  document.getElementById('add-email-input').value = '';
+  document.getElementById('add-email-confirm').textContent = '';
+  document.getElementById('add-email-modal').classList.add('open');
+}
+function closeAddEmailModal() { document.getElementById('add-email-modal').classList.remove('open'); }
+document.getElementById('add-email-modal').addEventListener('click',function(e){if(e.target===this)closeAddEmailModal();});
+
+async function saveEmail() {
+  const email = document.getElementById('add-email-input').value.trim();
+  if (!email) return;
+  const { name, month, day } = currentEmailTarget;
+  try {
+    await fetch(SCRIPT_URL, {
+      method:'POST',
+      body: JSON.stringify({ action:'update_email', name, month, day, email })
+    });
+    document.getElementById('add-email-confirm').textContent = 'Saved!';
+    setTimeout(()=>{ closeAddEmailModal(); loadFromSheet(); }, 1000);
+  } catch(e) {
+    document.getElementById('add-email-confirm').textContent = 'Could not save. Try again.';
+  }
+}
+
 function openReminderModal() {
   const m = parseInt(document.getElementById('reminder-month').value);
   const mName = MONTHS[m];
   const bdays = VOLUNTEERS.filter(v=>v.month===m).sort((a,b)=>a.day-b.day);
   if (!bdays.length) { alert('No birthdays that month.'); return; }
   const listText = bdays.map(v=>`  • ${v.name} — ${mName} ${v.day}`).join('\n');
-  document.getElementById('modal-title').textContent=`${mName} birthday reminder`;
-  document.getElementById('modal-desc').textContent=`Subject: Volunteer Birthdays — ${mName}`;
-  document.getElementById('modal-body').value=
+  document.getElementById('modal-title').textContent = `${mName} birthday reminder`;
+  document.getElementById('modal-desc').textContent = `Subject: Volunteer Birthdays — ${mName}`;
+  document.getElementById('modal-to').textContent = '';
+  document.getElementById('modal-send-btn').style.display = 'none';
+  document.getElementById('modal-body').value =
 `Hey Ben,
 
 Here's your birthday heads-up for ${mName}! You have ${bdays.length} volunteer birthday${bdays.length>1?'s':''} coming up this month:
@@ -453,18 +500,54 @@ Take a moment to reach out and celebrate each of them — a quick text, message,
   document.getElementById('modal-confirm').textContent='';
   document.getElementById('email-modal').classList.add('open');
 }
-function copyModal() {
-  const subj = document.getElementById('modal-desc').textContent;
-  const body = document.getElementById('modal-body').value;
-  navigator.clipboard.writeText(`${subj}\n\n${body}`).then(()=>{
-    document.getElementById('modal-confirm').textContent='Copied!';
-    setTimeout(()=>document.getElementById('modal-confirm').textContent='',2000);
-  });
+
+async function addVolunteer() {
+  const nameEl  = document.getElementById('add-name');
+  const dateEl  = document.getElementById('add-date');
+  const emailEl = document.getElementById('add-email');
+  const msgEl   = document.getElementById('form-msg');
+  const btn     = document.getElementById('add-btn');
+  const name    = nameEl.value.trim();
+  const dateVal = dateEl.value;
+  const email   = emailEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  if (!dateVal) { dateEl.focus(); return; }
+  const d = new Date(dateVal+'T00:00:00');
+  const month = d.getMonth()+1;
+  const day   = d.getDate();
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
+  msgEl.style.color='var(--muted)'; msgEl.textContent='Saving...';
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method:'POST',
+      body: JSON.stringify({ action:'add', name, month, day, added:true, email })
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error();
+    nameEl.value=''; dateEl.value=''; emailEl.value='';
+    msgEl.style.color='var(--teal-text)';
+    msgEl.textContent=`${name} added!`;
+    setTimeout(()=>msgEl.textContent='',3000);
+    await loadFromSheet();
+  } catch(e) {
+    msgEl.style.color='#A32D2D';
+    msgEl.textContent='Could not save. Check your connection.';
+  }
+  btn.disabled=false; btn.textContent='Add';
 }
-function closeModal() { document.getElementById('email-modal').classList.remove('open'); }
-document.getElementById('email-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+async function removeVolunteer(name, month, day) {
+  if (!confirm(`Remove ${name}?`)) return;
+  try {
+    await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify({action:'remove',name,month,day}) });
+    await loadFromSheet();
+  } catch(e) { alert('Could not remove. Check your connection.'); }
+}
+
 document.getElementById('add-name').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('add-date').focus();});
-document.getElementById('add-date').addEventListener('keydown',e=>{if(e.key==='Enter')addVolunteer();});
+document.getElementById('add-date').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('add-email').focus();});
+document.getElementById('add-email').addEventListener('keydown',e=>{if(e.key==='Enter')addVolunteer();});
+document.getElementById('add-email-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveEmail();});
 
 loadFromSheet();
 </script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Volunteer Birthday Reminders — Calvary Boca Kids Ministry</title>
+<title>Volunteer Care — Calvary Boca Kids Ministry</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -14,6 +14,7 @@
     --teal-bg: #E1F5EE;   --teal-text: #0F6E56;
     --coral-bg: #FAECE7;  --coral-text: #993C1D;
     --blue-bg: #E6F1FB;   --blue-text: #185FA5;
+    --gold-bg: #FDF6E3;   --gold-text: #7A5C00;
     --border: #E4E2DB;
     --surface: #F8F7F4;
     --white: #ffffff;
@@ -22,80 +23,118 @@
     --radius: 12px;
     --radius-sm: 8px;
   }
-  body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh; line-height: 1.5; }
-  header { background: var(--white); border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-  .header-left { display: flex; align-items: center; gap: 14px; }
-  .header-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--purple-bg); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-  header h1 { font-size: 17px; font-weight: 600; color: var(--text); }
-  header p { font-size: 13px; color: var(--muted); }
+  body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh; }
+
+  /* NAV */
+  header { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--purple-bg); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  header h1 { font-size: 16px; font-weight: 600; }
+  header p  { font-size: 12px; color: var(--muted); }
   .sync-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--teal-bg); color: var(--teal-text); }
   .sync-badge.error { background: #FCEBEB; color: #A32D2D; }
   .sync-badge.loading { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
-  main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
-  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
-  .metric { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
-  .metric-label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .metric-value { font-size: 28px; font-weight: 600; color: var(--text); }
-  .metric-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .section-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
-  .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px; width: fit-content; }
-  .tab { padding: 6px 16px; font-size: 13px; font-weight: 500; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: var(--muted); transition: all 0.15s; }
-  .tab:hover { color: var(--text); }
-  .tab.active { background: var(--white); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  select.filter { font-size: 13px; padding: 7px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; cursor: pointer; outline: none; }
-  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 2rem; }
-  .bday-row { display: flex; align-items: center; gap: 10px; padding: 12px 1.25rem; border-bottom: 1px solid var(--border); transition: background 0.1s; flex-wrap: wrap; }
-  .bday-row:last-child { border-bottom: none; }
-  .bday-row:hover { background: var(--surface); }
-  .avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
-  .bday-name { font-size: 14px; font-weight: 500; color: var(--text); }
-  .bday-date { font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .bday-email { font-size: 11px; color: var(--muted); margin-top: 1px; }
-  .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+
+  /* TABS */
+  .tab-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; }
+  .tab-nav button { font-size: 13px; font-weight: 500; padding: 14px 20px; border: none; background: transparent; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; font-family: inherit; }
+  .tab-nav button:hover { color: var(--text); }
+  .tab-nav button.active { color: var(--purple-text); border-bottom-color: var(--purple-text); }
+
+  /* PAGES */
+  .page { display: none; max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page.active { display: block; }
+
+  /* CARDS */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1.5rem; }
+  .card-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .card-title { font-size: 14px; font-weight: 600; }
+  .card-body { padding: 1.25rem; }
+
+  /* METRICS */
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+  .metric { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+  .metric-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .metric-value { font-size: 26px; font-weight: 600; }
+  .metric-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* VOLUNTEER ROWS */
+  .vol-row { display: flex; align-items: center; gap: 12px; padding: 12px 1.25rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; transition: background 0.1s; }
+  .vol-row:last-child { border-bottom: none; }
+  .vol-row:hover { background: var(--surface); }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+  .vol-name { font-size: 14px; font-weight: 500; }
+  .vol-sub  { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
   .badge-today { background: #FAECE7; color: #712B13; }
   .badge-soon  { background: #FAEEDA; color: #633806; }
   .badge-month { background: #E1F5EE; color: #085041; }
-  .added-tag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--purple-bg); color: var(--purple-text); }
+  .badge-new   { background: var(--purple-bg); color: var(--purple-text); }
+  .badge-checkin1 { background: var(--blue-bg); color: var(--blue-text); }
+  .badge-checkin3 { background: var(--gold-bg); color: var(--gold-text); }
   .row-actions { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
-  .draft-section { margin-bottom: 2rem; }
-  .draft-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
-  select.vol-select { flex: 1; min-width: 200px; font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; cursor: pointer; outline: none; }
-  button { font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+
+  /* BUTTONS */
+  button, .btn { font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
   button:hover { background: var(--surface); }
   button:active { transform: scale(0.98); }
   button.primary { background: var(--purple-text); color: white; border-color: var(--purple-text); }
   button.primary:hover { background: #3C3489; }
+  button.teal { background: var(--teal-bg); color: var(--teal-text); border-color: #9FE1CB; }
+  button.teal:hover { background: #c4eedf; }
+  button.blue { background: var(--blue-bg); color: var(--blue-text); border-color: #A8CDED; }
+  button.gold { background: var(--gold-bg); color: var(--gold-text); border-color: #D4B96A; }
   button.danger { color: #A32D2D; border-color: #F7C1C1; }
   button.danger:hover { background: #FCEBEB; }
-  button.email-btn { background: var(--teal-bg); color: var(--teal-text); border-color: #9FE1CB; }
-  button.email-btn:hover { background: #c4eedf; }
-  button.add-email-btn { background: var(--surface); color: var(--muted); border-style: dashed; font-size: 12px; padding: 5px 10px; }
-  textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); background: var(--white); resize: vertical; font-family: inherit; line-height: 1.65; min-height: 100px; outline: none; }
-  textarea:focus { border-color: var(--purple-text); }
-  input[type="text"], input[type="date"], input[type="email"] { font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; outline: none; width: 100%; }
-  input:focus { border-color: var(--purple-text); }
-  .copy-confirm { font-size: 12px; color: var(--teal-text); margin-top: 6px; min-height: 16px; font-weight: 500; }
-  .reminder-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 1.25rem; }
-  .reminder-desc { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 360px; }
-  .month-group-label { padding: 8px 1.25rem; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); background: var(--surface); border-bottom: 1px solid var(--border); }
-  .empty { padding: 2rem; text-align: center; font-size: 14px; color: var(--muted); }
-  .add-form { padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; }
-  .add-form label { font-size: 12px; font-weight: 500; color: var(--muted); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .form-msg { font-size: 12px; font-weight: 500; padding: 0 1.25rem 12px; min-height: 20px; }
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 100; align-items: center; justify-content: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--white); border-radius: var(--radius); padding: 1.5rem; max-width: 520px; width: 90%; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
-  .modal h2 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .modal p { font-size: 13px; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
-  .modal textarea { min-height: 140px; margin-bottom: 10px; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
-  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--purple-text); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: -2px; margin-right: 6px; }
+  button.dashed { border-style: dashed; color: var(--muted); font-size: 12px; padding: 5px 10px; }
+
+  /* FORMS */
+  input, textarea, select { font-family: inherit; font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--white); color: var(--text); outline: none; width: 100%; }
+  input:focus, textarea:focus, select:focus { border-color: var(--purple-text); }
+  textarea { resize: vertical; line-height: 1.65; }
+  label { font-size: 12px; font-weight: 500; color: var(--muted); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .form-grid { display: grid; gap: 10px; }
+  .form-grid-2 { grid-template-columns: 1fr 1fr; }
+  .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-grid-4 { grid-template-columns: 1fr 1fr 1fr auto; }
+
+  /* SECTION */
+  .section-title { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+  .msg { font-size: 12px; font-weight: 500; min-height: 18px; margin-top: 6px; }
+  .msg.success { color: var(--teal-text); }
+  .msg.error   { color: #A32D2D; }
+  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid var(--border); border-top-color: var(--purple-text); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: -2px; margin-right: 5px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* EMAIL COMPOSER */
+  .email-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; margin-top: 10px; }
+  .email-field { margin-bottom: 10px; }
+  .email-field:last-child { margin-bottom: 0; }
+  .email-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .copy-confirm { font-size: 12px; color: var(--teal-text); font-weight: 500; margin-top: 6px; min-height: 16px; }
+
+  /* MONTH GROUP */
+  .month-group { padding: 8px 1.25rem; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); background: var(--surface); border-bottom: 1px solid var(--border); }
+  .empty { padding: 2rem; text-align: center; font-size: 14px; color: var(--muted); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--white); border-radius: var(--radius); padding: 1.5rem; max-width: 560px; width: 92%; border: 1px solid var(--border); max-height: 92vh; overflow-y: auto; }
+  .modal h2 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .modal .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 12px; }
+
+  /* TABS inside */
+  .inner-tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px; width: fit-content; margin-bottom: 12px; }
+  .inner-tab { padding: 5px 14px; font-size: 13px; font-weight: 500; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: var(--muted); font-family: inherit; }
+  .inner-tab.active { background: var(--white); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
   @media (max-width: 640px) {
-    main { padding: 1rem; }
     .metrics { grid-template-columns: 1fr 1fr; }
-    header { padding: 1rem; }
-    .add-form { grid-template-columns: 1fr; }
+    header, .tab-nav { padding-left: 1rem; padding-right: 1rem; }
+    .page { padding: 1rem; }
+    .form-grid-2, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -103,75 +142,71 @@
 
 <header>
   <div class="header-left">
-    <div class="header-icon">🎂</div>
+    <div class="header-icon">✝</div>
     <div>
-      <h1>Volunteer Birthday Reminders</h1>
+      <h1>Volunteer Care Hub</h1>
       <p>Calvary Boca — Kids Ministry</p>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
     <span class="sync-badge loading" id="sync-badge"><span class="spinner"></span>Connecting...</span>
     <button onclick="loadFromSheet()" style="font-size:12px;padding:5px 12px;">↺ Refresh</button>
-    <button class="primary" onclick="document.getElementById('add-section').scrollIntoView({behavior:'smooth'})">+ Add volunteer</button>
+    <button class="primary" onclick="showAddModal()">+ Add volunteer</button>
   </div>
 </header>
 
-<main>
+<div class="tab-nav">
+  <button class="active" onclick="showPage('birthdays', this)">Birthdays</button>
+  <button onclick="showPage('care', this)">Volunteer Care</button>
+  <button onclick="showPage('welcome', this)">Welcome Email</button>
+  <button onclick="showPage('checkin1', this)">1-Month Check-in</button>
+  <button onclick="showPage('checkin3', this)">3-Month Follow-up</button>
+</div>
+
+<!-- BIRTHDAYS PAGE -->
+<div class="page active" id="page-birthdays">
   <div class="metrics">
-    <div class="metric">
-      <div class="metric-label">This month</div>
-      <div class="metric-value" id="stat-month">—</div>
-      <div class="metric-sub" id="stat-month-name"></div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Coming up (7 days)</div>
-      <div class="metric-value" id="stat-soon">—</div>
-      <div class="metric-sub">next 7 days</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Today</div>
-      <div class="metric-value" id="stat-today">—</div>
-      <div class="metric-sub" id="stat-today-names"></div>
-    </div>
+    <div class="metric"><div class="metric-label">This month</div><div class="metric-value" id="stat-month">—</div><div class="metric-sub" id="stat-month-name"></div></div>
+    <div class="metric"><div class="metric-label">Coming up (7d)</div><div class="metric-value" id="stat-soon">—</div><div class="metric-sub">next 7 days</div></div>
+    <div class="metric"><div class="metric-label">Today</div><div class="metric-value" id="stat-today">—</div><div class="metric-sub" id="stat-today-names"></div></div>
   </div>
 
-  <div class="section-title">Birthday list</div>
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
-    <div class="tabs">
-      <button class="tab active" onclick="setTab('upcoming',this)">Upcoming</button>
-      <button class="tab" onclick="setTab('month',this)">By month</button>
-      <button class="tab" onclick="setTab('all',this)">All</button>
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="setBdayTab('upcoming',this)">Upcoming</button>
+      <button class="inner-tab" onclick="setBdayTab('month',this)">By month</button>
+      <button class="inner-tab" onclick="setBdayTab('all',this)">All</button>
     </div>
-    <select class="filter" id="month-filter" onchange="render()" style="display:none;">
+    <select id="month-filter" onchange="renderBirthdays()" style="display:none;width:auto;">
       <option value="1">January</option><option value="2">February</option><option value="3">March</option>
       <option value="4">April</option><option value="5">May</option><option value="6">June</option>
       <option value="7">July</option><option value="8">August</option><option value="9">September</option>
       <option value="10">October</option><option value="11">November</option><option value="12">December</option>
     </select>
   </div>
+  <div class="card"><div id="bday-list"><div class="empty"><span class="spinner"></span> Loading...</div></div></div>
 
-  <div class="card"><div id="bday-list"><div class="empty"><span class="spinner"></span> Loading birthdays...</div></div></div>
-
-  <div class="draft-section">
-    <div class="section-title">Draft a birthday message</div>
-    <div class="draft-controls">
-      <select class="vol-select" id="draft-select" onchange="generateDraft()">
-        <option value="">Select a volunteer...</option>
-      </select>
-      <button onclick="generateDraft()">↺ Regenerate</button>
-      <button onclick="copyDraft()">Copy</button>
-      <button class="primary" onclick="openEmailModal()">Draft email</button>
+  <div class="section-title">Draft a birthday message</div>
+  <div class="card">
+    <div class="card-body">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <select id="bday-draft-select" onchange="generateBdayDraft()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+        <button onclick="generateBdayDraft()">↺ Regenerate</button>
+        <button onclick="copyText('bday-draft-text','bday-copy-confirm')">Copy</button>
+        <button class="teal" onclick="openGmailFromField('bday-draft-select','bday-draft-subject','bday-draft-text')">Open in Gmail</button>
+      </div>
+      <input id="bday-draft-subject" type="text" value="" readonly style="margin-bottom:8px;background:var(--surface);" />
+      <textarea id="bday-draft-text" rows="5" placeholder="Select a volunteer above..."></textarea>
+      <div class="copy-confirm" id="bday-copy-confirm"></div>
     </div>
-    <textarea id="draft-text" placeholder="Select a volunteer above to generate a birthday message..."></textarea>
-    <div class="copy-confirm" id="copy-confirm"></div>
   </div>
 
-  <div class="section-title">Monthly email reminder</div>
-  <div class="card" style="margin-bottom:2rem;">
-    <div class="reminder-row">
-      <div class="reminder-desc">Generate a heads-up email listing all birthdays for a given month — send it to yourself at the start of each month.</div>
+  <div class="section-title">Monthly birthday reminder</div>
+  <div class="card">
+    <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;max-width:360px;">Generate a heads-up email of all birthdays for a given month to send yourself.</div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <select class="filter" id="reminder-month">
+        <select id="reminder-month" style="width:auto;">
           <option value="1">January</option><option value="2">February</option><option value="3">March</option>
           <option value="4">April</option><option value="5">May</option><option value="6">June</option>
           <option value="7" selected>July</option><option value="8">August</option><option value="9">September</option>
@@ -181,69 +216,131 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div id="add-section">
-    <div class="section-title">Add a volunteer</div>
-    <div class="card">
-      <div class="add-form">
-        <div>
-          <label for="add-name">Full name</label>
-          <input type="text" id="add-name" placeholder="Maria Santos" />
-        </div>
-        <div>
-          <label for="add-date">Birthday</label>
-          <input type="date" id="add-date" />
-        </div>
-        <div>
-          <label for="add-email">Email (optional)</label>
-          <input type="email" id="add-email" placeholder="maria@email.com" />
-        </div>
-        <div style="padding-bottom:1px;">
-          <button class="primary" id="add-btn" onclick="addVolunteer()" style="height:36px;">Add</button>
-        </div>
-      </div>
-      <div class="form-msg" id="form-msg"></div>
-    </div>
+<!-- CARE PAGE -->
+<div class="page" id="page-care">
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">Total volunteers</div><div class="metric-value" id="stat-total">—</div><div class="metric-sub">in the system</div></div>
+    <div class="metric"><div class="metric-label">New (need welcome)</div><div class="metric-value" id="stat-new">—</div><div class="metric-sub">added recently</div></div>
+    <div class="metric"><div class="metric-label">Need check-in</div><div class="metric-value" id="stat-checkin">—</div><div class="metric-sub">1-mo or 3-mo due</div></div>
   </div>
-</main>
 
-<div class="modal-overlay" id="email-modal">
-  <div class="modal">
-    <h2 id="modal-title">Birthday email</h2>
-    <p id="modal-desc" style="margin-bottom:6px;"></p>
-    <p id="modal-to" style="margin-bottom:1rem;font-size:13px;color:var(--text);"></p>
-    <textarea id="modal-body"></textarea>
-    <div class="modal-actions">
-      <button onclick="closeModal()">Close</button>
-      <button onclick="copyModal()">Copy</button>
-      <button class="email-btn" id="modal-send-btn" onclick="sendViaGmail()">Open in Gmail</button>
+  <div class="section-title">All volunteers</div>
+  <div class="card"><div id="care-list"><div class="empty"><span class="spinner"></span> Loading...</div></div></div>
+</div>
+
+<!-- WELCOME EMAIL PAGE -->
+<div class="page" id="page-welcome">
+  <div class="card">
+    <div class="card-header"><div class="card-title">New Volunteer Welcome Email</div><span class="badge badge-new">Auto-drafted on add</span></div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">This email goes out to every new volunteer when they're added. It reflects Calvary Boca's heart — grace, Scripture, the Holy Spirit, and servant leadership. Select a volunteer below to personalize and send.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+        <select id="welcome-select" onchange="generateWelcome()" style="flex:1;min-width:180px;"><option value="">Select a new volunteer...</option></select>
+        <button onclick="generateWelcome()">↺ Regenerate</button>
+        <button onclick="copyText('welcome-body','welcome-copy')">Copy</button>
+        <button class="teal" onclick="openGmailFromField('welcome-select','welcome-subject','welcome-body')">Open in Gmail</button>
+      </div>
+      <div class="email-box">
+        <div class="email-field"><div class="email-label">To</div><input id="welcome-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Subject</div><input id="welcome-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Body</div><textarea id="welcome-body" rows="18" placeholder="Select a volunteer above to generate the welcome email..."></textarea></div>
+      </div>
+      <div class="copy-confirm" id="welcome-copy"></div>
     </div>
-    <div class="copy-confirm" id="modal-confirm"></div>
   </div>
 </div>
 
-<div class="modal-overlay" id="add-email-modal">
-  <div class="modal">
-    <h2 id="add-email-modal-title">Add email address</h2>
-    <p id="add-email-modal-desc"></p>
-    <input type="email" id="add-email-input" placeholder="volunteer@email.com" style="margin-bottom:12px;" />
-    <div class="modal-actions">
-      <button onclick="closeAddEmailModal()">Cancel</button>
-      <button class="primary" onclick="saveEmail()">Save</button>
+<!-- 1-MONTH CHECK-IN PAGE -->
+<div class="page" id="page-checkin1">
+  <div class="card">
+    <div class="card-header"><div class="card-title">1-Month Check-In Email</div><span class="badge badge-checkin1">~30 days after joining</span></div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">A pastoral check-in that asks how they're settling in, invites them to share prayer requests, and encourages them in their calling. Warm, personal, Spirit-led.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+        <select id="checkin1-select" onchange="generateCheckin1()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+        <button onclick="generateCheckin1()">↺ Regenerate</button>
+        <button onclick="copyText('checkin1-body','checkin1-copy')">Copy</button>
+        <button class="blue" onclick="openGmailFromField('checkin1-select','checkin1-subject','checkin1-body')">Open in Gmail</button>
+      </div>
+      <div class="email-box">
+        <div class="email-field"><div class="email-label">To</div><input id="checkin1-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Subject</div><input id="checkin1-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Body</div><textarea id="checkin1-body" rows="16" placeholder="Select a volunteer above..."></textarea></div>
+      </div>
+      <div class="copy-confirm" id="checkin1-copy"></div>
     </div>
-    <div class="copy-confirm" id="add-email-confirm"></div>
+  </div>
+</div>
+
+<!-- 3-MONTH FOLLOW-UP PAGE -->
+<div class="page" id="page-checkin3">
+  <div class="card">
+    <div class="card-header"><div class="card-title">3-Month Follow-Up Email</div><span class="badge badge-checkin3">~90 days after joining</span></div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">A deeper follow-up that celebrates their faithfulness, affirms their calling, asks about their experience, and invites them to go deeper in community and service.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+        <select id="checkin3-select" onchange="generateCheckin3()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+        <button onclick="generateCheckin3()">↺ Regenerate</button>
+        <button onclick="copyText('checkin3-body','checkin3-copy')">Copy</button>
+        <button class="gold" onclick="openGmailFromField('checkin3-select','checkin3-subject','checkin3-body')">Open in Gmail</button>
+      </div>
+      <div class="email-box">
+        <div class="email-field"><div class="email-label">To</div><input id="checkin3-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Subject</div><input id="checkin3-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Body</div><textarea id="checkin3-body" rows="18" placeholder="Select a volunteer above..."></textarea></div>
+      </div>
+      <div class="copy-confirm" id="checkin3-copy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD VOLUNTEER MODAL -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <h2>Add a volunteer</h2>
+    <p class="modal-sub">They'll be added to the shared sheet and a welcome email will be auto-drafted.</p>
+    <div class="form-grid form-grid-2" style="margin-bottom:10px;">
+      <div><label>Full name</label><input type="text" id="add-name" placeholder="Maria Santos" /></div>
+      <div><label>Birthday</label><input type="date" id="add-date" /></div>
+    </div>
+    <div style="margin-bottom:10px;"><label>Email (optional)</label><input type="email" id="add-email" placeholder="maria@email.com" /></div>
+    <div style="margin-bottom:10px;"><label>Date joined Kids Ministry (optional)</label><input type="date" id="add-joined" /></div>
+    <div class="modal-actions">
+      <button onclick="closeAddModal()">Cancel</button>
+      <button class="primary" id="add-btn" onclick="addVolunteer()">Add volunteer</button>
+    </div>
+    <div class="msg" id="add-msg"></div>
+  </div>
+</div>
+
+<!-- EMAIL MODAL -->
+<div class="modal-overlay" id="email-modal">
+  <div class="modal">
+    <h2 id="email-modal-title">Email</h2>
+    <p class="modal-sub" id="email-modal-sub"></p>
+    <textarea id="email-modal-body" rows="14" style="margin-bottom:10px;"></textarea>
+    <div class="modal-actions">
+      <button onclick="closeEmailModal()">Close</button>
+      <button onclick="copyModal()">Copy</button>
+      <button class="primary" onclick="sendModalViaGmail()">Open in Gmail</button>
+    </div>
+    <div class="copy-confirm" id="modal-copy-confirm"></div>
   </div>
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxysDmSlGylwT_I-4gaeQYtnNxcbnhbSxaR5QK2De0iBauP8aPp3W7QS3fdYqVHw912/exec";
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2lVdNPzJcItQvMHTkhk1UW2JDxCoVG-CKzHl2oJun0cTpa5rQeta6ZeZvwf91usN8/exec";
 const MONTHS = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
 const now = new Date();
 let VOLUNTEERS = [];
-let currentTab = 'upcoming';
-let msgIndex = 0;
-let currentEmailTarget = null;
+let bdayTab = 'upcoming';
+let bdayMsgIdx = 0;
+let modalSubject = '';
 
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 function colorFor(m) {
   if (m <= 3)  return { bg:"#FBEAF0", text:"#993556" };
   if (m <= 6)  return { bg:"#EEEDFE", text:"#534AB7" };
@@ -261,293 +358,430 @@ function daysUntil(month, day) {
   if (d < now) d = new Date(y+1, month-1, day);
   return Math.round((d - now) / 86400000);
 }
+function daysSince(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  if (isNaN(d)) return null;
+  return Math.round((now - d) / 86400000);
+}
+function safe(name) { return (name || '').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function first(name) { return (name || '').split(' ')[0]; }
 
 async function loadFromSheet() {
-  setSyncBadge('loading', 'Syncing...');
+  setSyncBadge('loading','Syncing...');
   try {
     const res = await fetch(SCRIPT_URL);
     const json = await res.json();
     if (!json.success) throw new Error();
     VOLUNTEERS = json.data.map(r => ({
-      name: String(r.name || ''),
-      month: parseInt(r.month),
-      day: parseInt(r.day),
-      email: String(r.email || '').trim(),
-      added: r.added === true || r.added === "TRUE"
+      name:   String(r.name||''),
+      month:  parseInt(r.month)||0,
+      day:    parseInt(r.day)||0,
+      email:  String(r.email||'').trim().toLowerCase(),
+      added:  r.added===true||r.added==="TRUE",
+      joined: String(r.joined||'').trim(),
     }));
-    setSyncBadge('ok', 'Synced');
-    render();
+    setSyncBadge('ok','Synced');
+    renderBirthdays();
+    renderCare();
+    populateSelects();
   } catch(e) {
-    setSyncBadge('error', 'Could not connect');
+    setSyncBadge('error','Could not connect');
   }
 }
 
 function setSyncBadge(state, text) {
   const b = document.getElementById('sync-badge');
-  b.className = 'sync-badge' + (state==='error'?' error':state==='loading'?' loading':'');
+  b.className = 'sync-badge'+(state==='error'?' error':state==='loading'?' loading':'');
   b.innerHTML = state==='loading' ? `<span class="spinner"></span>${text}` : text;
 }
 
-function setTab(tab, el) {
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+// ─── BIRTHDAY PAGE ─────────────────────────────────────────────────────────
+function setBdayTab(tab, el) {
+  bdayTab = tab;
+  document.querySelectorAll('.inner-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('month-filter').style.display = tab==='month' ? 'block' : 'none';
-  render();
+  renderBirthdays();
 }
 
-function render() {
+function renderBirthdays() {
   const list = document.getElementById('bday-list');
   let filtered = [];
-  if (currentTab==='upcoming') {
-    filtered = VOLUNTEERS.map(v=>({...v,days:daysUntil(v.month,v.day)}))
-      .filter(v=>v.days<=30).sort((a,b)=>a.days-b.days);
-  } else if (currentTab==='month') {
+  if (bdayTab==='upcoming') {
+    filtered = VOLUNTEERS.map(v=>({...v,days:daysUntil(v.month,v.day)})).filter(v=>v.days<=30).sort((a,b)=>a.days-b.days);
+  } else if (bdayTab==='month') {
     const m = parseInt(document.getElementById('month-filter').value);
-    filtered = VOLUNTEERS.filter(v=>v.month===m)
-      .map(v=>({...v,days:daysUntil(v.month,v.day)})).sort((a,b)=>a.day-b.day);
+    filtered = VOLUNTEERS.filter(v=>v.month===m).map(v=>({...v,days:daysUntil(v.month,v.day)})).sort((a,b)=>a.day-b.day);
   } else {
-    filtered = VOLUNTEERS.map(v=>({...v,days:daysUntil(v.month,v.day)}))
-      .sort((a,b)=>(a.month*100+a.day)-(b.month*100+b.day));
+    filtered = VOLUNTEERS.map(v=>({...v,days:daysUntil(v.month,v.day)})).sort((a,b)=>(a.month*100+a.day)-(b.month*100+b.day));
   }
 
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty">No birthdays in this range.</div>';
-  } else if (currentTab==='all') {
-    let html=''; let lastMonth=null;
-    filtered.forEach(v => {
-      if (v.month!==lastMonth) { html+=`<div class="month-group-label">${MONTHS[v.month]}</div>`; lastMonth=v.month; }
-      html+=rowHTML(v);
+  if (!filtered.length) { list.innerHTML='<div class="empty">No birthdays in this range.</div>'; }
+  else if (bdayTab==='all') {
+    let html='',last=null;
+    filtered.forEach(v=>{
+      if(v.month!==last){html+=`<div class="month-group">${MONTHS[v.month]}</div>`;last=v.month;}
+      html+=bdayRowHTML(v);
     });
-    list.innerHTML = html;
-  } else {
-    list.innerHTML = filtered.map(rowHTML).join('');
-  }
+    list.innerHTML=html;
+  } else { list.innerHTML=filtered.map(bdayRowHTML).join(''); }
 
-  const todayV = VOLUNTEERS.filter(v=>daysUntil(v.month,v.day)===0);
-  const soonV  = VOLUNTEERS.filter(v=>{const d=daysUntil(v.month,v.day);return d>0&&d<=7;});
-  const monthV = VOLUNTEERS.filter(v=>v.month===now.getMonth()+1);
-  document.getElementById('stat-today').textContent = todayV.length;
-  document.getElementById('stat-today-names').textContent = todayV.length ? todayV.map(v=>v.name.split(' ')[0]).join(', ') : 'none today';
-  document.getElementById('stat-soon').textContent = soonV.length;
-  document.getElementById('stat-month').textContent = monthV.length;
-  document.getElementById('stat-month-name').textContent = MONTHS[now.getMonth()+1];
-
-  const sel = document.getElementById('draft-select');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">Select a volunteer...</option>';
-  [...VOLUNTEERS].sort((a,b)=>a.name.localeCompare(b.name)).forEach(v => {
-    const o = document.createElement('option');
-    o.value = v.name;
-    o.textContent = `${v.name} — ${MONTHS[v.month]} ${v.day}`;
-    sel.appendChild(o);
-  });
-  if (cur) sel.value = cur;
+  const todayV=VOLUNTEERS.filter(v=>daysUntil(v.month,v.day)===0);
+  const soonV=VOLUNTEERS.filter(v=>{const d=daysUntil(v.month,v.day);return d>0&&d<=7;});
+  const monthV=VOLUNTEERS.filter(v=>v.month===now.getMonth()+1);
+  document.getElementById('stat-today').textContent=todayV.length;
+  document.getElementById('stat-today-names').textContent=todayV.length?todayV.map(v=>first(v.name)).join(', '):'none today';
+  document.getElementById('stat-soon').textContent=soonV.length;
+  document.getElementById('stat-month').textContent=monthV.length;
+  document.getElementById('stat-month-name').textContent=MONTHS[now.getMonth()+1];
 }
 
-function rowHTML(v) {
-  const c = colorFor(v.month);
-  let badge = '';
-  if (v.days===0) badge='<span class="badge badge-today">Today!</span>';
-  else if (v.days<=7) badge=`<span class="badge badge-soon">In ${v.days}d</span>`;
-  else if (v.days<=30) badge='<span class="badge badge-month">This month</span>';
-  const addedTag = v.added ? '<span class="added-tag">New</span>' : '';
-  const safeName = v.name.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-  const emailDisplay = v.email
-    ? `<div class="bday-email">${v.email}</div>`
-    : '';
+function bdayRowHTML(v) {
+  const c=colorFor(v.month);
+  let badge='';
+  if(v.days===0) badge='<span class="badge badge-today">Today!</span>';
+  else if(v.days<=7) badge=`<span class="badge badge-soon">In ${v.days}d</span>`;
+  else if(v.days<=30) badge='<span class="badge badge-month">This month</span>';
+  const s=safe(v.name);
   const emailBtn = v.email
-    ? `<button class="email-btn" onclick="quickEmail('${safeName}')" style="font-size:12px;padding:5px 10px;">Send email</button>`
-    : `<button class="add-email-btn" onclick="openAddEmailModal('${safeName}',${v.month},${v.day})" style="font-size:12px;padding:5px 10px;">+ Add email</button>`;
-  const removeBtn = v.added
-    ? `<button class="danger" onclick="removeVolunteer('${safeName}',${v.month},${v.day})" style="font-size:12px;padding:5px 10px;">Remove</button>`
-    : '';
-  return `<div class="bday-row">
+    ? `<button class="teal" onclick="quickBdayEmail('${s}')" style="font-size:12px;padding:4px 10px;">Email</button>`
+    : `<button class="dashed" onclick="openAddEmailModalFor('${s}','${v.month}','${v.day}')" style="font-size:12px;">+ Email</button>`;
+  return `<div class="vol-row">
     <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
     <div style="flex:1;min-width:0;">
-      <div class="bday-name">${v.name} ${addedTag}</div>
-      <div class="bday-date">${MONTHS[v.month]} ${v.day}</div>
-      ${emailDisplay}
+      <div class="vol-name">${v.name}</div>
+      <div class="vol-sub">${MONTHS[v.month]} ${v.day}${v.email?' · '+v.email:''}</div>
     </div>
     ${badge}
     <div class="row-actions">
-      <button onclick="quickDraft('${safeName}')" style="font-size:12px;padding:5px 10px;">Draft</button>
+      <button onclick="selectAndDraft('${s}')" style="font-size:12px;padding:4px 10px;">Draft msg</button>
       ${emailBtn}
-      ${removeBtn}
     </div>
   </div>`;
 }
 
-const MESSAGES = [
-  n=>`Hey ${n.split(' ')[0]}! Just wanted to take a moment to wish you a very happy birthday. We're so grateful to have you on our team at Calvary Boca — your heart to serve makes such a difference. Hope your day is full of joy and celebration!`,
-  n=>`Happy birthday, ${n.split(' ')[0]}! Thank you for everything you pour into Kids Ministry. We don't take your faithfulness for granted, and today we celebrate YOU. Hope it's a wonderful day!`,
-  n=>`${n.split(' ')[0]}, wishing you a very happy birthday! We're so blessed to have you serving alongside us. Praying your day is filled with love, laughter, and all good things. Thank you for all you do!`,
+// ─── CARE PAGE ─────────────────────────────────────────────────────────────
+function renderCare() {
+  const list = document.getElementById('care-list');
+  const newVols = VOLUNTEERS.filter(v=>v.added);
+  const needCheckin = VOLUNTEERS.filter(v=>{
+    const d=daysSince(v.joined);
+    return d!==null && (( d>=25 && d<=45) || (d>=80 && d<=100));
+  });
+  document.getElementById('stat-total').textContent=VOLUNTEERS.length;
+  document.getElementById('stat-new').textContent=newVols.length;
+  document.getElementById('stat-checkin').textContent=needCheckin.length;
+
+  if (!VOLUNTEERS.length) { list.innerHTML='<div class="empty">No volunteers loaded.</div>'; return; }
+  list.innerHTML = VOLUNTEERS.map(v=>{
+    const c=colorFor(v.month);
+    const d=daysSince(v.joined);
+    let careBadge='';
+    if(v.added) careBadge='<span class="badge badge-new">New</span>';
+    if(d!==null && d>=25&&d<=45) careBadge='<span class="badge badge-checkin1">1-mo check-in</span>';
+    if(d!==null && d>=80&&d<=100) careBadge='<span class="badge badge-checkin3">3-mo follow-up</span>';
+    const s=safe(v.name);
+    return `<div class="vol-row">
+      <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="vol-name">${v.name}</div>
+        <div class="vol-sub">${v.email||'No email'} ${v.joined?'· Joined '+v.joined:''}</div>
+      </div>
+      ${careBadge}
+      <div class="row-actions">
+        <button onclick="showWelcomeFor('${s}')" class="teal" style="font-size:12px;padding:4px 10px;">Welcome</button>
+        <button onclick="showCheckin1For('${s}')" class="blue" style="font-size:12px;padding:4px 10px;">1-mo</button>
+        <button onclick="showCheckin3For('${s}')" class="gold" style="font-size:12px;padding:4px 10px;">3-mo</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── SELECT POPULATION ─────────────────────────────────────────────────────
+function populateSelects() {
+  const sorted = [...VOLUNTEERS].sort((a,b)=>a.name.localeCompare(b.name));
+  const ids = ['bday-draft-select','welcome-select','checkin1-select','checkin3-select'];
+  ids.forEach(id=>{
+    const sel=document.getElementById(id);
+    const cur=sel.value;
+    sel.innerHTML='<option value="">Select a volunteer...</option>';
+    sorted.forEach(v=>{
+      const o=document.createElement('option');
+      o.value=v.name;
+      o.textContent=v.name+(id==='bday-draft-select'?` — ${MONTHS[v.month]} ${v.day}`:'');
+      sel.appendChild(o);
+    });
+    if(cur) sel.value=cur;
+  });
+}
+
+// ─── BIRTHDAY EMAILS ───────────────────────────────────────────────────────
+const BDAY_MSGS = [
+  n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\nBen Rivera\nKids Ministry — Calvary Boca`,
+  n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\nBen Rivera\nKids Ministry — Calvary Boca`,
+  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\nBen Rivera\nKids Ministry — Calvary Boca`
 ];
 
-function generateDraft() {
-  const sel = document.getElementById('draft-select').value;
-  if (!sel) return;
-  document.getElementById('draft-text').value = MESSAGES[msgIndex % MESSAGES.length](sel);
-  msgIndex++;
-  document.getElementById('copy-confirm').textContent = '';
+function generateBdayDraft() {
+  const name=document.getElementById('bday-draft-select').value;
+  if(!name) return;
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  document.getElementById('bday-draft-subject').value=`Happy Birthday, ${first(name)}!`;
+  document.getElementById('bday-draft-text').value=BDAY_MSGS[bdayMsgIdx%BDAY_MSGS.length](name);
+  bdayMsgIdx++;
 }
-function quickDraft(name) {
-  document.getElementById('draft-select').value = name;
-  generateDraft();
-  document.querySelector('.draft-section').scrollIntoView({behavior:'smooth'});
+function selectAndDraft(name) {
+  document.getElementById('bday-draft-select').value=name;
+  generateBdayDraft();
+  document.querySelector('.tab-nav button').click();
+  setTimeout(()=>document.getElementById('bday-draft-text').scrollIntoView({behavior:'smooth'}),100);
 }
-function copyDraft() {
-  const text = document.getElementById('draft-text').value;
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(()=>{
-    document.getElementById('copy-confirm').textContent='Copied!';
-    setTimeout(()=>document.getElementById('copy-confirm').textContent='',2000);
-  });
-}
-
-function openEmailModal(name, body) {
-  if (!name) {
-    name = document.getElementById('draft-select').value;
-    body = document.getElementById('draft-text').value;
-  }
-  if (!name || !body) { alert('Please select a volunteer and generate a message first.'); return; }
-  const v = VOLUNTEERS.find(v=>v.name===name);
-  const first = name.split(' ')[0];
-  const subject = `Happy Birthday, ${first}!`;
-  document.getElementById('modal-title').textContent = `Email to ${name}`;
-  document.getElementById('modal-desc').textContent = `Subject: ${subject}`;
-  document.getElementById('modal-to').textContent = v && v.email ? `To: ${v.email}` : 'No email saved for this volunteer';
-  document.getElementById('modal-body').value = body;
-  document.getElementById('modal-confirm').textContent = '';
-  document.getElementById('modal-send-btn').style.display = (v && v.email) ? 'block' : 'none';
-  document.getElementById('email-modal').classList.add('open');
+function quickBdayEmail(name) {
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  const subj=`Happy Birthday, ${first(name)}!`;
+  const body=BDAY_MSGS[bdayMsgIdx%BDAY_MSGS.length](name);
+  bdayMsgIdx++;
+  openGmailDirect(v.email||'', subj, body);
 }
 
-function quickEmail(name) {
-  const v = VOLUNTEERS.find(v=>v.name===name);
-  if (!v || !v.email) return;
-  const msg = MESSAGES[msgIndex % MESSAGES.length](name);
-  msgIndex++;
-  openEmailModal(name, msg);
+// ─── WELCOME EMAIL ─────────────────────────────────────────────────────────
+function generateWelcome(name) {
+  name=name||document.getElementById('welcome-select').value;
+  if(!name){document.getElementById('welcome-body').value='';return;}
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  document.getElementById('welcome-to').value=v.email||'(no email on file)';
+  document.getElementById('welcome-subject').value=`Welcome to the Kids Ministry Team, ${first(name)}!`;
+  document.getElementById('welcome-body').value=
+`Hey ${first(name)},
+
+Welcome to the Calvary Boca Kids Ministry family — we are so thrilled to have you with us!
+
+Serving in Kids Ministry is one of the most meaningful things you can do in this season. Every weekend, you are not just watching children — you are planting seeds of God's Word into hearts that will carry them for the rest of their lives. That's not a small thing. That's eternal.
+
+Here at Calvary Boca, we believe the Bible is God's living Word — powerful, sufficient, and alive. As you serve, you'll get to see firsthand what happens when kids encounter Scripture. It changes them. It changed all of us.
+
+We also believe in a culture of grace — grace extended freely, not earned. You don't have to be perfect to serve here. You just need a willing heart and a love for Jesus. The Holy Spirit does the rest.
+
+A few things to know as you get started:
+  • Planning Center is where you'll see your schedule — check your email for your invite.
+  • Our WhatsApp group is the main way we communicate week to week.
+  • If you ever have questions, don't hesitate to reach out to me directly.
+
+We're praying for you as you step into this role, and we genuinely believe God placed you here for a reason. We can't wait to serve alongside you.
+
+"For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do." — Ephesians 2:10
+
+Welcome to the team,
+Ben Rivera
+Kids Ministry — Calvary Boca
+calvaryftl.org`;
+}
+function showWelcomeFor(name) {
+  showPage('welcome', document.querySelectorAll('.tab-nav button')[2]);
+  document.getElementById('welcome-select').value=name;
+  generateWelcome(name);
 }
 
-function sendViaGmail() {
-  const to = document.getElementById('modal-to').textContent.replace('To: ','');
-  const subject = document.getElementById('modal-desc').textContent.replace('Subject: ','');
-  const body = document.getElementById('modal-body').value;
-  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.open(gmailUrl, '_blank');
+// ─── 1-MONTH CHECK-IN ──────────────────────────────────────────────────────
+function generateCheckin1(name) {
+  name=name||document.getElementById('checkin1-select').value;
+  if(!name){document.getElementById('checkin1-body').value='';return;}
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  document.getElementById('checkin1-to').value=v.email||'(no email on file)';
+  document.getElementById('checkin1-subject').value=`Checking in on you, ${first(name)}!`;
+  document.getElementById('checkin1-body').value=
+`Hey ${first(name)},
+
+I just wanted to take a moment to check in with you — it's been about a month since you joined the Kids Ministry team, and I'd love to hear how it's going!
+
+Jumping into a new serving role can feel exciting, a little overwhelming, and everything in between. That's completely normal. What I've seen time and again is that the Holy Spirit meets people right where they are — and that includes right in the middle of Kids Church.
+
+A few things I'm curious about:
+  • How are you feeling about the role so far?
+  • Is there anything that's been challenging or unclear?
+  • Is there anything I can be praying for you about personally?
+
+There's no pressure to have it all figured out after just a month. Servant leadership is grown, not downloaded. We're in this together, and I want to make sure you feel supported, seen, and encouraged — not just scheduled.
+
+"So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand." — Isaiah 41:10
+
+Feel free to reply here or shoot me a text anytime. I'm genuinely glad you're on the team.
+
+In His grace,
+Ben Rivera
+Kids Ministry — Calvary Boca`;
+}
+function showCheckin1For(name) {
+  showPage('checkin1', document.querySelectorAll('.tab-nav button')[3]);
+  document.getElementById('checkin1-select').value=name;
+  generateCheckin1(name);
 }
 
-function copyModal() {
-  const subj = document.getElementById('modal-desc').textContent;
-  const body = document.getElementById('modal-body').value;
-  navigator.clipboard.writeText(`${subj}\n\n${body}`).then(()=>{
-    document.getElementById('modal-confirm').textContent='Copied!';
-    setTimeout(()=>document.getElementById('modal-confirm').textContent='',2000);
-  });
-}
-function closeModal() { document.getElementById('email-modal').classList.remove('open'); }
-document.getElementById('email-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+// ─── 3-MONTH FOLLOW-UP ─────────────────────────────────────────────────────
+function generateCheckin3(name) {
+  name=name||document.getElementById('checkin3-select').value;
+  if(!name){document.getElementById('checkin3-body').value='';return;}
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  document.getElementById('checkin3-to').value=v.email||'(no email on file)';
+  document.getElementById('checkin3-subject').value=`Three months in — and we're so glad you're here, ${first(name)}`;
+  document.getElementById('checkin3-body').value=
+`Hey ${first(name)},
 
-function openAddEmailModal(name, month, day) {
-  currentEmailTarget = { name, month, day };
-  document.getElementById('add-email-modal-title').textContent = `Add email for ${name}`;
-  document.getElementById('add-email-modal-desc').textContent = 'This will be saved to the shared sheet for everyone to use.';
-  document.getElementById('add-email-input').value = '';
-  document.getElementById('add-email-confirm').textContent = '';
-  document.getElementById('add-email-modal').classList.add('open');
-}
-function closeAddEmailModal() { document.getElementById('add-email-modal').classList.remove('open'); }
-document.getElementById('add-email-modal').addEventListener('click',function(e){if(e.target===this)closeAddEmailModal();});
+Three months. I can't believe how quickly it's gone — but I also want to make sure I pause long enough to say something important:
 
-async function saveEmail() {
-  const email = document.getElementById('add-email-input').value.trim();
-  if (!email) return;
-  const { name, month, day } = currentEmailTarget;
-  try {
-    await fetch(SCRIPT_URL, {
-      method:'POST',
-      body: JSON.stringify({ action:'update_email', name, month, day, email })
-    });
-    document.getElementById('add-email-confirm').textContent = 'Saved!';
-    setTimeout(()=>{ closeAddEmailModal(); loadFromSheet(); }, 1000);
-  } catch(e) {
-    document.getElementById('add-email-confirm').textContent = 'Could not save. Try again.';
-  }
+Thank you. Genuinely.
+
+Showing up week after week to serve kids is not always glamorous. It doesn't always feel significant in the moment. But the Word of God does not return void. Every lesson taught, every child prayed for, every morning you chose to be here when you could have slept in — it matters eternally.
+
+I wanted to use this moment to check in on a deeper level:
+  • How is your heart doing? Serving from a full cup looks different than serving from an empty one.
+  • Is there anything about your role you'd want to change, adjust, or grow into?
+  • Are there any prayer requests you're carrying that we can hold with you as a team?
+  • Is there any area of Kids Ministry you feel drawn to or gifted in that you haven't explored yet?
+
+At Calvary Boca, we believe that every person who serves is not just filling a slot — they're walking in the calling God prepared for them. You are not a volunteer number. You're a minister of the gospel, and we want to be the kind of team that invests back into you.
+
+"And let us not grow weary of doing good, for in due season we will reap, if we do not give up." — Galatians 6:9
+
+I'd love to grab coffee sometime and hear from you face to face — no agenda, just genuine conversation. Let me know if that sounds good.
+
+Grateful for you,
+Ben Rivera
+Kids Ministry — Calvary Boca`;
+}
+function showCheckin3For(name) {
+  showPage('checkin3', document.querySelectorAll('.tab-nav button')[4]);
+  document.getElementById('checkin3-select').value=name;
+  generateCheckin3(name);
 }
 
+// ─── GMAIL ─────────────────────────────────────────────────────────────────
+function openGmailFromField(selectId, subjectId, bodyId) {
+  const selEl=document.getElementById(selectId);
+  const name=selEl?selEl.value:'';
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  const to=v.email||'';
+  const subj=document.getElementById(subjectId).value||'';
+  const body=document.getElementById(bodyId).value||'';
+  if (!body) { alert('Please generate the email first.'); return; }
+  openGmailDirect(to, subj, body);
+}
+function openGmailDirect(to, subj, body) {
+  const url=`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+  window.open(url,'_blank');
+}
+
+// ─── REMINDER MODAL ────────────────────────────────────────────────────────
 function openReminderModal() {
-  const m = parseInt(document.getElementById('reminder-month').value);
-  const mName = MONTHS[m];
-  const bdays = VOLUNTEERS.filter(v=>v.month===m).sort((a,b)=>a.day-b.day);
-  if (!bdays.length) { alert('No birthdays that month.'); return; }
-  const listText = bdays.map(v=>`  • ${v.name} — ${mName} ${v.day}`).join('\n');
-  document.getElementById('modal-title').textContent = `${mName} birthday reminder`;
-  document.getElementById('modal-desc').textContent = `Subject: Volunteer Birthdays — ${mName}`;
-  document.getElementById('modal-to').textContent = '';
-  document.getElementById('modal-send-btn').style.display = 'none';
-  document.getElementById('modal-body').value =
-`Hey Ben,
-
-Here's your birthday heads-up for ${mName}! You have ${bdays.length} volunteer birthday${bdays.length>1?'s':''} coming up this month:
-
-${listText}
-
-Take a moment to reach out and celebrate each of them — a quick text, message, or card goes a long way. They pour so much into Kids Ministry and they deserve to feel seen!
-
-— Your Birthday Reminder`;
-  document.getElementById('modal-confirm').textContent='';
+  const m=parseInt(document.getElementById('reminder-month').value);
+  const mName=MONTHS[m];
+  const bdays=VOLUNTEERS.filter(v=>v.month===m).sort((a,b)=>a.day-b.day);
+  if(!bdays.length){alert('No birthdays that month.');return;}
+  const listText=bdays.map(v=>`  • ${v.name} — ${mName} ${v.day}`).join('\n');
+  const body=`Hey Ben,\n\nHere's your birthday heads-up for ${mName}! You have ${bdays.length} volunteer birthday${bdays.length>1?'s':''} this month:\n\n${listText}\n\nTake a moment to reach out and celebrate each of them — a quick text, card, or email goes a long way. They pour so much into Kids Ministry and they deserve to feel seen.\n\n— Your Birthday Reminder`;
+  openEmailModal(`${mName} Birthday Reminder`, `Subject: Volunteer Birthdays — ${mName}`, body);
+}
+function openEmailModal(title, sub, body) {
+  document.getElementById('email-modal-title').textContent=title;
+  document.getElementById('email-modal-sub').textContent=sub;
+  document.getElementById('email-modal-body').value=body;
+  document.getElementById('modal-copy-confirm').textContent='';
+  modalSubject=sub.replace('Subject: ','');
   document.getElementById('email-modal').classList.add('open');
 }
+function closeEmailModal(){document.getElementById('email-modal').classList.remove('open');}
+function copyModal(){
+  const body=document.getElementById('email-modal-body').value;
+  navigator.clipboard.writeText(body).then(()=>{
+    document.getElementById('modal-copy-confirm').textContent='Copied!';
+    setTimeout(()=>document.getElementById('modal-copy-confirm').textContent='',2000);
+  });
+}
+function sendModalViaGmail(){
+  const body=document.getElementById('email-modal-body').value;
+  openGmailDirect('',modalSubject,body);
+}
+document.getElementById('email-modal').addEventListener('click',function(e){if(e.target===this)closeEmailModal();});
+
+// ─── COPY ──────────────────────────────────────────────────────────────────
+function copyText(textareaId, confirmId) {
+  const text=document.getElementById(textareaId).value;
+  if(!text){alert('Generate the email first.');return;}
+  navigator.clipboard.writeText(text).then(()=>{
+    document.getElementById(confirmId).textContent='Copied!';
+    setTimeout(()=>document.getElementById(confirmId).textContent='',2000);
+  });
+}
+
+// ─── ADD VOLUNTEER ─────────────────────────────────────────────────────────
+function showAddModal(){document.getElementById('add-modal').classList.add('open');}
+function closeAddModal(){document.getElementById('add-modal').classList.remove('open');}
+document.getElementById('add-modal').addEventListener('click',function(e){if(e.target===this)closeAddModal();});
 
 async function addVolunteer() {
-  const nameEl  = document.getElementById('add-name');
-  const dateEl  = document.getElementById('add-date');
-  const emailEl = document.getElementById('add-email');
-  const msgEl   = document.getElementById('form-msg');
-  const btn     = document.getElementById('add-btn');
-  const name    = nameEl.value.trim();
-  const dateVal = dateEl.value;
-  const email   = emailEl.value.trim();
-  if (!name) { nameEl.focus(); return; }
-  if (!dateVal) { dateEl.focus(); return; }
-  const d = new Date(dateVal+'T00:00:00');
-  const month = d.getMonth()+1;
-  const day   = d.getDate();
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
-  msgEl.style.color='var(--muted)'; msgEl.textContent='Saving...';
+  const nameEl=document.getElementById('add-name');
+  const dateEl=document.getElementById('add-date');
+  const emailEl=document.getElementById('add-email');
+  const joinedEl=document.getElementById('add-joined');
+  const msgEl=document.getElementById('add-msg');
+  const btn=document.getElementById('add-btn');
+  const name=nameEl.value.trim();
+  const dateVal=dateEl.value;
+  const email=emailEl.value.trim();
+  const joined=joinedEl.value;
+  if(!name){nameEl.focus();return;}
+  if(!dateVal){dateEl.focus();return;}
+  const d=new Date(dateVal+'T00:00:00');
+  const month=d.getMonth()+1;
+  const day=d.getDate();
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
+  msgEl.className='msg';msgEl.textContent='Saving...';
   try {
-    const res = await fetch(SCRIPT_URL, {
-      method:'POST',
-      body: JSON.stringify({ action:'add', name, month, day, added:true, email })
-    });
-    const json = await res.json();
-    if (!json.success) throw new Error();
-    nameEl.value=''; dateEl.value=''; emailEl.value='';
-    msgEl.style.color='var(--teal-text)';
-    msgEl.textContent=`${name} added!`;
-    setTimeout(()=>msgEl.textContent='',3000);
+    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'add',name,month,day,added:true,email,joined})});
+    const json=await res.json();
+    if(!json.success) throw new Error();
+    nameEl.value='';dateEl.value='';emailEl.value='';joinedEl.value='';
+    msgEl.className='msg success';msgEl.textContent=`${name} added! A welcome email has been drafted on the Welcome Email tab.`;
     await loadFromSheet();
+    // Auto-populate welcome
+    document.getElementById('welcome-select').value=name;
+    generateWelcome(name);
   } catch(e) {
-    msgEl.style.color='#A32D2D';
-    msgEl.textContent='Could not save. Check your connection.';
+    msgEl.className='msg error';msgEl.textContent='Could not save. Check your connection.';
   }
-  btn.disabled=false; btn.textContent='Add';
+  btn.disabled=false;btn.textContent='Add volunteer';
 }
 
-async function removeVolunteer(name, month, day) {
-  if (!confirm(`Remove ${name}?`)) return;
+// ─── ADD EMAIL MODAL ────────────────────────────────────────────────────────
+let addEmailTarget=null;
+function openAddEmailModalFor(name,month,day){
+  addEmailTarget={name,month:parseInt(month),day:parseInt(day)};
+  const newName=prompt(`Enter email for ${name}:`);
+  if(newName) saveEmailFor(newName.trim());
+}
+async function saveEmailFor(email){
+  if(!addEmailTarget||!email) return;
   try {
-    await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify({action:'remove',name,month,day}) });
+    await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'update_email',...addEmailTarget,email})});
     await loadFromSheet();
-  } catch(e) { alert('Could not remove. Check your connection.'); }
+  } catch(e){alert('Could not save email.');}
 }
 
-document.getElementById('add-name').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('add-date').focus();});
-document.getElementById('add-date').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('add-email').focus();});
-document.getElementById('add-email').addEventListener('keydown',e=>{if(e.key==='Enter')addVolunteer();});
-document.getElementById('add-email-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveEmail();});
+// ─── PAGE NAV ──────────────────────────────────────────────────────────────
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+}
+function showWelcomeFor(name){showPage('welcome',document.querySelectorAll('.tab-nav button')[2]);document.getElementById('welcome-select').value=name;generateWelcome(name);}
+function showCheckin1For(name){showPage('checkin1',document.querySelectorAll('.tab-nav button')[3]);document.getElementById('checkin1-select').value=name;generateCheckin1(name);}
+function showCheckin3For(name){showPage('checkin3',document.querySelectorAll('.tab-nav button')[4]);document.getElementById('checkin3-select').value=name;generateCheckin3(name);}
+
+document.getElementById('checkin1-select').addEventListener('change',()=>generateCheckin1());
+document.getElementById('checkin3-select').addEventListener('change',()=>generateCheckin3());
+document.getElementById('welcome-select').addEventListener('change',()=>generateWelcome());
 
 loadFromSheet();
 </script>

@@ -161,6 +161,7 @@
   <button onclick="showPage('welcome', this)">Welcome Email</button>
   <button onclick="showPage('checkin1', this)">1-Month Check-in</button>
   <button onclick="showPage('checkin3', this)">3-Month Follow-up</button>
+  <button onclick="showPage('anniversary', this)">Anniversaries</button>
 </div>
 
 <!-- BIRTHDAYS PAGE -->
@@ -296,6 +297,86 @@
   </div>
 </div>
 
+<!-- ANNIVERSARY PAGE -->
+<div class="page" id="page-anniversary">
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">Total tracked</div><div class="metric-value" id="stat-ann-total">—</div><div class="metric-sub">with anniversary dates</div></div>
+    <div class="metric"><div class="metric-label">Upcoming (30 days)</div><div class="metric-value" id="stat-ann-soon">—</div><div class="metric-sub">milestones approaching</div></div>
+    <div class="metric"><div class="metric-label">This month</div><div class="metric-value" id="stat-ann-month">—</div><div class="metric-sub" id="stat-ann-month-name"></div></div>
+  </div>
+
+  <!-- ADD / EDIT CARD — prominent at top -->
+  <div class="card" style="border: 1.5px solid var(--purple-text); margin-bottom:1.5rem;">
+    <div class="card-header" style="background:var(--purple-bg);">
+      <div class="card-title" style="color:var(--purple-text);">Add or edit an anniversary date</div>
+      <span style="font-size:12px;color:var(--purple-text);">Saved directly to the shared sheet</span>
+    </div>
+    <div class="card-body">
+      <div class="form-grid form-grid-3" style="margin-bottom:10px;">
+        <div>
+          <label>Volunteer</label>
+          <select id="ann-update-select" style="width:100%;"><option value="">Select a volunteer...</option></select>
+        </div>
+        <div>
+          <label>Anniversary date</label>
+          <input type="date" id="ann-update-date" />
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Enter the date they first started serving</div>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:8px;">
+          <button class="primary" id="ann-save-btn" onclick="saveAnniversary()" style="flex:1;justify-content:center;">Save date</button>
+          <button onclick="clearAnnForm()" style="padding:7px 10px;">Clear</button>
+        </div>
+      </div>
+      <div class="msg" id="ann-save-msg"></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+    <div class="section-title" style="margin-bottom:0;">Anniversary list</div>
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="setAnnTab('upcoming',this)">Upcoming milestones</button>
+      <button class="inner-tab" onclick="setAnnTab('all',this)">All volunteers</button>
+    </div>
+  </div>
+  <div class="card"><div id="ann-list"><div class="empty"><span class="spinner"></span> Loading...</div></div></div>
+
+  <div class="section-title">Draft a milestone anniversary email</div>
+  <div class="card">
+    <div class="card-body">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <select id="ann-draft-select" onchange="generateAnnEmail()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+        <button onclick="generateAnnEmail()">↺ Regenerate</button>
+        <button onclick="copyText('ann-draft-body','ann-copy-confirm')">Copy</button>
+        <button class="primary" onclick="openGmailFromField('ann-draft-select','ann-draft-subject','ann-draft-body')">Open in Gmail</button>
+      </div>
+      <div class="email-box">
+        <div class="email-field"><div class="email-label">To</div><input id="ann-draft-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Subject</div><input id="ann-draft-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Body</div><textarea id="ann-draft-body" rows="16" placeholder="Select a volunteer above to generate their anniversary email..."></textarea></div>
+      </div>
+      <div class="copy-confirm" id="ann-copy-confirm"></div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT ANNIVERSARY MODAL -->
+<div class="modal-overlay" id="ann-edit-modal">
+  <div class="modal">
+    <h2>Edit anniversary date</h2>
+    <p class="modal-sub" id="ann-edit-modal-sub">Update the date this volunteer started serving.</p>
+    <div style="margin-bottom:12px;">
+      <label>Anniversary date</label>
+      <input type="date" id="ann-edit-date" />
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">This is the date they first started serving in Kids Ministry</div>
+    </div>
+    <div class="modal-actions">
+      <button onclick="closeAnnEditModal()">Cancel</button>
+      <button class="primary" id="ann-edit-save-btn" onclick="saveAnniversaryFromModal()">Save</button>
+    </div>
+    <div class="msg" id="ann-edit-msg"></div>
+  </div>
+</div>
+
 <!-- ADD VOLUNTEER MODAL -->
 <div class="modal-overlay" id="add-modal">
   <div class="modal">
@@ -332,7 +413,7 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2lVdNPzJcItQvMHTkhk1UW2JDxCoVG-CKzHl2oJun0cTpa5rQeta6ZeZvwf91usN8/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwNH0uEu4YVIdsqYT_xFk0FE8GloLqokAsLid1BImXiMoJ2l2YDRT5wQNbhuo35fXv/exec";
 const MONTHS = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
 const now = new Date();
 let VOLUNTEERS = [];
@@ -782,6 +863,311 @@ function showCheckin3For(name){showPage('checkin3',document.querySelectorAll('.t
 document.getElementById('checkin1-select').addEventListener('change',()=>generateCheckin1());
 document.getElementById('checkin3-select').addEventListener('change',()=>generateCheckin3());
 document.getElementById('welcome-select').addEventListener('change',()=>generateWelcome());
+document.getElementById('ann-draft-select').addEventListener('change',()=>generateAnnEmail());
+
+// ─── ANNIVERSARIES ─────────────────────────────────────────────────────────
+const MILESTONES = [1, 2, 5, 10];
+let annTab = 'upcoming';
+
+function getAnniversaryInfo(v) {
+  if (!v.anniversary) return null;
+  const start = new Date(v.anniversary + 'T00:00:00');
+  if (isNaN(start)) return null;
+  const yearsServed = now.getFullYear() - start.getFullYear();
+  let nextMilestone = null, nextDate = null, daysAway = null;
+  for (const m of MILESTONES) {
+    const candidate = new Date(start.getFullYear() + m, start.getMonth(), start.getDate());
+    const diff = Math.round((candidate - now) / 86400000);
+    if (diff >= -7) { nextMilestone = m; nextDate = candidate; daysAway = diff; break; }
+  }
+  let upcomingIn30 = false;
+  for (const m of MILESTONES) {
+    const candidate = new Date(start.getFullYear() + m, start.getMonth(), start.getDate());
+    const diff = Math.round((candidate - now) / 86400000);
+    if (diff >= 0 && diff <= 30) { upcomingIn30 = true; break; }
+  }
+  return { start, yearsServed, nextMilestone, nextDate, daysAway, upcomingIn30 };
+}
+
+function setAnnTab(tab, el) {
+  annTab = tab;
+  document.querySelectorAll('#page-anniversary .inner-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderAnniversaries();
+}
+
+function renderAnniversaries() {
+  const list = document.getElementById('ann-list');
+  const withAnn = VOLUNTEERS.filter(v => v.anniversary);
+  const withoutAnn = VOLUNTEERS.filter(v => !v.anniversary);
+  const soon = withAnn.filter(v => { const i = getAnniversaryInfo(v); return i && i.upcomingIn30; });
+  const thisMonth = withAnn.filter(v => {
+    const d = new Date(v.anniversary + 'T00:00:00');
+    for (const m of MILESTONES) {
+      const c = new Date(d.getFullYear() + m, d.getMonth(), d.getDate());
+      if (c.getMonth() === now.getMonth() && c.getFullYear() === now.getFullYear()) return true;
+    }
+    return false;
+  });
+  document.getElementById('stat-ann-total').textContent = withAnn.length;
+  document.getElementById('stat-ann-soon').textContent = soon.length;
+  document.getElementById('stat-ann-month').textContent = thisMonth.length;
+  document.getElementById('stat-ann-month-name').textContent = MONTHS[now.getMonth() + 1];
+
+  if (annTab === 'upcoming') {
+    const filtered = withAnn
+      .map(v => ({ ...v, info: getAnniversaryInfo(v) }))
+      .filter(v => v.info && v.info.daysAway !== null && v.info.daysAway >= -7 && v.info.daysAway <= 60)
+      .sort((a, b) => a.info.daysAway - b.info.daysAway);
+    list.innerHTML = filtered.length
+      ? filtered.map(v => annRowHTML(v, v.info)).join('')
+      : '<div class="empty">No milestone anniversaries in the next 60 days.</div>';
+  } else {
+    const sorted = withAnn.map(v => ({ ...v, info: getAnniversaryInfo(v) }))
+      .sort((a, b) => new Date(a.anniversary) - new Date(b.anniversary));
+    let html = sorted.map(v => annRowHTML(v, v.info)).join('');
+    if (withoutAnn.length) {
+      html += `<div class="month-group">No anniversary date set (${withoutAnn.length})</div>`;
+      html += withoutAnn.map(v => {
+        const c = colorFor(v.month); const s = safe(v.name);
+        return `<div class="vol-row">
+          <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
+          <div style="flex:1;min-width:0;"><div class="vol-name">${v.name}</div><div class="vol-sub" style="color:#E09B30;">No anniversary date — add one below</div></div>
+          <button class="dashed" onclick="prefillAnnUpdate('${s}')" style="font-size:12px;">+ Add date</button>
+        </div>`;
+      }).join('');
+    }
+    list.innerHTML = html;
+  }
+}
+
+function annRowHTML(v, info) {
+  const c = colorFor(v.month); const s = safe(v.name);
+  let badge = '';
+  if (info && info.daysAway !== null) {
+    if (info.daysAway < 0)  badge = `<span class="badge badge-today">${info.nextMilestone}-yr passed!</span>`;
+    else if (info.daysAway === 0) badge = `<span class="badge badge-today">${info.nextMilestone}-yr TODAY!</span>`;
+    else if (info.daysAway <= 7)  badge = `<span class="badge badge-soon">${info.nextMilestone}-yr in ${info.daysAway}d</span>`;
+    else if (info.daysAway <= 30) badge = `<span class="badge badge-month">${info.nextMilestone}-yr this month</span>`;
+  }
+  const yearsLabel = info && info.yearsServed > 0 ? ` · ${info.yearsServed} yr${info.yearsServed!==1?'s':''} served` : '';
+  return `<div class="vol-row">
+    <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
+    <div style="flex:1;min-width:0;">
+      <div class="vol-name">${v.name}</div>
+      <div class="vol-sub">Since ${v.anniversary}${yearsLabel}${v.email?' · '+v.email:''}</div>
+    </div>
+    ${badge}
+    <div class="row-actions">
+      <button onclick="openAnnEditModal('${s}')" style="font-size:12px;padding:4px 10px;">✏️ Edit date</button>
+      <button class="primary" onclick="selectAnnAndDraft('${s}')" style="font-size:12px;padding:4px 10px;">Draft email</button>
+    </div>
+  </div>`;
+}
+
+function openAnnEditModal(name) {
+  const v = VOLUNTEERS.find(v => v.name === name) || {};
+  document.getElementById('ann-edit-modal-sub').textContent = `Editing anniversary date for ${name}`;
+  document.getElementById('ann-edit-date').value = v.anniversary || '';
+  document.getElementById('ann-edit-msg').textContent = '';
+  document.getElementById('ann-edit-modal').dataset.name = name;
+  document.getElementById('ann-edit-modal').classList.add('open');
+}
+
+function closeAnnEditModal() {
+  document.getElementById('ann-edit-modal').classList.remove('open');
+}
+
+async function saveAnniversaryFromModal() {
+  const name = document.getElementById('ann-edit-modal').dataset.name;
+  const anniversary = document.getElementById('ann-edit-date').value;
+  const msgEl = document.getElementById('ann-edit-msg');
+  const btn = document.getElementById('ann-edit-save-btn');
+  if (!anniversary) { document.getElementById('ann-edit-date').focus(); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  msgEl.className = 'msg'; msgEl.textContent = 'Saving...';
+  try {
+    const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'update_anniversary', name, anniversary }) });
+    const json = await res.json();
+    if (!json.success) throw new Error();
+    msgEl.className = 'msg success'; msgEl.textContent = 'Saved!';
+    await loadFromSheet();
+    setTimeout(() => closeAnnEditModal(), 800);
+  } catch(e) {
+    msgEl.className = 'msg error'; msgEl.textContent = 'Could not save. Check your connection.';
+  }
+  btn.disabled = false; btn.textContent = 'Save';
+}
+
+document.getElementById('ann-edit-modal').addEventListener('click', function(e) { if (e.target === this) closeAnnEditModal(); });
+
+function clearAnnForm() {
+  document.getElementById('ann-update-select').value = '';
+  document.getElementById('ann-update-date').value = '';
+  document.getElementById('ann-save-msg').textContent = '';
+}
+
+function selectAnnAndDraft(name) {
+  document.getElementById('ann-draft-select').value = name;
+  generateAnnEmail(name);
+  document.getElementById('ann-draft-body').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function saveAnniversary() {
+  const name = document.getElementById('ann-update-select').value;
+  const date = document.getElementById('ann-update-date').value;
+  const msgEl = document.getElementById('ann-save-msg');
+  const btn = document.getElementById('ann-save-btn');
+  if (!name) { document.getElementById('ann-update-select').focus(); return; }
+  if (!date) { document.getElementById('ann-update-date').focus(); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  msgEl.className = 'msg'; msgEl.textContent = 'Saving...';
+  try {
+    const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'update_anniversary', name, anniversary: date }) });
+    const json = await res.json();
+    if (!json.success) throw new Error();
+    msgEl.className = 'msg success'; msgEl.textContent = `Saved for ${name}!`;
+    setTimeout(() => msgEl.textContent = '', 3000);
+    await loadFromSheet();
+  } catch(e) {
+    msgEl.className = 'msg error'; msgEl.textContent = 'Could not save. Check your connection.';
+  }
+  btn.disabled = false; btn.textContent = 'Save';
+}
+
+const ANN_EMAILS = {
+  1: n => ({ subj: `One year of faithfulness — thank you, ${first(n)}!`, body:
+`Hey ${first(n)},
+
+One year. It might not sound like a long time, but in ministry, one year of faithful service is a really big deal — and we don't want to let it pass without celebrating you.
+
+A full year of showing up. A full year of pouring into kids who will carry what you've planted in them for the rest of their lives. A full year of servant leadership lived out in the most real way possible.
+
+We are so grateful for you. Thank you for saying yes — and then saying yes again, every single week.
+
+"The one who calls you is faithful, and he will do it." — 1 Thessalonians 5:24
+
+He called you to this, ${first(n)}, and you have been faithful in it. That matters to God, and it matters to us.
+
+Here's to many more years together!
+
+With so much gratitude,
+Ben Rivera
+Kids Ministry — Calvary Boca` }),
+
+  2: n => ({ subj: `Two years strong — celebrating you, ${first(n)}!`, body:
+`Hey ${first(n)},
+
+Two years of serving in Kids Ministry — that is no small thing. You have shown up season after season, and we want to make sure you know: we see it, we appreciate it, and we do not take it for granted.
+
+There's something powerful about the kind of faithfulness you've modeled. It's the kind of ministry that doesn't always get the spotlight — but it's exactly the kind that God uses to build His kingdom. "Well done, good and faithful servant" is not said to those who did something impressive once. It's said to those who kept going.
+
+That's you, ${first(n)}.
+
+"Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up." — Galatians 6:9
+
+Thank you for not giving up. Two years in, and we're so glad you're here.
+
+With gratitude and respect,
+Ben Rivera
+Kids Ministry — Calvary Boca` }),
+
+  5: n => ({ subj: `Five years of faithful service — ${first(n)}, we honor you`, body:
+`Hey ${first(n)},
+
+Five years.
+
+I want you to sit with that for a moment. Five years of serving the next generation at Calvary Boca. Five years of early mornings, of lesson prep, of loving kids who may not even fully understand yet how much what you've done for them will matter.
+
+That kind of longevity in ministry is rare — and it doesn't happen by accident. It happens because someone decided, over and over again, to keep showing up. That someone is you.
+
+Calvary Chapel has always believed that God does not call the qualified — He qualifies the called. You have not only answered the call, you have walked it out with remarkable faithfulness. And the fruit of that faithfulness? It's in the hearts of every child who has sat in your room, heard the Word, and felt the love of Jesus through you.
+
+"His master replied, 'Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things. Come and share your master's happiness!'" — Matthew 25:23
+
+Five years in, and we are more grateful for you than ever. Thank you for the gift of your service.
+
+Honored to serve alongside you,
+Ben Rivera
+Kids Ministry — Calvary Boca` }),
+
+  10: n => ({ subj: `Ten years — ${first(n)}, your faithfulness is a legacy`, body:
+`Hey ${first(n)},
+
+Ten years.
+
+There are very few words that feel adequate for a moment like this. A decade of service. A decade of faithfulness. A decade of loving kids in the name of Jesus at Calvary Boca.
+
+What you have built is not just a record of attendance — it's a legacy. The children you served in year one are growing up now. Some of them may be walking with the Lord today because of seeds you planted. That's not a small thing. That's the work of eternity.
+
+The heart of Calvary Chapel has always been this: ordinary people, filled with the Holy Spirit, walking faithfully in what God has called them to. You are the living definition of that.
+
+"I have fought the good fight, I have finished the race, I have kept the faith." — 2 Timothy 4:7
+
+You haven't finished yet — but ten years in, you are running one of the most beautiful races I've ever witnessed.
+
+On behalf of the entire Kids Ministry team and this church family: thank you. From the bottom of our hearts. Ten years of you has made us better.
+
+With deep honor and gratitude,
+Ben Rivera
+Kids Ministry — Calvary Boca` })
+};
+
+function generateAnnEmail(name) {
+  name = name || document.getElementById('ann-draft-select').value;
+  if (!name) { document.getElementById('ann-draft-body').value = ''; return; }
+  const v = VOLUNTEERS.find(v => v.name === name) || {};
+  const info = v.anniversary ? getAnniversaryInfo(v) : null;
+  const milestone = (info && info.nextMilestone) ? info.nextMilestone : 1;
+  const template = (ANN_EMAILS[milestone] || ANN_EMAILS[1])(name);
+  document.getElementById('ann-draft-to').value = v.email || '(no email on file)';
+  document.getElementById('ann-draft-subject').value = template.subj;
+  document.getElementById('ann-draft-body').value = template.body;
+}
+
+function populateAnnSelects() {
+  const sorted = [...VOLUNTEERS].sort((a, b) => a.name.localeCompare(b.name));
+  ['ann-draft-select', 'ann-update-select'].forEach(id => {
+    const sel = document.getElementById(id);
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">Select a volunteer...</option>';
+    sorted.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v.name;
+      o.textContent = v.name + (v.anniversary ? ` — since ${v.anniversary}` : '');
+      sel.appendChild(o);
+    });
+    if (cur) sel.value = cur;
+  });
+}
+
+// Override loadFromSheet to also render anniversaries
+const _origLoad = loadFromSheet;
+loadFromSheet = async function() {
+  setSyncBadge('loading','Syncing...');
+  try {
+    const res = await fetch(SCRIPT_URL);
+    const json = await res.json();
+    if (!json.success) throw new Error();
+    VOLUNTEERS = json.data.map(r => ({
+      name:        String(r.name||''),
+      month:       parseInt(r.month)||0,
+      day:         parseInt(r.day)||0,
+      email:       String(r.email||'').trim().toLowerCase(),
+      added:       r.added===true||r.added==="TRUE",
+      joined:      String(r.joined||'').trim(),
+      anniversary: String(r.anniversary||'').trim(),
+    }));
+    setSyncBadge('ok','Synced');
+    renderBirthdays();
+    renderCare();
+    renderAnniversaries();
+    populateSelects();
+    populateAnnSelects();
+  } catch(e) {
+    setSyncBadge('error','Could not connect');
+  }
+};
 
 loadFromSheet();
 </script>

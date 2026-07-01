@@ -1156,7 +1156,7 @@ loadFromSheet = async function() {
       email:       String(r.email||'').trim().toLowerCase(),
       added:       r.added===true||r.added==="TRUE",
       joined:      String(r.joined||'').trim(),
-      anniversary: String(r.anniversary||'').trim(),
+      anniversary: String(r.anniversary||'').trim().split('T')[0],
     }));
     setSyncBadge('ok','Synced');
     renderBirthdays();

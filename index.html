@@ -165,6 +165,7 @@
   <button onclick="showPage('checkin1', this)">1-Month Check-in</button>
   <button onclick="showPage('checkin3', this)">3-Month Follow-up</button>
   <button onclick="showPage('anniversary', this)">Anniversaries</button>
+  <button onclick="showPage('tools', this)">Tools</button>
 </div>
 
 <!-- BIRTHDAYS PAGE -->
@@ -378,6 +379,138 @@
     </div>
     <div class="msg" id="ann-edit-msg"></div>
   </div>
+</div>
+
+<!-- TOOLS PAGE -->
+<div class="page" id="page-tools">
+
+  <!-- WHATSAPP DRAFTS -->
+  <div class="section-title">WhatsApp message drafts</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Ready-to-copy WhatsApp messages for common team communications. Select a type, customize if needed, then copy.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <button onclick="genWA('reminder')" class="primary" style="font-size:12px;">Service reminder</button>
+        <button onclick="genWA('gap')" style="font-size:12px;">Scheduling gap</button>
+        <button onclick="genWA('holiday')" style="font-size:12px;">Holiday coverage</button>
+        <button onclick="genWA('newvol')" style="font-size:12px;">New volunteer intro</button>
+        <button onclick="genWA('thanks')" style="font-size:12px;">Post-service thanks</button>
+        <button onclick="genWA('prayer')" style="font-size:12px;">Prayer request</button>
+      </div>
+      <textarea id="wa-text" rows="6" placeholder="Select a message type above..."></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+        <button onclick="copyText('wa-text','wa-confirm')">Copy</button>
+        <button onclick="genWA(currentWAtype)">↺ Regenerate</button>
+        <div class="copy-confirm" id="wa-confirm"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPANISH TOGGLE -->
+  <div class="section-title">Email in Spanish</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Generate any volunteer email in Spanish. Select the email type and volunteer below.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+        <select id="es-type" style="flex:1;min-width:160px;">
+          <option value="welcome">Welcome email</option>
+          <option value="checkin1">1-month check-in</option>
+          <option value="checkin3">3-month follow-up</option>
+          <option value="birthday">Birthday message</option>
+          <option value="ann1">1-year anniversary</option>
+          <option value="ann2">2-year anniversary</option>
+        </select>
+        <select id="es-vol" style="flex:1;min-width:160px;"><option value="">Select a volunteer...</option></select>
+        <button class="primary" onclick="generateSpanish()">Generate in Spanish</button>
+        <button onclick="copyText('es-body','es-confirm')">Copy</button>
+      </div>
+      <div class="email-box">
+        <div class="email-field"><div class="email-label">Subject</div><input id="es-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+        <div class="email-field"><div class="email-label">Body</div><textarea id="es-body" rows="12" placeholder="Select email type and volunteer above..."></textarea></div>
+      </div>
+      <div class="copy-confirm" id="es-confirm"></div>
+    </div>
+  </div>
+
+  <!-- VOLUNTEER SPOTLIGHT -->
+  <div class="section-title">Volunteer spotlight</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Generate a spotlight post to celebrate a volunteer — great for bulletins, social media, or WhatsApp.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+        <select id="spot-vol" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+        <select id="spot-type" style="min-width:140px;">
+          <option value="bulletin">Church bulletin</option>
+          <option value="social">Social media</option>
+          <option value="whatsapp">WhatsApp group</option>
+        </select>
+        <button class="primary" onclick="generateSpotlight()">Generate</button>
+        <button onclick="generateSpotlight()">↺ Regenerate</button>
+        <button onclick="copyText('spot-text','spot-confirm')">Copy</button>
+      </div>
+      <textarea id="spot-text" rows="7" placeholder="Select a volunteer above..."></textarea>
+      <div class="copy-confirm" id="spot-confirm"></div>
+    </div>
+  </div>
+
+  <!-- PRAYER REQUEST LOG -->
+  <div class="section-title">Prayer request log</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-header">
+      <div class="card-title">Volunteer prayer requests</div>
+      <button onclick="clearPrayerLog()" style="font-size:12px;padding:4px 10px;">Clear all</button>
+    </div>
+    <div class="card-body">
+      <div class="form-grid form-grid-3" style="margin-bottom:10px;">
+        <div>
+          <label>Volunteer</label>
+          <select id="prayer-vol" style="width:100%;"><option value="">Select a volunteer...</option></select>
+        </div>
+        <div>
+          <label>Prayer request</label>
+          <input type="text" id="prayer-text" placeholder="e.g. Health, family situation..." />
+        </div>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="primary" onclick="addPrayerRequest()" style="width:100%;justify-content:center;">Add</button>
+        </div>
+      </div>
+      <div id="prayer-list"><div class="empty" style="padding:1rem 0;">No prayer requests logged yet.</div></div>
+    </div>
+  </div>
+
+  <!-- HOLIDAY TRACKER -->
+  <div class="section-title">Upcoming holidays & high-attendance weekends</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Key dates that typically affect volunteer availability. Plan staffing early!</p>
+      <div id="holiday-list"></div>
+    </div>
+  </div>
+
+  <!-- EXPORT -->
+  <div class="section-title">Export volunteer roster</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;max-width:400px;">Download a clean CSV of all volunteers with their birthday, anniversary, and email — ready to import anywhere.</div>
+      <button class="primary" onclick="exportCSV()">Download CSV</button>
+    </div>
+  </div>
+
+  <!-- VOLUNTEER NOTES -->
+  <div class="section-title">Volunteer notes</div>
+  <div class="card">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Private notes per volunteer — room preferences, scheduling notes, strengths. Saved in your browser.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <select id="notes-vol" onchange="loadNote()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+        <button onclick="saveNote()" class="primary">Save note</button>
+        <button onclick="clearNote()">Clear</button>
+      </div>
+      <textarea id="notes-text" rows="5" placeholder="Select a volunteer to view or add notes..."></textarea>
+      <div class="copy-confirm" id="notes-confirm"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ADD VOLUNTEER MODAL -->
@@ -1450,11 +1583,215 @@ loadFromSheet = async function() {
     renderAnniversaries();
     populateSelects();
     populateAnnSelects();
+    populateToolSelects();
     initTeamSelect();
   } catch(e) {
     setSyncBadge('error','Could not connect');
   }
 };
+
+// ─── TOOLS ────────────────────────────────────────────────────────────────────
+
+function populateToolSelects() {
+  const sorted = [...VOLUNTEERS].sort((a,b) => a.name.localeCompare(b.name));
+  ['es-vol','spot-vol','prayer-vol','notes-vol'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">Select a volunteer...</option>';
+    sorted.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v.name; o.textContent = v.name;
+      sel.appendChild(o);
+    });
+    if (cur) sel.value = cur;
+  });
+  renderHolidays();
+  renderPrayerList();
+}
+
+// WhatsApp
+let currentWAtype = 'reminder'; let waMsgIdx = 0;
+const WA_MSGS = {
+  reminder: [
+    ()=>`Hey Kids Ministry team! 👋 Just a reminder that we have service this Sunday. Please check Planning Center for your room assignment and let me know ASAP if anything has changed. Thank you for all you do! 🙏`,
+    ()=>`Good morning team! Quick reminder — Kids Church this Sunday. If you haven't checked Planning Center yet, please do so today. Reply here if you have any questions or conflicts. So grateful for each of you! ✝️`,
+    ()=>`Hey everyone! Sunday is coming up fast. Make sure you've confirmed your spot on Planning Center. If something came up and you can't make it, please let me know so we can get coverage. Thanks so much! 🙌`
+  ],
+  gap: [
+    ()=>`Hey team! We have an opening in Kids Ministry this Sunday and could really use an extra hand. If you're available or know someone who might be, please reach out! Every room needs to be covered for our kids. Thank you! 🙏`,
+    ()=>`Hi everyone! We have a scheduling gap this Sunday and are looking for someone to step in. Would anyone be available to serve? Even a one-time help makes a huge difference for our kids. Please reply here or text me directly! 💛`,
+    ()=>`Quick ask, team — we're short a volunteer this Sunday. Is anyone free to jump in? I know it's last minute but our kids need coverage. Reply here if you can help, I really appreciate it! 🙌`
+  ],
+  holiday: [
+    ()=>`Hey team! With the upcoming holiday weekend approaching, I want to make sure we're fully staffed. Please check your availability on Planning Center and confirm early — we anticipate it may be a bigger Sunday than usual! Thank you 🙏`,
+    ()=>`Hi everyone! Holiday weekend is coming up. These Sundays can be unpredictable so we want to make sure Kids Ministry is well covered. Please confirm your availability ASAP. Grateful for your faithfulness! ✝️`,
+    ()=>`Hey Kids Ministry fam! Just a heads up — we have a holiday weekend coming up. Please lock in your schedule on Planning Center early and let me know if anything needs to change. These weekends matter and so do you! 🙌`
+  ],
+  newvol: [
+    ()=>`Hey team! Exciting news — we have a new volunteer joining Kids Ministry! Please give them a warm Calvary Boca welcome when you see them on Sunday. So grateful God is growing our team! 🎉`,
+    ()=>`Big news! We have a new team member joining us in Kids Ministry. Let's make sure they feel welcomed and at home from day one. That's the Calvary Boca way! 💛`,
+    ()=>`Hey everyone! Just wanted to share that our Kids Ministry family is growing — we have a new volunteer joining the team! Please show them love when you meet them. So excited for what God is doing! 🙏`
+  ],
+  thanks: [
+    ()=>`Hey team! Just wanted to say THANK YOU for an amazing Sunday. You showed up, you served with joy, and our kids were loved well. That's because of YOU. Don't ever underestimate what you're doing here. 🙏❤️`,
+    ()=>`What a Sunday! Thank you all so much for everything you poured in today. The kids were engaged, the rooms were covered, and Jesus was at the center of it all. Grateful for this team! ✝️`,
+    ()=>`Just wrapping up from Sunday and I had to stop and say — thank you. Genuinely. What you do every week matters more than you know. The seeds you're planting in these kids will last forever. 🌱`
+  ],
+  prayer: [
+    ()=>`Hey team! Just wanted to check in and ask — how can we be praying for YOU this week? Kids Ministry runs on prayer. Reply here or DM me. You are loved! 🙏`,
+    ()=>`Hi everyone! Before we gear up for Sunday I wanted to pause and ask — does anyone have a prayer request this week? Reply here or reach out privately. Praying for you all! ✝️`,
+    ()=>`Hey team! This week I want to make sure I'm praying specifically for each of you. Drop your prayer requests here — nothing too big or too small. We do this together. 🙏💛`
+  ]
+};
+function genWA(type) {
+  currentWAtype = type;
+  const msgs = WA_MSGS[type];
+  document.getElementById('wa-text').value = msgs[waMsgIdx % msgs.length]();
+  waMsgIdx++;
+}
+
+// Spanish
+function generateSpanish() {
+  const type = document.getElementById('es-type').value;
+  const name = document.getElementById('es-vol').value;
+  if (!name) { alert('Please select a volunteer.'); return; }
+  const fn = name.split(' ')[0];
+  const sig = `${currentUser.name}\n${currentUser.title}\ncalvaryftl.org`;
+  const t = {
+    welcome: { subj:`¡Bienvenido/a al equipo de Kids Ministry, ${fn}!`, body:`Hola ${fn},\n\n¡Bienvenido/a a la familia de Kids Ministry de Calvary Boca! Estamos muy felices de tenerte con nosotros.\n\nServir en Kids Ministry es una de las cosas más significativas que puedes hacer en esta temporada. Cada fin de semana, estás plantando semillas de la Palabra de Dios en corazones que las llevarán por el resto de sus vidas.\n\nEn Calvary Boca creemos en una cultura de gracia. No tienes que ser perfecto/a para servir aquí. Solo necesitas un corazón dispuesto y amor por Jesús. El Espíritu Santo hace el resto.\n\nAlgunas cosas para comenzar:\n  • Planning Center — revisa tu correo para la invitación.\n  • Nuestro grupo de WhatsApp es la forma principal de comunicación.\n  • Contáctame directamente si tienes preguntas.\n\n"Porque somos hechura de Dios, creados en Cristo Jesús para buenas obras." — Efesios 2:10\n\n¡Bienvenido/a al equipo!\n${sig}` },
+    checkin1: { subj:`¡Revisando cómo estás, ${fn}!`, body:`Hola ${fn},\n\nQuería tomar un momento para ver cómo estás — ha pasado aproximadamente un mes desde que te uniste al equipo de Kids Ministry.\n\nAlgunas preguntas:\n  • ¿Cómo te estás sintiendo en tu rol?\n  • ¿Hay algo difícil o poco claro?\n  • ¿Hay algo por lo que pueda estar orando por ti?\n\n"No temas, porque yo estoy contigo; te fortaleceré y te ayudaré." — Isaías 41:10\n\nEstoy genuinamente feliz de que estés en el equipo.\n\nEn Su gracia,\n${sig}` },
+    checkin3: { subj:`Tres meses — y estamos muy contentos de que estés aquí, ${fn}`, body:`Hola ${fn},\n\nTres meses. No puedo creer lo rápido que ha pasado — pero quiero pausar para decir algo importante:\n\nGracias. De verdad.\n\nPresentarte semana tras semana para servir a los niños importa eternamente.\n\n"No nos cansemos de hacer el bien, porque a su debido tiempo cosecharemos." — Gálatas 6:9\n\nMe encantaría tomar un café contigo pronto.\n\nGratamente,\n${sig}` },
+    birthday: { subj:`¡Feliz cumpleaños, ${fn}!`, body:`Hola ${fn},\n\n¡Feliz cumpleaños! En nombre de todo el equipo de Kids Ministry de Calvary Boca, queremos decirte cuánto te apreciamos.\n\nTu fidelidad no pasa desapercibida. Oramos para que hoy tu día esté lleno de alegría y el calor de saber cuánto eres amado/a por Dios y esta comunidad.\n\n¡Que tengas un cumpleaños muy bendecido!\n\nCon cariño,\n${sig}` },
+    ann1: { subj:`¡Un año de fidelidad — gracias, ${fn}!`, body:`Hola ${fn},\n\nUn año. En el ministerio, un año de servicio fiel es algo muy grande — y no queremos que pase sin celebrarte.\n\nEstamos muy agradecidos por ti. ¡Gracias por decir sí — y luego decir sí de nuevo, cada semana!\n\n"Fiel es el que os llama, el cual también lo hará." — 1 Tesalonicenses 5:24\n\n¡Aquí por muchos más años juntos!\n\nCon mucha gratitud,\n${sig}` },
+    ann2: { subj:`¡Dos años de fortaleza — celebrándote, ${fn}!`, body:`Hola ${fn},\n\nDos años sirviendo en Kids Ministry. Te has presentado temporada tras temporada, y queremos que sepas: lo vemos, lo apreciamos, y no lo damos por sentado.\n\n"No nos cansemos de hacer el bien, porque a su debido tiempo cosecharemos." — Gálatas 6:9\n\nGracias por no rendirte. ¡Dos años después, estamos muy felices de que estés aquí!\n\nCon gratitud y respeto,\n${sig}` }
+  };
+  const tmpl = t[type] || t.welcome;
+  document.getElementById('es-subject').value = tmpl.subj;
+  document.getElementById('es-body').value = tmpl.body;
+}
+
+// Spotlight
+let spotMsgIdx = 0;
+function generateSpotlight() {
+  const name = document.getElementById('spot-vol').value;
+  const type = document.getElementById('spot-type').value;
+  if (!name) { alert('Please select a volunteer.'); return; }
+  const v = VOLUNTEERS.find(v=>v.name===name)||{};
+  const fn = name.split(' ')[0];
+  const annInfo = v.anniversary ? getAnniversaryInfo(v) : null;
+  const years = annInfo ? annInfo.yearsServed : null;
+  const yearsStr = years > 0 ? ` (${years} year${years!==1?'s':''} of faithful service!)` : '';
+  const b = [
+    `This week we want to spotlight one of our incredible Kids Ministry volunteers — ${name}!${yearsStr} Week after week, ${fn} shows up with a servant's heart and pours into the next generation at Calvary Boca. We are so grateful for the faithfulness and love you bring to this team, ${fn}. Thank you for saying yes!`,
+    `Volunteer Spotlight: ${name}!${yearsStr} If you've been through Kids Ministry at Calvary Boca, chances are you've been impacted by ${fn}'s dedication and love for children. We are so thankful for the way you serve — quietly, faithfully, and with excellence. You are a true gift to this church family!`,
+    `We're celebrating ${name} this week!${yearsStr} ${fn} is one of the faithful pillars of our Kids Ministry team — always prepared, always present, always loving our kids well. Thank you for the incredible example of servant leadership you set every week. We are better because of you!`
+  ];
+  const s = [
+    `✨ Volunteer Spotlight ✨\n\nWe are SO grateful for ${name}!${yearsStr}\n\n${fn} serves faithfully in Kids Ministry at Calvary Boca every week, pouring the love of Jesus into the next generation. 🙌\n\n"Well done, good and faithful servant." — Matthew 25:23\n\n#CalvaryBoca #KidsMinistry #VolunteerSpotlight`,
+    `💛 Shoutout to ${name}!${yearsStr}\n\nEvery week, ${fn} shows up to serve our kids with joy, grace, and a whole lot of love. Thank you for being the hands and feet of Jesus to the next generation! 🙏\n\n#CalvaryBoca #KidsMinistry #Grateful`,
+    `🌟 Meet one of our Kids Ministry heroes — ${name}!${yearsStr}\n\n${fn} is one of those people who makes Kids Ministry at Calvary Boca what it is. Faithful. Loving. Always there. ❤️\n\n#CalvaryBoca #KidsMinistry #ChurchFamily`
+  ];
+  const w = [
+    `Hey team! 🎉 I just want to take a second to shout out ${name}!${yearsStr} Your dedication to Kids Ministry does not go unnoticed. Thank you for showing up week after week and loving our kids so well. We are SO grateful for you! 🙌🙏`,
+    `Can we take a moment to appreciate ${name}?!${yearsStr} 💛 The way you serve in Kids Ministry is such an encouragement to this whole team. Thank you for your faithfulness, ${fn}. You are such a gift! 🙌`,
+    `Hey everyone — just wanted to highlight ${name} today!${yearsStr} ✨ Your commitment to this team and to our kids means the world. So grateful God brought you to Calvary Boca! 🙏❤️`
+  ];
+  const msgs = type==='bulletin'?b:type==='social'?s:w;
+  document.getElementById('spot-text').value = msgs[spotMsgIdx % msgs.length];
+  spotMsgIdx++;
+}
+
+// Prayer log
+function getPrayerLog() { try { return JSON.parse(localStorage.getItem('cb_prayer_log')||'[]'); } catch { return []; } }
+function savePrayerLog(log) { localStorage.setItem('cb_prayer_log', JSON.stringify(log)); }
+function addPrayerRequest() {
+  const name = document.getElementById('prayer-vol').value;
+  const text = document.getElementById('prayer-text').value.trim();
+  if (!name||!text) return;
+  const log = getPrayerLog();
+  log.unshift({ name, text, date: new Date().toLocaleDateString() });
+  savePrayerLog(log); document.getElementById('prayer-text').value = '';
+  renderPrayerList();
+}
+function removePrayer(idx) { const log=getPrayerLog(); log.splice(idx,1); savePrayerLog(log); renderPrayerList(); }
+function clearPrayerLog() { if(!confirm('Clear all prayer requests?')) return; localStorage.removeItem('cb_prayer_log'); renderPrayerList(); }
+function renderPrayerList() {
+  const log = getPrayerLog();
+  const el = document.getElementById('prayer-list');
+  if (!el) return;
+  if (!log.length) { el.innerHTML='<div class="empty" style="padding:1rem 0;">No prayer requests logged yet.</div>'; return; }
+  el.innerHTML = log.map((r,i) => {
+    const v=VOLUNTEERS.find(v=>v.name===r.name)||{}; const c=colorFor(v.month||7);
+    return `<div class="vol-row">
+      <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(r.name)}</div>
+      <div style="flex:1;min-width:0;"><div class="vol-name">${r.name}</div><div class="vol-sub">${r.text} · ${r.date}</div></div>
+      <button class="danger" onclick="removePrayer(${i})" style="font-size:12px;padding:4px 10px;">Remove</button>
+    </div>`;
+  }).join('');
+}
+
+// Holidays
+function renderHolidays() {
+  const el = document.getElementById('holiday-list');
+  if (!el) return;
+  const y = now.getFullYear();
+  const holidays = [
+    { name:"Labor Day Weekend",     date:new Date(y,8,1),   note:"Attendance varies — staff up early" },
+    { name:"Halloween Weekend",     date:new Date(y,9,27),  note:"High attendance — need extra volunteers" },
+    { name:"Thanksgiving Weekend",  date:new Date(y,10,23), note:"Lower turnout expected" },
+    { name:"Christmas Eve/Day",     date:new Date(y,11,24), note:"Special service — all hands needed" },
+    { name:"New Year's Weekend",    date:new Date(y,11,29), note:"Lower turnout expected" },
+    { name:"Easter Sunday",         date:new Date(y+1,3,5), note:"Biggest Sunday of the year — critical coverage" },
+    { name:"Mother's Day",          date:new Date(y+1,4,11),note:"High attendance — plan extra capacity" },
+    { name:"Father's Day",          date:new Date(y+1,5,15),note:"High attendance" },
+    { name:"July 4th Weekend",      date:new Date(y+1,6,4), note:"Lower turnout — confirm volunteers early" },
+    { name:"Memorial Day Weekend",  date:new Date(y+1,4,25),note:"Lower turnout expected" },
+  ].map(h=>({...h,days:Math.round((h.date-now)/86400000)}))
+   .filter(h=>h.days>=-7).sort((a,b)=>a.days-b.days).slice(0,8);
+  el.innerHTML = holidays.map(h => {
+    let badge='';
+    if(h.days<=0) badge='<span class="badge badge-today">This week!</span>';
+    else if(h.days<=14) badge=`<span class="badge badge-soon">In ${h.days}d</span>`;
+    else if(h.days<=30) badge='<span class="badge badge-month">This month</span>';
+    return `<div class="vol-row">
+      <div class="avatar" style="background:var(--gold-bg);color:var(--gold-text);font-size:16px;">📅</div>
+      <div style="flex:1;min-width:0;"><div class="vol-name">${h.name}</div><div class="vol-sub">${h.date.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} · ${h.note}</div></div>
+      ${badge}
+    </div>`;
+  }).join('');
+}
+
+// Export CSV
+function exportCSV() {
+  const headers = ['Name','Email','Birthday Month','Birthday Day','Anniversary Date','Joined Date'];
+  const rows = VOLUNTEERS.map(v=>[v.name,v.email,v.month?MONTHS[v.month]:'',v.day||'',v.anniversary||'',v.joined||'']);
+  const csv = [headers,...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download='calvary_boca_volunteers.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Volunteer notes
+function getNotes() { try { return JSON.parse(localStorage.getItem('cb_vol_notes')||'{}'); } catch { return {}; } }
+function saveNotes(n) { localStorage.setItem('cb_vol_notes', JSON.stringify(n)); }
+function loadNote() {
+  const name=document.getElementById('notes-vol').value;
+  const notes=getNotes();
+  document.getElementById('notes-text').value=name?(notes[name]||''):'';
+  document.getElementById('notes-confirm').textContent='';
+}
+function saveNote() {
+  const name=document.getElementById('notes-vol').value;
+  const text=document.getElementById('notes-text').value;
+  if(!name) return;
+  const notes=getNotes(); notes[name]=text; saveNotes(notes);
+  document.getElementById('notes-confirm').textContent='Saved!';
+  setTimeout(()=>document.getElementById('notes-confirm').textContent='',2000);
+}
+function clearNote() { document.getElementById('notes-text').value=''; saveNote(); }
 
 loadFromSheet();
 </script>

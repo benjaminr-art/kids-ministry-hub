@@ -161,11 +161,13 @@
 <div class="tab-nav">
   <button class="active" onclick="showPage('birthdays', this)">Birthdays</button>
   <button onclick="showPage('care', this)">Volunteer Care</button>
-  <button onclick="showPage('welcome', this)">Welcome Email</button>
-  <button onclick="showPage('checkin1', this)">1-Month Check-in</button>
-  <button onclick="showPage('checkin3', this)">3-Month Follow-up</button>
+  <button onclick="showPage('welcome', this)">Welcome</button>
+  <button onclick="showPage('checkins', this)">Check-ins</button>
   <button onclick="showPage('anniversary', this)">Anniversaries</button>
-  <button onclick="showPage('tools', this)">Tools</button>
+  <button onclick="showPage('messages', this)">Messages</button>
+  <button onclick="showPage('spotlight', this)">Spotlight</button>
+  <button onclick="showPage('carelog', this)">Care Log</button>
+  <button onclick="showPage('admin', this)">Admin</button>
 </div>
 
 <!-- BIRTHDAYS PAGE -->
@@ -257,48 +259,71 @@
   </div>
 </div>
 
-<!-- 1-MONTH CHECK-IN PAGE -->
-<div class="page" id="page-checkin1">
-  <div class="card">
-    <div class="card-header"><div class="card-title">1-Month Check-In Email</div><span class="badge badge-checkin1">~30 days after joining</span></div>
-    <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">A pastoral check-in that asks how they're settling in, invites them to share prayer requests, and encourages them in their calling. Warm, personal, Spirit-led.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
-        <select id="checkin1-select" onchange="generateCheckin1()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
-        <button onclick="generateCheckin1()">↺ Regenerate</button>
-        <button onclick="copyText('checkin1-body','checkin1-copy')">Copy</button>
-        <button class="blue" onclick="openGmailFromField('checkin1-select','checkin1-subject','checkin1-body')">Open in Gmail</button>
-      </div>
-      <div class="email-box">
-        <div class="email-field"><div class="email-label">To</div><input id="checkin1-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Subject</div><input id="checkin1-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Body</div><textarea id="checkin1-body" rows="16" placeholder="Select a volunteer above..."></textarea></div>
-      </div>
-      <div class="copy-confirm" id="checkin1-copy"></div>
-    </div>
-  </div>
-</div>
 
-<!-- 3-MONTH FOLLOW-UP PAGE -->
-<div class="page" id="page-checkin3">
-  <div class="card">
-    <div class="card-header"><div class="card-title">3-Month Follow-Up Email</div><span class="badge badge-checkin3">~90 days after joining</span></div>
-    <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">A deeper follow-up that celebrates their faithfulness, affirms their calling, asks about their experience, and invites them to go deeper in community and service.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
-        <select id="checkin3-select" onchange="generateCheckin3()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
-        <button onclick="generateCheckin3()">↺ Regenerate</button>
-        <button onclick="copyText('checkin3-body','checkin3-copy')">Copy</button>
-        <button class="gold" onclick="openGmailFromField('checkin3-select','checkin3-subject','checkin3-body')">Open in Gmail</button>
-      </div>
-      <div class="email-box">
-        <div class="email-field"><div class="email-label">To</div><input id="checkin3-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Subject</div><input id="checkin3-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Body</div><textarea id="checkin3-body" rows="18" placeholder="Select a volunteer above..."></textarea></div>
-      </div>
-      <div class="copy-confirm" id="checkin3-copy"></div>
+<!-- CHECK-INS PAGE (combined 1-month + 3-month with toggle) -->
+<div class="page" id="page-checkins">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:2px;">Volunteer Check-Ins</div>
+      <div style="font-size:13px;color:var(--muted);">Pastoral follow-up emails at 1 month and 3 months</div>
+    </div>
+    <div class="inner-tabs">
+      <button class="inner-tab active" id="ci-tab-1" onclick="switchCI(1,this)">1-Month Check-in</button>
+      <button class="inner-tab" id="ci-tab-3" onclick="switchCI(3,this)">3-Month Follow-up</button>
     </div>
   </div>
+
+  <!-- 1-MONTH -->
+  <div id="ci-panel-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">1-Month Check-In Email</div>
+        <span class="badge badge-checkin1">~30 days after joining</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">A pastoral check-in that asks how they're settling in, invites prayer requests, and encourages them in their calling. Warm, personal, Spirit-led.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+          <select id="checkin1-select" onchange="generateCheckin1()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+          <button onclick="generateCheckin1()">↺ Regenerate</button>
+          <button onclick="copyText('checkin1-body','checkin1-copy')">Copy</button>
+          <button class="blue" onclick="openGmailFromField('checkin1-select','checkin1-subject','checkin1-body')">Open in Gmail</button>
+        </div>
+        <div class="email-box">
+          <div class="email-field"><div class="email-label">To</div><input id="checkin1-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+          <div class="email-field"><div class="email-label">Subject</div><input id="checkin1-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+          <div class="email-field"><div class="email-label">Body</div><textarea id="checkin1-body" rows="16" placeholder="Select a volunteer above..."></textarea></div>
+        </div>
+        <div class="copy-confirm" id="checkin1-copy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-MONTH -->
+  <div id="ci-panel-3" style="display:none;">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">3-Month Follow-Up Email</div>
+        <span class="badge badge-checkin3">~90 days after joining</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">A deeper follow-up that celebrates faithfulness, affirms their calling, and invites them to go deeper in community and service.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+          <select id="checkin3-select" onchange="generateCheckin3()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
+          <button onclick="generateCheckin3()">↺ Regenerate</button>
+          <button onclick="copyText('checkin3-body','checkin3-copy')">Copy</button>
+          <button class="gold" onclick="openGmailFromField('checkin3-select','checkin3-subject','checkin3-body')">Open in Gmail</button>
+        </div>
+        <div class="email-box">
+          <div class="email-field"><div class="email-label">To</div><input id="checkin3-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+          <div class="email-field"><div class="email-label">Subject</div><input id="checkin3-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
+          <div class="email-field"><div class="email-label">Body</div><textarea id="checkin3-body" rows="16" placeholder="Select a volunteer above..."></textarea></div>
+        </div>
+        <div class="copy-confirm" id="checkin3-copy"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ANNIVERSARY PAGE -->
@@ -381,14 +406,18 @@
   </div>
 </div>
 
-<!-- TOOLS PAGE -->
-<div class="page" id="page-tools">
+<!-- MESSAGES PAGE (WhatsApp + Spanish) -->
+<div class="page" id="page-messages">
 
-  <!-- WHATSAPP DRAFTS -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:16px;font-weight:600;margin-bottom:2px;">Messages</div>
+    <div style="font-size:13px;color:var(--muted);">WhatsApp team messages and Spanish email drafts</div>
+  </div>
+
   <div class="section-title">WhatsApp message drafts</div>
   <div class="card" style="margin-bottom:1.5rem;">
     <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Ready-to-copy WhatsApp messages for common team communications. Select a type, customize if needed, then copy.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Ready-to-copy WhatsApp messages for common team communications. Pick a type, customize if needed, then copy.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
         <button onclick="genWA('reminder')" class="primary" style="font-size:12px;">Service reminder</button>
         <button onclick="genWA('gap')" style="font-size:12px;">Scheduling gap</button>
@@ -399,18 +428,17 @@
       </div>
       <textarea id="wa-text" rows="6" placeholder="Select a message type above..."></textarea>
       <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
-        <button onclick="copyText('wa-text','wa-confirm')">Copy</button>
         <button onclick="genWA(currentWAtype)">↺ Regenerate</button>
+        <button onclick="copyText('wa-text','wa-confirm')">Copy</button>
         <div class="copy-confirm" id="wa-confirm"></div>
       </div>
     </div>
   </div>
 
-  <!-- SPANISH TOGGLE -->
   <div class="section-title">Email in Spanish</div>
-  <div class="card" style="margin-bottom:1.5rem;">
+  <div class="card">
     <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Generate any volunteer email in Spanish. Select the email type and volunteer below.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Generate any volunteer email in Spanish for your Spanish-speaking volunteers.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
         <select id="es-type" style="flex:1;min-width:160px;">
           <option value="welcome">Welcome email</option>
@@ -423,23 +451,33 @@
         <select id="es-vol" style="flex:1;min-width:160px;"><option value="">Select a volunteer...</option></select>
         <button class="primary" onclick="generateSpanish()">Generate in Spanish</button>
         <button onclick="copyText('es-body','es-confirm')">Copy</button>
+        <button class="teal" onclick="openGmailSpanish()">Open in Gmail</button>
       </div>
       <div class="email-box">
+        <div class="email-field"><div class="email-label">To</div><input id="es-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
         <div class="email-field"><div class="email-label">Subject</div><input id="es-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Body</div><textarea id="es-body" rows="12" placeholder="Select email type and volunteer above..."></textarea></div>
+        <div class="email-field"><div class="email-label">Body</div><textarea id="es-body" rows="14" placeholder="Select email type and volunteer above..."></textarea></div>
       </div>
       <div class="copy-confirm" id="es-confirm"></div>
     </div>
   </div>
 
-  <!-- VOLUNTEER SPOTLIGHT -->
-  <div class="section-title">Volunteer spotlight</div>
-  <div class="card" style="margin-bottom:1.5rem;">
+</div>
+
+<!-- SPOTLIGHT PAGE -->
+<div class="page" id="page-spotlight">
+
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:16px;font-weight:600;margin-bottom:2px;">Volunteer Spotlight</div>
+    <div style="font-size:13px;color:var(--muted);">Celebrate your volunteers publicly — bulletin, social media, or WhatsApp</div>
+  </div>
+
+  <div class="card">
     <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Generate a spotlight post to celebrate a volunteer — great for bulletins, social media, or WhatsApp.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
-        <select id="spot-vol" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
-        <select id="spot-type" style="min-width:140px;">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">Select a volunteer and the format you need. Each generates 3 rotating versions so every spotlight feels fresh.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;">
+        <select id="spot-vol" style="flex:1;min-width:200px;"><option value="">Select a volunteer...</option></select>
+        <select id="spot-type" style="min-width:160px;">
           <option value="bulletin">Church bulletin</option>
           <option value="social">Social media</option>
           <option value="whatsapp">WhatsApp group</option>
@@ -448,12 +486,29 @@
         <button onclick="generateSpotlight()">↺ Regenerate</button>
         <button onclick="copyText('spot-text','spot-confirm')">Copy</button>
       </div>
-      <textarea id="spot-text" rows="7" placeholder="Select a volunteer above..."></textarea>
+
+      <div style="margin-bottom:8px;">
+        <div class="inner-tabs" style="margin-bottom:0;">
+          <button class="inner-tab active" onclick="setSpotType('bulletin',this)">Bulletin</button>
+          <button class="inner-tab" onclick="setSpotType('social',this)">Social</button>
+          <button class="inner-tab" onclick="setSpotType('whatsapp',this)">WhatsApp</button>
+        </div>
+      </div>
+      <textarea id="spot-text" rows="9" placeholder="Select a volunteer above to generate a spotlight..."></textarea>
       <div class="copy-confirm" id="spot-confirm"></div>
     </div>
   </div>
 
-  <!-- PRAYER REQUEST LOG -->
+</div>
+
+<!-- CARE LOG PAGE (Prayer + Notes) -->
+<div class="page" id="page-carelog">
+
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:16px;font-weight:600;margin-bottom:2px;">Care Log</div>
+    <div style="font-size:13px;color:var(--muted);">Track prayer requests and private notes per volunteer</div>
+  </div>
+
   <div class="section-title">Prayer request log</div>
   <div class="card" style="margin-bottom:1.5rem;">
     <div class="card-header">
@@ -461,14 +516,14 @@
       <button onclick="clearPrayerLog()" style="font-size:12px;padding:4px 10px;">Clear all</button>
     </div>
     <div class="card-body">
-      <div class="form-grid form-grid-3" style="margin-bottom:10px;">
+      <div class="form-grid form-grid-3" style="margin-bottom:12px;">
         <div>
           <label>Volunteer</label>
           <select id="prayer-vol" style="width:100%;"><option value="">Select a volunteer...</option></select>
         </div>
         <div>
           <label>Prayer request</label>
-          <input type="text" id="prayer-text" placeholder="e.g. Health, family situation..." />
+          <input type="text" id="prayer-text" placeholder="e.g. Health, family situation..." onkeydown="if(event.key==='Enter')addPrayerRequest()" />
         </div>
         <div style="display:flex;align-items:flex-end;">
           <button class="primary" onclick="addPrayerRequest()" style="width:100%;justify-content:center;">Add</button>
@@ -478,8 +533,31 @@
     </div>
   </div>
 
-  <!-- HOLIDAY TRACKER -->
-  <div class="section-title">Upcoming holidays & high-attendance weekends</div>
+  <div class="section-title">Volunteer notes</div>
+  <div class="card">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Private notes per volunteer — room preferences, scheduling notes, strengths. Saved in your browser.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <select id="notes-vol" onchange="loadNote()" style="flex:1;min-width:200px;"><option value="">Select a volunteer...</option></select>
+        <button class="primary" onclick="saveNote()">Save note</button>
+        <button onclick="clearNote()">Clear</button>
+      </div>
+      <textarea id="notes-text" rows="6" placeholder="Select a volunteer to view or add notes..."></textarea>
+      <div class="copy-confirm" id="notes-confirm"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ADMIN PAGE (Export + Holidays) -->
+<div class="page" id="page-admin">
+
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:16px;font-weight:600;margin-bottom:2px;">Admin</div>
+    <div style="font-size:13px;color:var(--muted);">Planning tools, holiday tracker, and data export</div>
+  </div>
+
+  <div class="section-title">Upcoming holidays & key weekends</div>
   <div class="card" style="margin-bottom:1.5rem;">
     <div class="card-body">
       <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Key dates that typically affect volunteer availability. Plan staffing early!</p>
@@ -487,27 +565,14 @@
     </div>
   </div>
 
-  <!-- EXPORT -->
   <div class="section-title">Export volunteer roster</div>
-  <div class="card" style="margin-bottom:1.5rem;">
-    <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-      <div style="font-size:13px;color:var(--muted);line-height:1.6;max-width:400px;">Download a clean CSV of all volunteers with their birthday, anniversary, and email — ready to import anywhere.</div>
-      <button class="primary" onclick="exportCSV()">Download CSV</button>
-    </div>
-  </div>
-
-  <!-- VOLUNTEER NOTES -->
-  <div class="section-title">Volunteer notes</div>
   <div class="card">
-    <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Private notes per volunteer — room preferences, scheduling notes, strengths. Saved in your browser.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-        <select id="notes-vol" onchange="loadNote()" style="flex:1;min-width:180px;"><option value="">Select a volunteer...</option></select>
-        <button onclick="saveNote()" class="primary">Save note</button>
-        <button onclick="clearNote()">Clear</button>
+    <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:14px;font-weight:500;margin-bottom:4px;">Download CSV</div>
+        <div style="font-size:13px;color:var(--muted);">All volunteers with name, email, birthday, anniversary, and join date — ready to import anywhere.</div>
       </div>
-      <textarea id="notes-text" rows="5" placeholder="Select a volunteer to view or add notes..."></textarea>
-      <div class="copy-confirm" id="notes-confirm"></div>
+      <button class="primary" onclick="exportCSV()">⬇ Download CSV</button>
     </div>
   </div>
 
@@ -1067,7 +1132,7 @@ function generateCheckin1(name) {
   document.getElementById('checkin1-body').value=msg.body;
 }
 function showCheckin1For(name) {
-  showPage('checkin1', document.querySelectorAll('.tab-nav button')[3]);
+  showPage('checkins', document.querySelectorAll('.tab-nav button')[3]);
   document.getElementById('checkin1-select').value=name;
   generateCheckin1(name);
 }
@@ -1202,7 +1267,7 @@ function generateCheckin3(name) {
   document.getElementById('checkin3-body').value=msg.body;
 }
 function showCheckin3For(name) {
-  showPage('checkin3', document.querySelectorAll('.tab-nav button')[4]);
+  showPage('checkins', document.querySelectorAll('.tab-nav button')[4]);
   document.getElementById('checkin3-select').value=name;
   generateCheckin3(name);
 }
@@ -1327,8 +1392,8 @@ function showPage(id, el) {
   if(el) el.classList.add('active');
 }
 function showWelcomeFor(name){showPage('welcome',document.querySelectorAll('.tab-nav button')[2]);document.getElementById('welcome-select').value=name;generateWelcome(name);}
-function showCheckin1For(name){showPage('checkin1',document.querySelectorAll('.tab-nav button')[3]);document.getElementById('checkin1-select').value=name;generateCheckin1(name);}
-function showCheckin3For(name){showPage('checkin3',document.querySelectorAll('.tab-nav button')[4]);document.getElementById('checkin3-select').value=name;generateCheckin3(name);}
+function showCheckin1For(name){showPage('checkins',document.querySelectorAll('.tab-nav button')[3]);switchCI(1,document.getElementById('ci-tab-1'));document.getElementById('checkin1-select').value=name;generateCheckin1(name);}
+function showCheckin3For(name){showPage('checkins',document.querySelectorAll('.tab-nav button')[3]);switchCI(3,document.getElementById('ci-tab-3'));document.getElementById('checkin3-select').value=name;generateCheckin3(name);}
 
 document.getElementById('checkin1-select').addEventListener('change',()=>generateCheckin1());
 document.getElementById('checkin3-select').addEventListener('change',()=>generateCheckin3());
@@ -1590,6 +1655,31 @@ loadFromSheet = async function() {
   }
 };
 
+// Check-in toggle
+function switchCI(num, el) {
+  document.getElementById('ci-panel-1').style.display = num===1 ? 'block' : 'none';
+  document.getElementById('ci-panel-3').style.display = num===3 ? 'block' : 'none';
+  document.querySelectorAll('#page-checkins .inner-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+// Spotlight type toggle via inner tabs
+function setSpotType(type, el) {
+  document.getElementById('spot-type').value = type;
+  document.querySelectorAll('#page-spotlight .inner-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (document.getElementById('spot-vol').value) generateSpotlight();
+}
+
+// Spanish Gmail open
+function openGmailSpanish() {
+  const to = document.getElementById('es-to').value;
+  const subj = document.getElementById('es-subject').value;
+  const body = document.getElementById('es-body').value;
+  if (!body) { alert('Generate the email first.'); return; }
+  openGmailDirect(to === '(no email on file)' ? '' : to, subj, body);
+}
+
 // ─── TOOLS ────────────────────────────────────────────────────────────────────
 
 function populateToolSelects() {
@@ -1667,6 +1757,8 @@ function generateSpanish() {
     ann2: { subj:`¡Dos años de fortaleza — celebrándote, ${fn}!`, body:`Hola ${fn},\n\nDos años sirviendo en Kids Ministry. Te has presentado temporada tras temporada, y queremos que sepas: lo vemos, lo apreciamos, y no lo damos por sentado.\n\n"No nos cansemos de hacer el bien, porque a su debido tiempo cosecharemos." — Gálatas 6:9\n\nGracias por no rendirte. ¡Dos años después, estamos muy felices de que estés aquí!\n\nCon gratitud y respeto,\n${sig}` }
   };
   const tmpl = t[type] || t.welcome;
+  const v2 = VOLUNTEERS.find(v=>v.name===name)||{};
+  document.getElementById('es-to').value = v2.email || '(no email on file)';
   document.getElementById('es-subject').value = tmpl.subj;
   document.getElementById('es-body').value = tmpl.body;
 }

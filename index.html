@@ -650,9 +650,9 @@ function populateSelects() {
 
 // ─── BIRTHDAY EMAILS ───────────────────────────────────────────────────────
 function getBdayMsgs() { return [
-  n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\n${getSignature()}`,
-  n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\n${getSignature()}`,
-  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\n${getSignature()}`
+  n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\n`+getSignature()+``,
+  n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\n`+getSignature()+``,
+  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\n`+getSignature()+``
 ]; }
 
 function generateBdayDraft() {
@@ -705,7 +705,7 @@ We're praying for you as you step into this role, and we genuinely believe God p
 "For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do." — Ephesians 2:10
 
 Welcome to the team,
-${getSignature()}
+`+getSignature()+`
 calvaryftl.org`;
 }
 function showWelcomeFor(name) {
@@ -740,7 +740,7 @@ There's no pressure to have it all figured out after just a month. Servant leade
 Feel free to reply here or shoot me a text anytime. I'm genuinely glad you're on the team.
 
 In His grace,
-${getSignature()}`;
+`+getSignature()+``;
 }
 function showCheckin1For(name) {
   showPage('checkin1', document.querySelectorAll('.tab-nav button')[3]);
@@ -777,7 +777,7 @@ At Calvary Boca, we believe that every person who serves is not just filling a s
 I'd love to grab coffee sometime and hear from you face to face — no agenda, just genuine conversation. Let me know if that sounds good.
 
 Grateful for you,
-${getSignature()}`;
+`+getSignature()+``;
 }
 function showCheckin3For(name) {
   showPage('checkin3', document.querySelectorAll('.tab-nav button')[4]);
@@ -1100,7 +1100,7 @@ He called you to this, ${first(n)}, and you have been faithful in it. That matte
 Here's to many more years together!
 
 With so much gratitude,
-${getSignature()}` }),
+`+getSignature()+`` }),
 
   2: n => ({ subj: `Two years strong — celebrating you, ${first(n)}!`, body:
 `Hey ${first(n)},
@@ -1116,7 +1116,7 @@ That's you, ${first(n)}.
 Thank you for not giving up. Two years in, and we're so glad you're here.
 
 With gratitude and respect,
-${getSignature()}` }),
+`+getSignature()+`` }),
 
   5: n => ({ subj: `Five years of faithful service — ${first(n)}, we honor you`, body:
 `Hey ${first(n)},
@@ -1134,7 +1134,7 @@ Calvary Chapel has always believed that God does not call the qualified — He q
 Five years in, and we are more grateful for you than ever. Thank you for the gift of your service.
 
 Honored to serve alongside you,
-${getSignature()}` }),
+`+getSignature()+`` }),
 
   10: n => ({ subj: `Ten years — ${first(n)}, your faithfulness is a legacy`, body:
 `Hey ${first(n)},
@@ -1154,7 +1154,7 @@ You haven't finished yet — but ten years in, you are running one of the most b
 On behalf of the entire Kids Ministry team and this church family: thank you. From the bottom of our hearts. Ten years of you has made us better.
 
 With deep honor and gratitude,
-${getSignature()}` })
+`+getSignature()+`` })
 }; }
 
 function generateAnnEmail(name) {

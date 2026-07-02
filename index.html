@@ -649,18 +649,18 @@ function populateSelects() {
 }
 
 // ─── BIRTHDAY EMAILS ───────────────────────────────────────────────────────
-const BDAY_MSGS = [
+function getBdayMsgs() { return [
   n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\n${getSignature()}`,
   n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\n${getSignature()}`,
   n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\n${getSignature()}`
-];
+]; }
 
 function generateBdayDraft() {
   const name=document.getElementById('bday-draft-select').value;
   if(!name) return;
   const v=VOLUNTEERS.find(v=>v.name===name)||{};
   document.getElementById('bday-draft-subject').value=`Happy Birthday, ${first(name)}!`;
-  document.getElementById('bday-draft-text').value=BDAY_MSGS[bdayMsgIdx%BDAY_MSGS.length](name);
+  const msgs=getBdayMsgs(); document.getElementById('bday-draft-text').value=msgs[bdayMsgIdx%msgs.length](name);
   bdayMsgIdx++;
 }
 function selectAndDraft(name) {
@@ -672,7 +672,7 @@ function selectAndDraft(name) {
 function quickBdayEmail(name) {
   const v=VOLUNTEERS.find(v=>v.name===name)||{};
   const subj=`Happy Birthday, ${first(name)}!`;
-  const body=BDAY_MSGS[bdayMsgIdx%BDAY_MSGS.length](name);
+  const msgs2=getBdayMsgs(); const body=msgs2[bdayMsgIdx%msgs2.length](name);
   bdayMsgIdx++;
   openGmailDirect(v.email||'', subj, body);
 }
@@ -1083,7 +1083,7 @@ async function saveAnniversary() {
   btn.disabled = false; btn.textContent = 'Save';
 }
 
-const ANN_EMAILS = {
+function getAnnEmails() { return {
   1: n => ({ subj: `One year of faithfulness — thank you, ${first(n)}!`, body:
 `Hey ${first(n)},
 
@@ -1155,7 +1155,7 @@ On behalf of the entire Kids Ministry team and this church family: thank you. Fr
 
 With deep honor and gratitude,
 ${getSignature()}` })
-};
+}; }
 
 function generateAnnEmail(name) {
   name = name || document.getElementById('ann-draft-select').value;
@@ -1163,7 +1163,7 @@ function generateAnnEmail(name) {
   const v = VOLUNTEERS.find(v => v.name === name) || {};
   const info = v.anniversary ? getAnniversaryInfo(v) : null;
   const milestone = (info && info.nextMilestone) ? info.nextMilestone : 1;
-  const template = (ANN_EMAILS[milestone] || ANN_EMAILS[1])(name);
+  const annE=getAnnEmails(); const template = (annE[milestone] || annE[1])(name);
   document.getElementById('ann-draft-to').value = v.email || '(no email on file)';
   document.getElementById('ann-draft-subject').value = template.subj;
   document.getElementById('ann-draft-body').value = template.body;

@@ -651,8 +651,16 @@ function populateSelects() {
 // ─── BIRTHDAY EMAILS ───────────────────────────────────────────────────────
 function getBdayMsgs() { return [
   n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\n`+getSignature()+``,
+
   n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\n`+getSignature()+``,
-  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\n`+getSignature()+``
+
+  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\n`+getSignature()+``,
+
+  n=>`${first(n)}!\n\nHappy birthday! We just wanted to take a quick moment to let you know that you are deeply appreciated. Every time you walk through those doors to serve, you are making an eternal difference in the lives of children who will one day carry the Word of God with them into the world.\n\nWe are praying that God blesses you in a big way today — with rest, joy, laughter, and the deep sense that you are loved and seen.\n\n"This is the day the Lord has made; let us rejoice and be glad in it." — Psalm 118:24\n\nHappy birthday — enjoy every minute of your day!\n\nWith love,\n`+getSignature()+``,
+
+  n=>`Hey ${first(n)}, happy birthday!\n\nBirthdays are one of my favorite excuses to reach out and tell people how much they mean — so here I am!\n\nServing alongside you in Kids Ministry is genuinely one of the highlights of this work. You bring something to this team that no one else can, and we feel it every week you're here.\n\nPraying today is the kind of birthday that actually feels like a celebration — the kind where you feel loved, rested, and reminded of how good God has been.\n\nThank you for all you do. We're so glad you were born!\n\nHappy birthday,\n`+getSignature()+``,
+
+  n=>`Happy Birthday, ${first(n)}!\n\nOn your birthday we just want to say — thank you. Thank you for your yes. Thank you for your faithfulness. Thank you for loving kids who may never fully understand the impact you've had on their lives, but God does — and so do we.\n\n"For God is not unjust so as to overlook your work and the love that you have shown for his name in serving the saints." — Hebrews 6:10\n\nHe sees every act of service you offer, and not one of them is forgotten. What a gift you are to this community.\n\nWishing you a beautiful, joy-filled birthday!\n\nIn Christ,\n`+getSignature()+``
 ]; }
 
 function generateBdayDraft() {
@@ -678,13 +686,11 @@ function quickBdayEmail(name) {
 }
 
 // ─── WELCOME EMAIL ─────────────────────────────────────────────────────────
-function generateWelcome(name) {
-  name=name||document.getElementById('welcome-select').value;
-  if(!name){document.getElementById('welcome-body').value='';return;}
-  const v=VOLUNTEERS.find(v=>v.name===name)||{};
-  document.getElementById('welcome-to').value=v.email||'(no email on file)';
-  document.getElementById('welcome-subject').value=`Welcome to the Kids Ministry Team, ${first(name)}!`;
-  document.getElementById('welcome-body').value=
+// ─── WELCOME EMAILS (5 versions) ───────────────────────────────────────────
+let welMsgIdx = 0;
+function getWelcomeMsgs(name) { return [
+  // Version 1 — warm and foundational
+  { subj: `Welcome to the Kids Ministry Team, ${first(name)}!`, body:
 `Hey ${first(name)},
 
 Welcome to the Calvary Boca Kids Ministry family — we are so thrilled to have you with us!
@@ -706,7 +712,109 @@ We're praying for you as you step into this role, and we genuinely believe God p
 
 Welcome to the team,
 `+getSignature()+`
-calvaryftl.org`;
+calvaryftl.org` },
+
+  // Version 2 — personal and encouraging
+  { subj: `So glad you're here, ${first(name)}!`, body:
+`Hey ${first(name)},
+
+Welcome! We are genuinely so glad you said yes to serving with Kids Ministry at Calvary Boca.
+
+I want you to know something from day one — you didn't just join a volunteer program. You stepped into a calling. The kids who will walk through those doors every weekend are going to encounter the love of Jesus through people like you, and that matters more than words can say.
+
+Calvary Chapel has always been a place where ordinary people are trusted with extraordinary things — not because of their credentials, but because of their willingness. That's you. And we are so grateful for it.
+
+Here's what you need to know to get started:
+  • Check Planning Center for your schedule — you'll get an email invite soon.
+  • Join our WhatsApp group — that's where we communicate during the week.
+  • Reach out anytime if you have questions, need anything, or just want to connect.
+
+We are praying for you and with you as you step in. You are not alone in this — you have a whole team behind you.
+
+"The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you." — Zephaniah 3:17
+
+So welcome, ${first(name)}. We are better with you here.
+
+With excitement,
+`+getSignature()+`
+calvaryftl.org` },
+
+  // Version 3 — Scripture-centered and missional
+  { subj: `Welcome to the team, ${first(name)} — you're going to love this!`, body:
+`Hey ${first(name)},
+
+Welcome to Kids Ministry at Calvary Boca! We are so happy you're here.
+
+I love what Jesus said in Mark 10:14 — "Let the little children come to me, and do not hinder them, for the kingdom of God belongs to such as these." Every week in Kids Ministry, we get to live that out. We get to be the ones who make room for children to encounter God's Word and experience His love. It's one of the greatest privileges in ministry.
+
+And now you're part of it. That's not an accident — we believe God led you here.
+
+A couple of quick things to get you set up:
+  • Planning Center — your schedule and room assignments will all be there.
+  • WhatsApp — our team group chat for week-to-week communication.
+  • Me — seriously, don't hesitate to reach out anytime. That's what I'm here for.
+
+We're a grace-filled team. We cheer each other on, we cover for each other, and we point each other to Jesus. You're going to fit right in.
+
+Can't wait to serve alongside you!
+
+In His grace,
+`+getSignature()+`
+calvaryftl.org` },
+
+  // Version 4 — brief and warm
+  { subj: `Welcome aboard, ${first(name)}!`, body:
+`Hey ${first(name)},
+
+Just wanted to personally reach out and say — welcome! We are so thrilled to have you serving with Kids Ministry at Calvary Boca.
+
+What you're stepping into is real, meaningful, eternal work. These kids need people who will show up, love them, and point them to Jesus — and that's exactly what you get to do.
+
+A few things to get you started:
+  • Planning Center — check your email for an invite, that's where your schedule lives.
+  • WhatsApp — our main team communication channel.
+  • Reach out to me anytime — I mean that!
+
+We're praying for you and cheering you on. So glad you're on the team.
+
+"Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go." — Joshua 1:9
+
+Welcome to the family,
+`+getSignature()+`
+calvaryftl.org` },
+
+  // Version 5 — grace-focused
+  { subj: `${first(name)}, welcome to Kids Ministry!`, body:
+`Hey ${first(name)},
+
+Welcome! It is so good to have you on the team.
+
+One of the things I love most about Kids Ministry at Calvary Boca is our culture — it's a culture of grace. We don't expect perfection. We don't demand you have it all figured out. We just need you to show up with a willing heart and a love for Jesus, and He takes it from there.
+
+As Pastor Chuck Smith used to say — "God does not call the qualified. He qualifies the called." You belong here, ${first(name)}, and we are glad you said yes.
+
+Here's how to get plugged in:
+  • Planning Center — your schedule will live there, watch for an invite.
+  • WhatsApp — join our team group for week-to-week updates.
+  • Me — I'm always available. Reach out anytime, for anything.
+
+We can't wait to see what God does through you this season.
+
+With gratitude,
+`+getSignature()+`
+calvaryftl.org` }
+]; }
+
+function generateWelcome(name) {
+  name=name||document.getElementById('welcome-select').value;
+  if(!name){document.getElementById('welcome-body').value='';return;}
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  const msgs=getWelcomeMsgs(name);
+  const msg=msgs[welMsgIdx%msgs.length];
+  welMsgIdx++;
+  document.getElementById('welcome-to').value=v.email||'(no email on file)';
+  document.getElementById('welcome-subject').value=msg.subj;
+  document.getElementById('welcome-body').value=msg.body;
 }
 function showWelcomeFor(name) {
   showPage('welcome', document.querySelectorAll('.tab-nav button')[2]);
@@ -714,14 +822,11 @@ function showWelcomeFor(name) {
   generateWelcome(name);
 }
 
-// ─── 1-MONTH CHECK-IN ──────────────────────────────────────────────────────
-function generateCheckin1(name) {
-  name=name||document.getElementById('checkin1-select').value;
-  if(!name){document.getElementById('checkin1-body').value='';return;}
-  const v=VOLUNTEERS.find(v=>v.name===name)||{};
-  document.getElementById('checkin1-to').value=v.email||'(no email on file)';
-  document.getElementById('checkin1-subject').value=`Checking in on you, ${first(name)}!`;
-  document.getElementById('checkin1-body').value=
+// ─── 1-MONTH CHECK-IN (5 versions) ─────────────────────────────────────────
+let c1MsgIdx = 0;
+function getCheckin1Msgs(name) { return [
+  // Version 1 — pastoral and personal
+  { subj: `Checking in on you, ${first(name)}!`, body:
 `Hey ${first(name)},
 
 I just wanted to take a moment to check in with you — it's been about a month since you joined the Kids Ministry team, and I'd love to hear how it's going!
@@ -740,7 +845,98 @@ There's no pressure to have it all figured out after just a month. Servant leade
 Feel free to reply here or shoot me a text anytime. I'm genuinely glad you're on the team.
 
 In His grace,
-`+getSignature()+``;
+`+getSignature()+`` },
+
+  // Version 2 — conversational and warm
+  { subj: `One month in — how are you doing, ${first(name)}?`, body:
+`Hey ${first(name)},
+
+Can you believe it's already been about a month? Time flies when you're serving alongside great people!
+
+I wanted to reach out personally and just ask — how are you doing? Not just in your role, but genuinely, how are YOU?
+
+Serving in ministry is one of the most rewarding things you can do, but it can also be more tiring than people expect. I want to make sure you're feeling good, that things are making sense, and that you feel like a real part of this team — not just a name on a schedule.
+
+A few questions I'd love your honest take on:
+  • Is the role feeling natural, or are there things that still feel unclear?
+  • Do you feel connected to the team, or are there ways we could do better?
+  • How can I be praying for you this month?
+
+You matter to us way beyond your serving slot. Just wanted you to know that.
+
+Rooting for you,
+`+getSignature()+`` },
+
+  // Version 3 — encouragement-focused
+  { subj: `A month of faithfulness — thank you, ${first(name)}`, body:
+`Hey ${first(name)},
+
+A month in! I just wanted to take a moment to say thank you.
+
+Showing up once is easy. Showing up consistently, week after week, with a servant's heart — that's something different. And you've been doing exactly that. We see it, and we're grateful.
+
+I also want to make sure we're investing back into you. So I wanted to check in:
+  • Is there anything about your role you'd like to adjust or change?
+  • Are you feeling equipped and supported?
+  • What's something God has been speaking to you lately — in your life or through serving?
+
+"Therefore, my dear brothers and sisters, stand firm. Let nothing move you. Always give yourselves fully to the work of the Lord, because you know that your labor in the Lord is not in vain." — 1 Corinthians 15:58
+
+Your labor is not in vain, ${first(name)}. Not even close.
+
+With gratitude,
+`+getSignature()+`` },
+
+  // Version 4 — brief and direct
+  { subj: `Hey ${first(name)} — quick check in!`, body:
+`Hey ${first(name)},
+
+Just a quick check in — you've been with us for about a month now and I wanted to make sure things are going well!
+
+How are you feeling about everything? Anything I can help clarify, improve, or pray about for you?
+
+Also just want to say — we are genuinely glad you're here. The consistency and heart you bring to serving means more than you know.
+
+Don't hesitate to reach out anytime. My door is always open!
+
+Blessings,
+`+getSignature()+`` },
+
+  // Version 5 — grace-centered and reflective
+  { subj: `One month down — how's your heart, ${first(name)}?`, body:
+`Hey ${first(name)},
+
+One month of serving in Kids Ministry at Calvary Boca. I wanted to pause and check in on you — not just on the role, but on your heart.
+
+Ministry has a way of revealing things — about God, about ourselves, about what we're made of. And the first month especially can be full of surprises, both the good kind and the stretching kind.
+
+So I want to ask — how are you, really?
+
+  • What has been the most meaningful part of serving so far?
+  • Is there anything that's felt harder than expected?
+  • How can the team be showing up better for you?
+  • Any prayer requests you'd like me to hold for you?
+
+We are a grace-first team. There is no wrong answer here. We just genuinely care about you — as a person, not just as a volunteer.
+
+"He tends his flock like a shepherd: He gathers the lambs in his arms and carries them close to his heart." — Isaiah 40:11
+
+You are cared for, ${first(name)}. So glad you're here.
+
+In His love,
+`+getSignature()+`` }
+]; }
+
+function generateCheckin1(name) {
+  name=name||document.getElementById('checkin1-select').value;
+  if(!name){document.getElementById('checkin1-body').value='';return;}
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  const msgs=getCheckin1Msgs(name);
+  const msg=msgs[c1MsgIdx%msgs.length];
+  c1MsgIdx++;
+  document.getElementById('checkin1-to').value=v.email||'(no email on file)';
+  document.getElementById('checkin1-subject').value=msg.subj;
+  document.getElementById('checkin1-body').value=msg.body;
 }
 function showCheckin1For(name) {
   showPage('checkin1', document.querySelectorAll('.tab-nav button')[3]);
@@ -748,14 +944,11 @@ function showCheckin1For(name) {
   generateCheckin1(name);
 }
 
-// ─── 3-MONTH FOLLOW-UP ─────────────────────────────────────────────────────
-function generateCheckin3(name) {
-  name=name||document.getElementById('checkin3-select').value;
-  if(!name){document.getElementById('checkin3-body').value='';return;}
-  const v=VOLUNTEERS.find(v=>v.name===name)||{};
-  document.getElementById('checkin3-to').value=v.email||'(no email on file)';
-  document.getElementById('checkin3-subject').value=`Three months in — and we're so glad you're here, ${first(name)}`;
-  document.getElementById('checkin3-body').value=
+// ─── 3-MONTH FOLLOW-UP (5 versions) ─────────────────────────────────────────
+let c3MsgIdx = 0;
+function getCheckin3Msgs(name) { return [
+  // Version 1 — deep and pastoral
+  { subj: `Three months in — and we're so glad you're here, ${first(name)}`, body:
 `Hey ${first(name)},
 
 Three months. I can't believe how quickly it's gone — but I also want to make sure I pause long enough to say something important:
@@ -777,7 +970,108 @@ At Calvary Boca, we believe that every person who serves is not just filling a s
 I'd love to grab coffee sometime and hear from you face to face — no agenda, just genuine conversation. Let me know if that sounds good.
 
 Grateful for you,
-`+getSignature()+``;
+`+getSignature()+`` },
+
+  // Version 2 — celebratory and affirming
+  { subj: `${first(name)}, three months of showing up — we see you!`, body:
+`Hey ${first(name)},
+
+Three months! I just want to take a second to celebrate that, because it genuinely means something.
+
+In a world where commitment is rare, you've shown up — week after week, serving kids, investing in the next generation, being part of something bigger than yourself. That's not nothing. That's a whole lot of something.
+
+So first — thank you. Truly.
+
+And now I want to make sure we're checking in on YOU:
+  • How are you feeling about your role? Energized? Stretched? Both?
+  • Is there anything about how we do things that you'd want to see done differently?
+  • What's something you've learned about yourself through serving these past three months?
+  • How can we be praying for you?
+
+"His master replied, 'Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things.'" — Matthew 25:23
+
+Three months of faithfulness. Well done, ${first(name)}.
+
+With so much appreciation,
+`+getSignature()+`` },
+
+  // Version 3 — honest and relational
+  { subj: `Three months in — let's catch up, ${first(name)}`, body:
+`Hey ${first(name)},
+
+It's been about three months since you joined Kids Ministry and I wanted to reach out personally — not with a checklist, just with a genuine "how are you doing?"
+
+Ministry can be a lot. It can also be the most fulfilling thing in the world. And usually it's both at the same time. I want to make sure you're in a good place, that serving feels sustainable and life-giving, and that you feel truly connected to this team.
+
+Some things I've been wondering about:
+  • What's been the highlight of your time serving so far?
+  • What's felt challenging or draining?
+  • Is there anything I could do to make your experience better?
+  • Are there ways you'd like to grow or get more involved?
+
+There's no pressure here. Just a real conversation between teammates who care about each other.
+
+"Two are better than one, because they have a good return for their labor: If either of them falls down, one can help the other up." — Ecclesiastes 4:9-10
+
+I'm in your corner, ${first(name)}. Always.
+
+Let's connect soon —
+`+getSignature()+`` },
+
+  // Version 4 — short and sincere
+  { subj: `Checking in at three months, ${first(name)}!`, body:
+`Hey ${first(name)},
+
+Three months of serving with Kids Ministry at Calvary Boca — that's worth celebrating!
+
+I just wanted to reach out and say how much we appreciate your consistency and your heart. It has not gone unnoticed.
+
+A few quick questions:
+  • How are you doing overall?
+  • Is there anything you need from me or the team?
+  • Any prayer requests I can bring before the Lord for you?
+
+I'd also love to get coffee or lunch with you soon if you're open to it — just to connect face to face and hear how life is going beyond Sundays.
+
+Thank you for everything you pour in, ${first(name)}. It means more than you know.
+
+Blessings,
+`+getSignature()+`` },
+
+  // Version 5 — vision-casting and forward-looking
+  { subj: `Three months in — and we're just getting started, ${first(name)}`, body:
+`Hey ${first(name)},
+
+Three months. Quarter of a year. Twelve weekends of showing up and serving the next generation.
+
+I want to pause and acknowledge that — because it matters. The seeds you've planted in these kids over the past three months? Some of them won't bear fruit for years. But they will bear fruit. The Word of God never returns void.
+
+As we hit this milestone I also want to look forward with you:
+  • Where do you see yourself growing in your role?
+  • Is there an area of Kids Ministry you feel called to lean into more?
+  • What's God been putting on your heart lately — in life and in ministry?
+  • How can this team be a better source of support and community for you?
+
+At Calvary Boca we don't just want volunteers — we want partners. People who are growing, being discipled, and walking in their God-given calling. That's what we want for you, ${first(name)}.
+
+"Being confident of this, that he who began a good work in you will carry it on to completion until the day of Christ Jesus." — Philippians 1:6
+
+He's not done with you. Not even close. And neither are we.
+
+Looking forward to what's ahead,
+`+getSignature()+`` }
+]; }
+
+function generateCheckin3(name) {
+  name=name||document.getElementById('checkin3-select').value;
+  if(!name){document.getElementById('checkin3-body').value='';return;}
+  const v=VOLUNTEERS.find(v=>v.name===name)||{};
+  const msgs=getCheckin3Msgs(name);
+  const msg=msgs[c3MsgIdx%msgs.length];
+  c3MsgIdx++;
+  document.getElementById('checkin3-to').value=v.email||'(no email on file)';
+  document.getElementById('checkin3-subject').value=msg.subj;
+  document.getElementById('checkin3-body').value=msg.body;
 }
 function showCheckin3For(name) {
   showPage('checkin3', document.querySelectorAll('.tab-nav button')[4]);
@@ -1083,78 +1377,28 @@ async function saveAnniversary() {
   btn.disabled = false; btn.textContent = 'Save';
 }
 
+let annMsgIdx = 0;
 function getAnnEmails() { return {
-  1: n => ({ subj: `One year of faithfulness — thank you, ${first(n)}!`, body:
-`Hey ${first(n)},
-
-One year. It might not sound like a long time, but in ministry, one year of faithful service is a really big deal — and we don't want to let it pass without celebrating you.
-
-A full year of showing up. A full year of pouring into kids who will carry what you've planted in them for the rest of their lives. A full year of servant leadership lived out in the most real way possible.
-
-We are so grateful for you. Thank you for saying yes — and then saying yes again, every single week.
-
-"The one who calls you is faithful, and he will do it." — 1 Thessalonians 5:24
-
-He called you to this, ${first(n)}, and you have been faithful in it. That matters to God, and it matters to us.
-
-Here's to many more years together!
-
-With so much gratitude,
-`+getSignature()+`` }),
-
-  2: n => ({ subj: `Two years strong — celebrating you, ${first(n)}!`, body:
-`Hey ${first(n)},
-
-Two years of serving in Kids Ministry — that is no small thing. You have shown up season after season, and we want to make sure you know: we see it, we appreciate it, and we do not take it for granted.
-
-There's something powerful about the kind of faithfulness you've modeled. It's the kind of ministry that doesn't always get the spotlight — but it's exactly the kind that God uses to build His kingdom. "Well done, good and faithful servant" is not said to those who did something impressive once. It's said to those who kept going.
-
-That's you, ${first(n)}.
-
-"Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up." — Galatians 6:9
-
-Thank you for not giving up. Two years in, and we're so glad you're here.
-
-With gratitude and respect,
-`+getSignature()+`` }),
-
-  5: n => ({ subj: `Five years of faithful service — ${first(n)}, we honor you`, body:
-`Hey ${first(n)},
-
-Five years.
-
-I want you to sit with that for a moment. Five years of serving the next generation at Calvary Boca. Five years of early mornings, of lesson prep, of loving kids who may not even fully understand yet how much what you've done for them will matter.
-
-That kind of longevity in ministry is rare — and it doesn't happen by accident. It happens because someone decided, over and over again, to keep showing up. That someone is you.
-
-Calvary Chapel has always believed that God does not call the qualified — He qualifies the called. You have not only answered the call, you have walked it out with remarkable faithfulness. And the fruit of that faithfulness? It's in the hearts of every child who has sat in your room, heard the Word, and felt the love of Jesus through you.
-
-"His master replied, 'Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things. Come and share your master's happiness!'" — Matthew 25:23
-
-Five years in, and we are more grateful for you than ever. Thank you for the gift of your service.
-
-Honored to serve alongside you,
-`+getSignature()+`` }),
-
-  10: n => ({ subj: `Ten years — ${first(n)}, your faithfulness is a legacy`, body:
-`Hey ${first(n)},
-
-Ten years.
-
-There are very few words that feel adequate for a moment like this. A decade of service. A decade of faithfulness. A decade of loving kids in the name of Jesus at Calvary Boca.
-
-What you have built is not just a record of attendance — it's a legacy. The children you served in year one are growing up now. Some of them may be walking with the Lord today because of seeds you planted. That's not a small thing. That's the work of eternity.
-
-The heart of Calvary Chapel has always been this: ordinary people, filled with the Holy Spirit, walking faithfully in what God has called them to. You are the living definition of that.
-
-"I have fought the good fight, I have finished the race, I have kept the faith." — 2 Timothy 4:7
-
-You haven't finished yet — but ten years in, you are running one of the most beautiful races I've ever witnessed.
-
-On behalf of the entire Kids Ministry team and this church family: thank you. From the bottom of our hearts. Ten years of you has made us better.
-
-With deep honor and gratitude,
-`+getSignature()+`` })
+  1: n => [
+    { subj: `One year of faithfulness — thank you, ${first(n)}!`, body: `Hey ${first(n)},\n\nOne year. It might not sound like a long time, but in ministry, one year of faithful service is a really big deal — and we don't want to let it pass without celebrating you.\n\nA full year of showing up. A full year of pouring into kids who will carry what you've planted in them for the rest of their lives. A full year of servant leadership lived out in the most real way possible.\n\nWe are so grateful for you. Thank you for saying yes — and then saying yes again, every single week.\n\n"The one who calls you is faithful, and he will do it." — 1 Thessalonians 5:24\n\nHe called you to this, ${first(n)}, and you have been faithful in it. That matters to God, and it matters to us.\n\nHere's to many more years together!\n\nWith so much gratitude,\n`+getSignature()+`` },
+    { subj: `${first(n)}, happy one year with Kids Ministry!`, body: `Hey ${first(n)},\n\nOne year ago you said yes — and what a year it has been.\n\nYou have been part of something eternal. The kids who sat in your room, heard God's Word, and experienced the love of Jesus through you — they carry that with them. That's your legacy, and it started exactly one year ago.\n\nWe don't take that for granted. We see you, we appreciate you, and we are so glad you're still here.\n\n"Let your light shine before others, that they may see your good deeds and glorify your Father in heaven." — Matthew 5:16\n\nYour light has been shining, ${first(n)}. Happy one year!\n\nWith love and gratitude,\n`+getSignature()+`` },
+    { subj: `A full year of serving — you are such a gift, ${first(n)}`, body: `Hey ${first(n)},\n\nI can't let this anniversary go by without reaching out to say how much you mean to this team.\n\nOne year of Kids Ministry is no small thing. You showed up when you were tired. You showed up when it was hard. You showed up because you believed that what we're doing here matters — and it does, more than we'll ever fully know on this side of eternity.\n\n"Well done, good and faithful servant." — Matthew 25:23\n\nThose are the words we're all working toward. And after one year of faithfulness, ${first(n)}, I think you're well on your way.\n\nThank you. From the bottom of our hearts.\n\nHonored to serve with you,\n`+getSignature()+`` }
+  ],
+  2: n => [
+    { subj: `Two years strong — celebrating you, ${first(n)}!`, body: `Hey ${first(n)},\n\nTwo years of serving in Kids Ministry — that is no small thing. You have shown up season after season, and we want to make sure you know: we see it, we appreciate it, and we do not take it for granted.\n\nThere's something powerful about the kind of faithfulness you've modeled. It's the kind of ministry that doesn't always get the spotlight — but it's exactly the kind that God uses to build His kingdom.\n\n"Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up." — Galatians 6:9\n\nThank you for not giving up. Two years in, and we're so glad you're here.\n\nWith gratitude and respect,\n`+getSignature()+`` },
+    { subj: `${first(n)}, two years — and we're better for it`, body: `Hey ${first(n)},\n\nTwo years. That's 104 weekends of choosing to serve over sleeping in. Two years of investing in kids who will one day look back and not even be able to fully articulate how they came to love God — but somewhere in there, you were part of it.\n\nThat's a beautiful thing. And we don't take it lightly.\n\nCalvary Chapel has always been built on people who just kept showing up — ordinary people, faithful hearts, extraordinary fruit. You fit that description perfectly.\n\n"His master replied, 'Well done, good and faithful servant!'" — Matthew 25:23\n\nTwo years of well done, ${first(n)}. Here's to the next chapter.\n\nWith so much appreciation,\n`+getSignature()+`` },
+    { subj: `Happy 2-year anniversary, ${first(n)}!`, body: `Hey ${first(n)},\n\nTwo years ago you joined Kids Ministry at Calvary Boca — and what a gift these two years have been.\n\nI think about the kids who have been in your room over that time. The ones who heard Scripture for the first time. The ones who experienced genuine love from an adult who didn't have to be there but chose to be. Those moments are seeds, and they don't stop growing.\n\n"The righteous will flourish like a palm tree, they will grow like a cedar of Lebanon." — Psalm 92:12\n\nYou are flourishing, ${first(n)}, and so is the fruit of your service. Happy two years!\n\nWith deep gratitude,\n`+getSignature()+`` }
+  ],
+  5: n => [
+    { subj: `Five years of faithful service — ${first(n)}, we honor you`, body: `Hey ${first(n)},\n\nFive years.\n\nI want you to sit with that for a moment. Five years of serving the next generation at Calvary Boca. Five years of early mornings, of lesson prep, of loving kids who may not even fully understand yet how much what you've done for them will matter.\n\nThat kind of longevity in ministry is rare — and it doesn't happen by accident. It happens because someone decided, over and over again, to keep showing up. That someone is you.\n\n"His master replied, 'Well done, good and faithful servant!'" — Matthew 25:23\n\nFive years in, and we are more grateful for you than ever.\n\nHonored to serve alongside you,\n`+getSignature()+`` },
+    { subj: `${first(n)} — five years. We are in awe.`, body: `Hey ${first(n)},\n\nFive years of Kids Ministry. I don't think you fully realize what that means — so let me try to put it into words.\n\nIn five years, you have been part of hundreds of moments where children encountered the living God. You have been the hands and feet of Jesus to kids who needed to see that faith is real and that people who love God also love them. That is not a small thing. That is one of the most important things a person can do.\n\nCalvary Chapel was built by people like you — faithful, humble, Spirit-led servants who just kept showing up. Five years of that, ${first(n)}.\n\n"Those who sow with tears will reap with songs of joy." — Psalm 126:5\n\nThe harvest of what you've planted is coming. We can't wait to see it.\n\nWith honor and deep appreciation,\n`+getSignature()+`` },
+    { subj: `Half a decade of serving — thank you, ${first(n)}`, body: `Hey ${first(n)},\n\nHalf a decade. Five years. Sixty months of faithfulness.\n\nI wanted to reach out on this anniversary and simply say — thank you. Not just for showing up, but for the way you show up. With grace. With love. With a heart that genuinely cares about these kids and about what God is doing here.\n\nYou are the kind of servant leader Jesus described when He said the greatest among you shall be your servant. And five years in, that hasn't faded. If anything, it's grown.\n\n"For even the Son of Man did not come to be served, but to serve, and to give his life as a ransom for many." — Mark 10:45\n\nFive years of living that out, ${first(n)}. We are so grateful for you.\n\nWith deep respect and love,\n`+getSignature()+`` }
+  ],
+  10: n => [
+    { subj: `Ten years — ${first(n)}, your faithfulness is a legacy`, body: `Hey ${first(n)},\n\nTen years.\n\nThere are very few words that feel adequate for a moment like this. A decade of service. A decade of faithfulness. A decade of loving kids in the name of Jesus at Calvary Boca.\n\nWhat you have built is not just a record of attendance — it's a legacy. The children you served in year one are growing up now. Some of them may be walking with the Lord today because of seeds you planted.\n\n"I have fought the good fight, I have finished the race, I have kept the faith." — 2 Timothy 4:7\n\nYou haven't finished yet — but ten years in, you are running one of the most beautiful races I've ever witnessed.\n\nWith deep honor and gratitude,\n`+getSignature()+`` },
+    { subj: `A decade of faithfulness, ${first(n)} — we are so honored`, body: `Hey ${first(n)},\n\nTen years.\n\nI've been trying to find the right words for this and honestly, nothing feels big enough. So I'll just say it plainly: what you have done over the past ten years is remarkable. Not because it was flashy or visible — but because it was faithful. Consistent. Year after year, season after season, you showed up.\n\nCalvary Chapel was built on exactly that kind of faithfulness. Pastor Chuck used to say the true genius of ministry is simply people who are willing to make themselves available to God. For ten years, you have been that person.\n\n"Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things." — Matthew 25:23\n\nTen years of well done, ${first(n)}. We are so honored.\n\nWith profound gratitude and love,\n`+getSignature()+`` },
+    { subj: `Ten years, ${first(n)} — the kids you served will never forget`, body: `Hey ${first(n)},\n\nTen years of Kids Ministry at Calvary Boca.\n\nThink about that for a moment. In ten years, you have been part of thousands of moments — lessons taught, prayers prayed, kids welcomed, Scripture planted. The ripple effect of that faithfulness stretches further than any of us can see.\n\nSomewhere out there, there are young people who are walking with God today because of what happened in a Kids Ministry room at Calvary Boca. Because someone showed up. Because you showed up.\n\n"The Lord will fulfill his purpose for me; your steadfast love, O Lord, endures forever." — Psalm 138:8\n\nHe has been at work through you, ${first(n)}, for ten years. And we believe He is just getting started.\n\nWith more gratitude than words can hold,\n`+getSignature()+`` }
+  ]
 }; }
 
 function generateAnnEmail(name) {
@@ -1163,7 +1407,10 @@ function generateAnnEmail(name) {
   const v = VOLUNTEERS.find(v => v.name === name) || {};
   const info = v.anniversary ? getAnniversaryInfo(v) : null;
   const milestone = (info && info.nextMilestone) ? info.nextMilestone : 1;
-  const annE=getAnnEmails(); const template = (annE[milestone] || annE[1])(name);
+  const annE = getAnnEmails();
+  const versions = (annE[milestone] || annE[1])(name);
+  const template = versions[annMsgIdx % versions.length];
+  annMsgIdx++;
   document.getElementById('ann-draft-to').value = v.email || '(no email on file)';
   document.getElementById('ann-draft-subject').value = template.subj;
   document.getElementById('ann-draft-body').value = template.body;

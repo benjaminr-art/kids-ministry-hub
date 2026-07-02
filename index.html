@@ -151,6 +151,9 @@
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
     <span class="sync-badge loading" id="sync-badge"><span class="spinner"></span>Connecting...</span>
     <button onclick="loadFromSheet()" style="font-size:12px;padding:5px 12px;">↺ Refresh</button>
+    <select id="team-member-select" onchange="setTeamMember()" style="font-size:13px;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--white);color:var(--text);font-family:inherit;max-width:220px;">
+      <option value="">Who are you?</option>
+    </select>
     <button class="primary" onclick="showAddModal()">+ Add volunteer</button>
   </div>
 </header>
@@ -412,6 +415,54 @@
 </div>
 
 <script>
+// ─── TEAM MEMBERS ─────────────────────────────────────────────────────────────
+const TEAM_MEMBERS = [
+  { name: "Ben Rivera",       title: "Family Ministry Assistant | Boca Raton Campus",          email: "benjaminr@calvaryftl.org" },
+  { name: "Gaby Guerrero",    title: "Calvary Kids Director | Boca Raton Campus",              email: "gabyg@calvaryftl.org" },
+  { name: "Drew Eales",       title: "Family & Outreach Manager | Boca Raton Campus",          email: "drewe@calvaryftl.org" },
+  { name: "Javan Shashaty",   title: "Boca Raton Campus Pastor",                               email: "javans@calvaryftl.org" },
+  { name: "Rod Pearcy",       title: "Pastor of Campus Operations | Boca Raton Campus",        email: "rod@calvaryftl.org" },
+  { name: "Joseph Worsham",   title: "Calvary Boca Youth and Young Adults Director",            email: "josephwo@calvaryftl.org" },
+  { name: "Angelina Rao",     title: "Volunteer & Groups Coordinator",                         email: "angelinar@calvaryftl.org" },
+  { name: "Sydnie Nichols",   title: "Events & Administrative Coordinator",                    email: "sydnien@calvaryftl.org" },
+  { name: "Emmanuel Guerrero",title: "Boca Raton Technical Director",                          email: "emmanuelg@calvaryftl.org" },
+  { name: "Yuriy Korf",       title: "Facilities and Events Coordinator",                      email: "yuriyk@calvaryftl.org" },
+];
+
+let currentUser = TEAM_MEMBERS[0]; // Default to Ben
+
+function initTeamSelect() {
+  const sel = document.getElementById('team-member-select');
+  TEAM_MEMBERS.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.name;
+    o.textContent = m.name;
+    sel.appendChild(o);
+  });
+  // Restore from session
+  const saved = sessionStorage.getItem('cb_current_user');
+  if (saved) {
+    const found = TEAM_MEMBERS.find(m => m.name === saved);
+    if (found) { currentUser = found; sel.value = found.name; }
+  } else {
+    sel.value = '';
+  }
+}
+
+function setTeamMember() {
+  const name = document.getElementById('team-member-select').value;
+  if (!name) return;
+  const found = TEAM_MEMBERS.find(m => m.name === name);
+  if (found) {
+    currentUser = found;
+    sessionStorage.setItem('cb_current_user', found.name);
+  }
+}
+
+function getSignature() {
+  return `${currentUser.name}\n${currentUser.title}\nCalvary Boca`;
+}
+
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmDvfXxOwF9G7WoSwADqGx2xu9KS5lP3-uPYoB_bGHXYGwPM4nCEdpIcBYDBx1YY7L/exec";
 const MONTHS = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -599,9 +650,9 @@ function populateSelects() {
 
 // ─── BIRTHDAY EMAILS ───────────────────────────────────────────────────────
 const BDAY_MSGS = [
-  n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\nBen Rivera\nKids Ministry — Calvary Boca`,
-  n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\nBen Rivera\nKids Ministry — Calvary Boca`,
-  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\nBen Rivera\nKids Ministry — Calvary Boca`
+  n=>`Hey ${first(n)}!\n\nJust wanted to pause and wish you a very happy birthday! On behalf of the entire Kids Ministry team here at Calvary Boca, we are so grateful for you and for the way you show up to serve week after week.\n\nYour faithfulness doesn't go unnoticed — the Lord sees every act of service you offer, and so do we. We pray today is filled with joy, rest, and the warmth of knowing how loved you are by God and by this community.\n\nThank you for being such a vital part of what He is doing here. Wishing you a truly blessed birthday!\n\nIn His grace,\n${getSignature()}`,
+  n=>`Happy Birthday, ${first(n)}!\n\nToday we get to celebrate YOU — and we are so glad to do it! Your heart to serve in Kids Ministry is such a gift to this church, and we don't take it for granted.\n\nAs Chuck Smith used to say, "God does not call the qualified; He qualifies the called." You are living proof of that truth, and we are grateful every week that you said yes to serving the next generation.\n\nMay this birthday be a reminder of how deeply you are loved — by God, by the kids you pour into, and by this whole team.\n\nWith gratitude,\n${getSignature()}`,
+  n=>`${first(n)}, happy birthday!\n\nWe are thinking of you today and praying that the Lord blesses you in a special way. Birthdays are a good reminder that we are known and loved by a God who numbers our days and holds them in His hands.\n\nThank you for the way you serve with such faithfulness and grace. The kids you invest in week after week are better because of you — and so is this team.\n\nEnjoy your day to the fullest. You deserve it!\n\nBlessings,\n${getSignature()}`
 ];
 
 function generateBdayDraft() {
@@ -654,8 +705,7 @@ We're praying for you as you step into this role, and we genuinely believe God p
 "For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do." — Ephesians 2:10
 
 Welcome to the team,
-Ben Rivera
-Kids Ministry — Calvary Boca
+${getSignature()}
 calvaryftl.org`;
 }
 function showWelcomeFor(name) {
@@ -690,8 +740,7 @@ There's no pressure to have it all figured out after just a month. Servant leade
 Feel free to reply here or shoot me a text anytime. I'm genuinely glad you're on the team.
 
 In His grace,
-Ben Rivera
-Kids Ministry — Calvary Boca`;
+${getSignature()}`;
 }
 function showCheckin1For(name) {
   showPage('checkin1', document.querySelectorAll('.tab-nav button')[3]);
@@ -728,8 +777,7 @@ At Calvary Boca, we believe that every person who serves is not just filling a s
 I'd love to grab coffee sometime and hear from you face to face — no agenda, just genuine conversation. Let me know if that sounds good.
 
 Grateful for you,
-Ben Rivera
-Kids Ministry — Calvary Boca`;
+${getSignature()}`;
 }
 function showCheckin3For(name) {
   showPage('checkin3', document.querySelectorAll('.tab-nav button')[4]);
@@ -1052,8 +1100,7 @@ He called you to this, ${first(n)}, and you have been faithful in it. That matte
 Here's to many more years together!
 
 With so much gratitude,
-Ben Rivera
-Kids Ministry — Calvary Boca` }),
+${getSignature()}` }),
 
   2: n => ({ subj: `Two years strong — celebrating you, ${first(n)}!`, body:
 `Hey ${first(n)},
@@ -1069,8 +1116,7 @@ That's you, ${first(n)}.
 Thank you for not giving up. Two years in, and we're so glad you're here.
 
 With gratitude and respect,
-Ben Rivera
-Kids Ministry — Calvary Boca` }),
+${getSignature()}` }),
 
   5: n => ({ subj: `Five years of faithful service — ${first(n)}, we honor you`, body:
 `Hey ${first(n)},
@@ -1088,8 +1134,7 @@ Calvary Chapel has always believed that God does not call the qualified — He q
 Five years in, and we are more grateful for you than ever. Thank you for the gift of your service.
 
 Honored to serve alongside you,
-Ben Rivera
-Kids Ministry — Calvary Boca` }),
+${getSignature()}` }),
 
   10: n => ({ subj: `Ten years — ${first(n)}, your faithfulness is a legacy`, body:
 `Hey ${first(n)},
@@ -1109,8 +1154,7 @@ You haven't finished yet — but ten years in, you are running one of the most b
 On behalf of the entire Kids Ministry team and this church family: thank you. From the bottom of our hearts. Ten years of you has made us better.
 
 With deep honor and gratitude,
-Ben Rivera
-Kids Ministry — Calvary Boca` })
+${getSignature()}` })
 };
 
 function generateAnnEmail(name) {
@@ -1164,6 +1208,7 @@ loadFromSheet = async function() {
     renderAnniversaries();
     populateSelects();
     populateAnnSelects();
+    initTeamSelect();
   } catch(e) {
     setSyncBadge('error','Could not connect');
   }

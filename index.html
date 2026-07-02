@@ -72,6 +72,11 @@
   .badge-new   { background: var(--purple-bg); color: var(--purple-text); }
   .badge-checkin1 { background: var(--blue-bg); color: var(--blue-text); }
   .badge-checkin3 { background: var(--gold-bg); color: var(--gold-text); }
+  .badge-es { background: #FFF0F0; color: #B22222; font-size:10px; }
+  .badge-pt { background: #F0FFF4; color: #166534; font-size:10px; }
+  .lang-toggle { display:flex; gap:4px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+  .lang-btn { font-size:11px; padding:3px 10px; border-radius:20px; cursor:pointer; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-family:inherit; }
+  .lang-btn.active { background:var(--purple-text); color:white; border-color:var(--purple-text); }
   .row-actions { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
 
   /* BUTTONS */
@@ -202,6 +207,12 @@
         <button onclick="copyText('bday-draft-text','bday-copy-confirm')">Copy</button>
         <button class="teal" onclick="openGmailFromField('bday-draft-select','bday-draft-subject','bday-draft-text')">Open in Gmail</button>
       </div>
+      <div class="lang-toggle" id="bday-lang-toggle" style="display:none;margin-bottom:8px;">
+        <span style="font-size:12px;color:var(--muted);">Language:</span>
+        <button class="lang-btn active" id="bday-lang-en" onclick="setBdayLang('english',this)">English</button>
+        <button class="lang-btn" id="bday-lang-es" onclick="setBdayLang('spanish',this)">Español</button>
+        <button class="lang-btn" id="bday-lang-pt" onclick="setBdayLang('portuguese',this)">Português</button>
+      </div>
       <input id="bday-draft-subject" type="text" value="" readonly style="margin-bottom:8px;background:var(--surface);" />
       <textarea id="bday-draft-text" rows="5" placeholder="Select a volunteer above..."></textarea>
       <div class="copy-confirm" id="bday-copy-confirm"></div>
@@ -249,6 +260,12 @@
         <button onclick="copyText('welcome-body','welcome-copy')">Copy</button>
         <button class="teal" onclick="openGmailFromField('welcome-select','welcome-subject','welcome-body')">Open in Gmail</button>
       </div>
+      <div class="lang-toggle" id="welcome-lang-toggle" style="display:none;margin-bottom:8px;">
+        <span style="font-size:12px;color:var(--muted);">Language:</span>
+        <button class="lang-btn active" id="welcome-lang-en" onclick="setEmailLang('welcome','english',this)">English</button>
+        <button class="lang-btn" id="welcome-lang-es" onclick="setEmailLang('welcome','spanish',this)">Español</button>
+        <button class="lang-btn" id="welcome-lang-pt" onclick="setEmailLang('welcome','portuguese',this)">Português</button>
+      </div>
       <div class="email-box">
         <div class="email-field"><div class="email-label">To</div><input id="welcome-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
         <div class="email-field"><div class="email-label">Subject</div><input id="welcome-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
@@ -289,6 +306,12 @@
           <button onclick="copyText('checkin1-body','checkin1-copy')">Copy</button>
           <button class="blue" onclick="openGmailFromField('checkin1-select','checkin1-subject','checkin1-body')">Open in Gmail</button>
         </div>
+        <div class="lang-toggle" id="checkin1-lang-toggle" style="display:none;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Language:</span>
+          <button class="lang-btn active" id="checkin1-lang-en" onclick="setEmailLang('checkin1','english',this)">English</button>
+          <button class="lang-btn" id="checkin1-lang-es" onclick="setEmailLang('checkin1','spanish',this)">Español</button>
+          <button class="lang-btn" id="checkin1-lang-pt" onclick="setEmailLang('checkin1','portuguese',this)">Português</button>
+        </div>
         <div class="email-box">
           <div class="email-field"><div class="email-label">To</div><input id="checkin1-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
           <div class="email-field"><div class="email-label">Subject</div><input id="checkin1-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
@@ -313,6 +336,12 @@
           <button onclick="generateCheckin3()">↺ Regenerate</button>
           <button onclick="copyText('checkin3-body','checkin3-copy')">Copy</button>
           <button class="gold" onclick="openGmailFromField('checkin3-select','checkin3-subject','checkin3-body')">Open in Gmail</button>
+        </div>
+        <div class="lang-toggle" id="checkin3-lang-toggle" style="display:none;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Language:</span>
+          <button class="lang-btn active" id="checkin3-lang-en" onclick="setEmailLang('checkin3','english',this)">English</button>
+          <button class="lang-btn" id="checkin3-lang-es" onclick="setEmailLang('checkin3','spanish',this)">Español</button>
+          <button class="lang-btn" id="checkin3-lang-pt" onclick="setEmailLang('checkin3','portuguese',this)">Português</button>
         </div>
         <div class="email-box">
           <div class="email-field"><div class="email-label">To</div><input id="checkin3-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
@@ -377,6 +406,12 @@
         <button onclick="generateAnnEmail()">↺ Regenerate</button>
         <button onclick="copyText('ann-draft-body','ann-copy-confirm')">Copy</button>
         <button class="primary" onclick="openGmailFromField('ann-draft-select','ann-draft-subject','ann-draft-body')">Open in Gmail</button>
+      </div>
+      <div class="lang-toggle" id="ann-lang-toggle" style="display:none;margin-bottom:8px;">
+        <span style="font-size:12px;color:var(--muted);">Language:</span>
+        <button class="lang-btn active" id="ann-lang-en" onclick="setEmailLang('ann','english',this)">English</button>
+        <button class="lang-btn" id="ann-lang-es" onclick="setEmailLang('ann','spanish',this)">Español</button>
+        <button class="lang-btn" id="ann-lang-pt" onclick="setEmailLang('ann','portuguese',this)">Português</button>
       </div>
       <div class="email-box">
         <div class="email-field"><div class="email-label">To</div><input id="ann-draft-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
@@ -509,6 +544,15 @@
     <div style="font-size:13px;color:var(--muted);">Track prayer requests and private notes per volunteer</div>
   </div>
 
+  <div class="section-title">Volunteer language preferences</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-header">
+      <div class="card-title">Primary language per volunteer</div>
+      <div style="font-size:12px;color:var(--muted);">Changes save instantly to the shared sheet</div>
+    </div>
+    <div id="lang-editor-list"><div class="empty">Loading...</div></div>
+  </div>
+
   <div class="section-title">Prayer request log</div>
   <div class="card" style="margin-bottom:1.5rem;">
     <div class="card-header">
@@ -589,6 +633,14 @@
     </div>
     <div style="margin-bottom:10px;"><label>Email (optional)</label><input type="email" id="add-email" placeholder="maria@email.com" /></div>
     <div style="margin-bottom:10px;"><label>Date joined Kids Ministry (optional)</label><input type="date" id="add-joined" /></div>
+    <div style="margin-bottom:10px;">
+      <label>Primary language</label>
+      <select id="add-language" style="width:100%;">
+        <option value="english">English</option>
+        <option value="spanish">Spanish</option>
+        <option value="portuguese">Portuguese</option>
+      </select>
+    </div>
     <div class="modal-actions">
       <button onclick="closeAddModal()">Cancel</button>
       <button class="primary" id="add-btn" onclick="addVolunteer()">Add volunteer</button>
@@ -662,7 +714,7 @@ function getSignature() {
 }
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmDvfXxOwF9G7WoSwADqGx2xu9KS5lP3-uPYoB_bGHXYGwPM4nCEdpIcBYDBx1YY7L/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7t8owKTLTp5SwqETmJFpzZvDb0CRgQeCKisf_Iy8B28VJQ7K5E96wdepDBHr9-xc7/exec";
 const MONTHS = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
 const now = new Date();
 let VOLUNTEERS = [];
@@ -671,6 +723,17 @@ let bdayMsgIdx = 0;
 let modalSubject = '';
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
+function langBadge(lang) {
+  if (lang === 'spanish') return '<span class="badge badge-es">ES</span>';
+  if (lang === 'portuguese') return '<span class="badge badge-pt">PT</span>';
+  return '';
+}
+function langLabel(lang) {
+  if (lang === 'spanish') return 'Español';
+  if (lang === 'portuguese') return 'Português';
+  return 'English';
+}
+
 function colorFor(m) {
   if (m <= 3)  return { bg:"#FBEAF0", text:"#993556" };
   if (m <= 6)  return { bg:"#EEEDFE", text:"#534AB7" };
@@ -709,7 +772,8 @@ async function loadFromSheet() {
       day:    parseInt(r.day)||0,
       email:  String(r.email||'').trim().toLowerCase(),
       added:  r.added===true||r.added==="TRUE",
-      joined: String(r.joined||'').trim(),
+      joined:    String(r.joined||'').trim(),
+      language:  String(r.language||'english').trim().toLowerCase(),
     }));
     setSyncBadge('ok','Synced');
     renderBirthdays();
@@ -780,7 +844,7 @@ function bdayRowHTML(v) {
   return `<div class="vol-row">
     <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
     <div style="flex:1;min-width:0;">
-      <div class="vol-name">${v.name}</div>
+      <div class="vol-name">${v.name} ${langBadge(v.language)}</div>
       <div class="vol-sub">${MONTHS[v.month]} ${v.day}${v.email?' · '+v.email:''}</div>
     </div>
     ${badge}
@@ -815,7 +879,7 @@ function renderCare() {
     return `<div class="vol-row">
       <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
       <div style="flex:1;min-width:0;">
-        <div class="vol-name">${v.name}</div>
+        <div class="vol-name">${v.name} ${langBadge(v.language)}</div>
         <div class="vol-sub">${v.email||'No email'} ${v.joined?'· Joined '+v.joined:''}</div>
       </div>
       ${careBadge}
@@ -864,10 +928,10 @@ function getBdayMsgs() { return [
 function generateBdayDraft() {
   const name=document.getElementById('bday-draft-select').value;
   if(!name) return;
-  const v=VOLUNTEERS.find(v=>v.name===name)||{};
-  document.getElementById('bday-draft-subject').value=`Happy Birthday, ${first(name)}!`;
-  const msgs=getBdayMsgs(); document.getElementById('bday-draft-text').value=msgs[bdayMsgIdx%msgs.length](name);
-  bdayMsgIdx++;
+  const lang = emailLangState.bday || getVolLang(name);
+  emailLangState.bday = lang;
+  showLangToggle('bday', lang);
+  generateBdayDraftInLang(name, lang);
 }
 function selectAndDraft(name) {
   document.getElementById('bday-draft-select').value=name;
@@ -1001,6 +1065,10 @@ With gratitude,
 function generateWelcome(name) {
   name=name||document.getElementById('welcome-select').value;
   if(!name){document.getElementById('welcome-body').value='';return;}
+  const lang = emailLangState.welcome || getVolLang(name);
+  emailLangState.welcome = lang;
+  showLangToggle('welcome', lang);
+  if (lang !== 'english') { generateWelcomeInLang(name, lang); return; }
   const v=VOLUNTEERS.find(v=>v.name===name)||{};
   const msgs=getWelcomeMsgs(name);
   const msg=msgs[welMsgIdx%msgs.length];
@@ -1123,6 +1191,10 @@ In His love,
 function generateCheckin1(name) {
   name=name||document.getElementById('checkin1-select').value;
   if(!name){document.getElementById('checkin1-body').value='';return;}
+  const lang = emailLangState.checkin1 || getVolLang(name);
+  emailLangState.checkin1 = lang;
+  showLangToggle('checkin1', lang);
+  if (lang !== 'english') { generateCheckin1InLang(name, lang); return; }
   const v=VOLUNTEERS.find(v=>v.name===name)||{};
   const msgs=getCheckin1Msgs(name);
   const msg=msgs[c1MsgIdx%msgs.length];
@@ -1258,6 +1330,10 @@ Looking forward to what's ahead,
 function generateCheckin3(name) {
   name=name||document.getElementById('checkin3-select').value;
   if(!name){document.getElementById('checkin3-body').value='';return;}
+  const lang = emailLangState.checkin3 || getVolLang(name);
+  emailLangState.checkin3 = lang;
+  showLangToggle('checkin3', lang);
+  if (lang !== 'english') { generateCheckin3InLang(name, lang); return; }
   const v=VOLUNTEERS.find(v=>v.name===name)||{};
   const msgs=getCheckin3Msgs(name);
   const msg=msgs[c3MsgIdx%msgs.length];
@@ -1340,12 +1416,14 @@ async function addVolunteer() {
   const dateEl=document.getElementById('add-date');
   const emailEl=document.getElementById('add-email');
   const joinedEl=document.getElementById('add-joined');
+  const langEl=document.getElementById('add-language');
   const msgEl=document.getElementById('add-msg');
   const btn=document.getElementById('add-btn');
   const name=nameEl.value.trim();
   const dateVal=dateEl.value;
   const email=emailEl.value.trim();
   const joined=joinedEl.value;
+  const language=langEl.value||'english';
   if(!name){nameEl.focus();return;}
   if(!dateVal){dateEl.focus();return;}
   const d=new Date(dateVal+'T00:00:00');
@@ -1354,10 +1432,10 @@ async function addVolunteer() {
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
   msgEl.className='msg';msgEl.textContent='Saving...';
   try {
-    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'add',name,month,day,added:true,email,joined})});
+    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'add',name,month,day,added:true,email,joined,language})});
     const json=await res.json();
     if(!json.success) throw new Error();
-    nameEl.value='';dateEl.value='';emailEl.value='';joinedEl.value='';
+    nameEl.value='';dateEl.value='';emailEl.value='';joinedEl.value='';langEl.value='english';
     msgEl.className='msg success';msgEl.textContent=`${name} added! A welcome email has been drafted on the Welcome Email tab.`;
     await loadFromSheet();
     // Auto-populate welcome
@@ -1395,10 +1473,10 @@ function showWelcomeFor(name){showPage('welcome',document.querySelectorAll('.tab
 function showCheckin1For(name){showPage('checkins',document.querySelectorAll('.tab-nav button')[3]);switchCI(1,document.getElementById('ci-tab-1'));document.getElementById('checkin1-select').value=name;generateCheckin1(name);}
 function showCheckin3For(name){showPage('checkins',document.querySelectorAll('.tab-nav button')[3]);switchCI(3,document.getElementById('ci-tab-3'));document.getElementById('checkin3-select').value=name;generateCheckin3(name);}
 
-document.getElementById('checkin1-select').addEventListener('change',()=>generateCheckin1());
-document.getElementById('checkin3-select').addEventListener('change',()=>generateCheckin3());
-document.getElementById('welcome-select').addEventListener('change',()=>generateWelcome());
-document.getElementById('ann-draft-select').addEventListener('change',()=>generateAnnEmail());
+document.getElementById('checkin1-select').addEventListener('change',()=>{emailLangState.checkin1='';generateCheckin1();});
+document.getElementById('checkin3-select').addEventListener('change',()=>{emailLangState.checkin3='';generateCheckin3();});
+document.getElementById('welcome-select').addEventListener('change',()=>{emailLangState.welcome='';generateWelcome();});
+document.getElementById('ann-draft-select').addEventListener('change',()=>{emailLangState.ann='';generateAnnEmail();});
 
 // ─── ANNIVERSARIES ─────────────────────────────────────────────────────────
 const MILESTONES = [1, 2, 5, 10];
@@ -1489,7 +1567,7 @@ function annRowHTML(v, info) {
   return `<div class="vol-row">
     <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
     <div style="flex:1;min-width:0;">
-      <div class="vol-name">${v.name}</div>
+      <div class="vol-name">${v.name} ${langBadge(v.language)}</div>
       <div class="vol-sub">Since ${v.anniversary}${yearsLabel}${v.email?' · '+v.email:''}</div>
     </div>
     ${badge}
@@ -1597,6 +1675,10 @@ function getAnnEmails() { return {
 function generateAnnEmail(name) {
   name = name || document.getElementById('ann-draft-select').value;
   if (!name) { document.getElementById('ann-draft-body').value = ''; return; }
+  const lang = emailLangState.ann || getVolLang(name);
+  emailLangState.ann = lang;
+  showLangToggle('ann', lang);
+  if (lang !== 'english') { generateAnnEmailInLang(name, lang); return; }
   const v = VOLUNTEERS.find(v => v.name === name) || {};
   const info = v.anniversary ? getAnniversaryInfo(v) : null;
   const milestone = (info && info.nextMilestone) ? info.nextMilestone : 1;
@@ -1641,6 +1723,7 @@ loadFromSheet = async function() {
       added:       r.added===true||r.added==="TRUE",
       joined:      String(r.joined||'').trim(),
       anniversary: String(r.anniversary||'').trim().split('T')[0],
+      language:    String(r.language||'english').trim().toLowerCase(),
     }));
     setSyncBadge('ok','Synced');
     renderBirthdays();
@@ -1649,6 +1732,7 @@ loadFromSheet = async function() {
     populateSelects();
     populateAnnSelects();
     populateToolSelects();
+    renderLanguageEditor();
     initTeamSelect();
   } catch(e) {
     setSyncBadge('error','Could not connect');
@@ -1680,7 +1764,216 @@ function openGmailSpanish() {
   openGmailDirect(to === '(no email on file)' ? '' : to, subj, body);
 }
 
-// ─── TOOLS ────────────────────────────────────────────────────────────────────
+// ─── LANGUAGE SYSTEM ──────────────────────────────────────────────────────────
+
+// Known language overrides (soft - user can toggle)
+const KNOWN_LANGUAGES = {
+  'Aline Silva': 'portuguese',
+  'Ana Gabriela Carvalho': 'portuguese',
+  'Antonio De Lima': 'spanish',
+  'Carmem O\'Connor': 'spanish',
+  'Elizabeth Coles': 'english',
+  'Luz Vargas': 'spanish',
+  'Marcela Velasco': 'spanish',
+  'Marcelle Sousa': 'portuguese',
+  'Melany Whittembury': 'spanish',
+  'Rosa Paulino': 'spanish',
+};
+
+// Current language override per email type (session-level)
+const emailLangState = { bday:'', welcome:'', checkin1:'', checkin3:'', ann:'' };
+
+function getVolLang(name) {
+  const v = VOLUNTEERS.find(v => v.name === name);
+  return (v && v.language) ? v.language : (KNOWN_LANGUAGES[name] || 'english');
+}
+
+function showLangToggle(prefix, lang) {
+  const toggle = document.getElementById(`${prefix}-lang-toggle`);
+  if (toggle) {
+    toggle.style.display = 'flex';
+    // Set active button
+    ['en','es','pt'].forEach(l => {
+      const btn = document.getElementById(`${prefix}-lang-${l}`);
+      if (btn) btn.classList.toggle('active',
+        (l==='en' && lang==='english') ||
+        (l==='es' && lang==='spanish') ||
+        (l==='pt' && lang==='portuguese')
+      );
+    });
+  }
+}
+
+function setBdayLang(lang, el) {
+  emailLangState.bday = lang;
+  document.querySelectorAll('#bday-lang-toggle .lang-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const name = document.getElementById('bday-draft-select').value;
+  if (name) generateBdayDraftInLang(name, lang);
+}
+
+function setEmailLang(prefix, lang, el) {
+  emailLangState[prefix] = lang;
+  document.querySelectorAll(`#${prefix}-lang-toggle .lang-btn`).forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  // Re-generate in the new language
+  if (prefix === 'welcome') { const n=document.getElementById('welcome-select').value; if(n) generateWelcomeInLang(n,lang); }
+  if (prefix === 'checkin1') { const n=document.getElementById('checkin1-select').value; if(n) generateCheckin1InLang(n,lang); }
+  if (prefix === 'checkin3') { const n=document.getElementById('checkin3-select').value; if(n) generateCheckin3InLang(n,lang); }
+  if (prefix === 'ann') { const n=document.getElementById('ann-draft-select').value; if(n) generateAnnEmailInLang(n,lang); }
+}
+
+// ── Portuguese templates ──────────────────────────────────────────────────────
+function getPortugueseTemplates(name) {
+  const fn = first(name);
+  const sig = getSignature();
+  return {
+    birthday: [
+      { subj: `Feliz aniversário, ${fn}!`, body: `Oi ${fn}!\n\nSó queria pausar e te desejar um feliz aniversário muito especial! Em nome de toda a equipe de Kids Ministry aqui na Calvary Boca, somos muito gratos por você e pela maneira como você aparece para servir semana após semana.\n\nSua fidelidade não passa despercebida — o Senhor vê cada ato de serviço que você oferece, e nós também. Oramos para que hoje seu dia seja cheio de alegria, descanso e o calor de saber o quanto você é amado/a por Deus e por esta comunidade.\n\nObrigado/a por ser uma parte tão vital do que Ele está fazendo aqui. Desejando-te um aniversário verdadeiramente abençoado!\n\nNa Sua graça,\n${sig}` },
+      { subj: `Feliz aniversário, ${fn}! 🎂`, body: `Oi ${fn}!\n\nFeliz aniversário! Hoje a equipe de Kids Ministry da Calvary Boca quer celebrar você! Você é uma bênção enorme para esta família e estamos tão gratos por cada semana que você escolhe servir.\n\nQue Deus te abençoe abundantemente hoje e sempre. Você merece!\n\nCom muito carinho,\n${sig}` },
+      { subj: `${fn}, feliz aniversário!`, body: `Oi ${fn},\n\nEstamos pensando em você hoje e orando para que o Senhor te abençoe de uma maneira muito especial. Os aniversários nos lembram que somos conhecidos e amados por um Deus que numera os nossos dias e os segura em Suas mãos.\n\nObrigado/a pela maneira como você serve com tanta fidelidade e graça. As crianças nas quais você investe semana após semana são melhores por causa de você — e esta equipe também.\n\nAproveite o seu dia ao máximo!\n\nBênçãos,\n${sig}` }
+    ],
+    welcome: { subj: `Bem-vindo/a à equipe de Kids Ministry, ${fn}!`, body: `Oi ${fn},\n\nBem-vindo/a à família de Kids Ministry da Calvary Boca — estamos muito animados em ter você conosco!\n\nServir em Kids Ministry é uma das coisas mais significativas que você pode fazer nesta temporada. A cada fim de semana, você não está apenas cuidando de crianças — está plantando sementes da Palavra de Deus em corações que as carregarão pelo resto de suas vidas. Isso não é pouca coisa. Isso é eterno.\n\nAqui na Calvary Boca acreditamos em uma cultura de graça — graça estendida livremente, não ganha. Você não precisa ser perfeito/a para servir aqui. Você só precisa de um coração disposto e amor por Jesus. O Espírito Santo faz o resto.\n\nAlgumas coisas para saber ao começar:\n  • O Planning Center é onde você verá sua escala — verifique seu e-mail para o convite.\n  • Nosso grupo do WhatsApp é a principal forma como nos comunicamos durante a semana.\n  • Se você tiver alguma dúvida, não hesite em me contatar diretamente.\n\n"Porque somos criação de Deus, criados em Cristo Jesus para fazer boas obras, as quais Deus preparou de antemão para nós praticarmos." — Efésios 2:10\n\nBem-vindo/a à equipe!\n${sig}\ncalvaryftl.org` },
+    checkin1: { subj: `Verificando como você está, ${fn}!`, body: `Oi ${fn},\n\nSó queria reservar um momento para verificar como você está — já faz cerca de um mês desde que você entrou para a equipe de Kids Ministry e adoraria saber como está indo!\n\nEntrar em um novo papel de serviço pode parecer emocionante, um pouco avassalador, e tudo entre. Isso é completamente normal.\n\nAlgumas coisas sobre as quais estou curioso/a:\n  • Como você está se sentindo no papel até agora?\n  • Há algo que tem sido desafiador ou pouco claro?\n  • Há algo pelo qual eu possa estar orando por você pessoalmente?\n\nNão há pressão para ter tudo resolvido depois de apenas um mês. Estamos juntos nisso.\n\n"Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo." — Isaías 41:10\n\nEstou genuinamente feliz de que você faça parte da equipe.\n\nNa Sua graça,\n${sig}` },
+    checkin3: { subj: `Três meses — e estamos tão felizes em ter você aqui, ${fn}`, body: `Oi ${fn},\n\nTrês meses. Não consigo acreditar como o tempo passou rápido — mas também quero ter certeza de pausar o suficiente para dizer algo importante:\n\nObrigado/a. De verdade.\n\nAparecer semana após semana para servir crianças não é sempre glamoroso. Mas a Palavra de Deus não volta vazia. Cada lição ensinada, cada criança pela qual você orou, cada manhã em que você escolheu estar aqui — isso importa eternamente.\n\nQueria usar este momento para verificar em um nível mais profundo:\n  • Como está seu coração? Servir de um copo cheio parece diferente de servir de um copo vazio.\n  • Há algo no seu papel que você gostaria de mudar ou crescer?\n  • Há pedidos de oração que você está carregando?\n\n"Não nos cansemos de fazer o bem, porque a seu tempo ceifaremos, se não desfalecermos." — Gálatas 6:9\n\nAdoraria tomar um café em breve. Fique à vontade para responder a qualquer momento.\n\nGrato/a por você,\n${sig}` },
+    ann: {
+      1: { subj: `Um ano de fidelidade — obrigado/a, ${fn}!`, body: `Oi ${fn},\n\nUm ano. Pode não parecer muito tempo, mas no ministério, um ano de serviço fiel é uma coisa muito grande — e não queremos deixar passar sem celebrar você.\n\nUm ano inteiro de aparecer. Um ano inteiro de investir em crianças que carregarão o que você plantou nelas pelo resto de suas vidas.\n\nSomos muito gratos por você. Obrigado/a por dizer sim — e então dizer sim de novo, toda semana!\n\n"Fiel é o que vos chama, o qual também o fará." — 1 Tessalonicenses 5:24\n\nEle te chamou para isso, ${fn}, e você tem sido fiel. Isso importa para Deus, e importa para nós.\n\nCom muita gratidão,\n${sig}` },
+      2: { subj: `Dois anos de força — celebrando você, ${fn}!`, body: `Oi ${fn},\n\nDois anos servindo em Kids Ministry — isso não é pouca coisa. Você apareceu temporada após temporada, e queremos ter certeza de que você saiba: nós vemos, apreciamos e não damos por garantido.\n\n"Não nos cansemos de fazer o bem, porque a seu tempo ceifaremos, se não desfalecermos." — Gálatas 6:9\n\nObrigado/a por não desistir. Dois anos depois, estamos muito felizes em ter você aqui.\n\nCom gratidão e respeito,\n${sig}` },
+      5: { subj: `Cinco anos de serviço fiel — ${fn}, te honramos`, body: `Oi ${fn},\n\nCinco anos.\n\nCinco anos servindo a próxima geração na Calvary Boca. Cinco anos de manhãs cedo, de preparação de lições, de amar crianças que podem ainda não entender completamente o quanto o que você fez por elas vai importar.\n\n"Bem está, servo bom e fiel... entra no gozo do teu Senhor." — Mateus 25:23\n\nCinco anos depois, somos mais gratos por você do que nunca.\n\nHonrado/a em servir ao seu lado,\n${sig}` },
+      10: { subj: `Dez anos — ${fn}, sua fidelidade é um legado`, body: `Oi ${fn},\n\nDez anos.\n\nUma década de serviço. Uma década de fidelidade. Uma década de amar crianças em nome de Jesus na Calvary Boca.\n\nO que você construiu não é apenas um registro de presença — é um legado.\n\n"Combati o bom combate, acabei a carreira, guardei a fé." — 2 Timóteo 4:7\n\nVocê ainda não terminou — mas dez anos depois, você está correndo uma das corridas mais belas que já testemunhei.\n\nCom profunda honra e gratidão,\n${sig}` }
+    }
+  };
+}
+
+// ── Language-aware generators ─────────────────────────────────────────────────
+function generateBdayDraftInLang(name, lang) {
+  const v = VOLUNTEERS.find(v=>v.name===name)||{};
+  if (lang === 'spanish') {
+    // Use existing Spanish birthday from es templates
+    const sig = getSignature();
+    const fn = first(name);
+    document.getElementById('bday-draft-subject').value = `¡Feliz cumpleaños, ${fn}!`;
+    document.getElementById('bday-draft-text').value = `Hola ${fn},\n\n¡Feliz cumpleaños! En nombre de todo el equipo de Kids Ministry de Calvary Boca, queremos decirte cuánto te apreciamos y cuánto valoramos la forma en que sirves semana tras semana.\n\nTu fidelidad no pasa desapercibida. Oramos para que hoy tu día esté lleno de alegría, descanso y el calor de saber cuánto eres amado/a por Dios y por esta comunidad.\n\n¡Que tengas un cumpleaños muy bendecido!\n\nCon cariño,\n${sig}`;
+  } else if (lang === 'portuguese') {
+    const pt = getPortugueseTemplates(name);
+    const msg = pt.birthday[bdayMsgIdx % pt.birthday.length];
+    document.getElementById('bday-draft-subject').value = msg.subj;
+    document.getElementById('bday-draft-text').value = msg.body;
+    bdayMsgIdx++;
+  } else {
+    const msgs = getBdayMsgs();
+    document.getElementById('bday-draft-subject').value = `Happy Birthday, ${first(name)}!`;
+    document.getElementById('bday-draft-text').value = msgs[bdayMsgIdx % msgs.length](name);
+    bdayMsgIdx++;
+  }
+}
+
+function generateWelcomeInLang(name, lang) {
+  const v = VOLUNTEERS.find(v=>v.name===name)||{};
+  if (lang === 'spanish') {
+    const sig = getSignature(); const fn = first(name);
+    document.getElementById('welcome-to').value = v.email||'(no email on file)';
+    document.getElementById('welcome-subject').value = `¡Bienvenido/a al equipo de Kids Ministry, ${fn}!`;
+    document.getElementById('welcome-body').value = `Hola ${fn},\n\n¡Bienvenido/a a la familia de Kids Ministry de Calvary Boca! Estamos muy felices de tenerte con nosotros.\n\nServir en Kids Ministry es una de las cosas más significativas que puedes hacer en esta temporada. Cada fin de semana, estás plantando semillas de la Palabra de Dios en corazones que las llevarán por el resto de sus vidas.\n\nEn Calvary Boca creemos en una cultura de gracia. No tienes que ser perfecto/a para servir aquí. Solo necesitas un corazón dispuesto y amor por Jesús. El Espíritu Santo hace el resto.\n\nAlgunas cosas para comenzar:\n  • Planning Center — revisa tu correo para la invitación.\n  • Nuestro grupo de WhatsApp es la forma principal de comunicación.\n  • Contáctame directamente si tienes preguntas.\n\n"Porque somos hechura de Dios, creados en Cristo Jesús para buenas obras." — Efesios 2:10\n\n¡Bienvenido/a al equipo!\n${sig}\ncalvaryftl.org`;
+  } else if (lang === 'portuguese') {
+    const pt = getPortugueseTemplates(name);
+    document.getElementById('welcome-to').value = v.email||'(no email on file)';
+    document.getElementById('welcome-subject').value = pt.welcome.subj;
+    document.getElementById('welcome-body').value = pt.welcome.body;
+  } else {
+    generateWelcome(name);
+  }
+}
+
+function generateCheckin1InLang(name, lang) {
+  const v = VOLUNTEERS.find(v=>v.name===name)||{};
+  if (lang === 'spanish') {
+    const sig = getSignature(); const fn = first(name);
+    document.getElementById('checkin1-to').value = v.email||'(no email on file)';
+    document.getElementById('checkin1-subject').value = `¡Revisando cómo estás, ${fn}!`;
+    document.getElementById('checkin1-body').value = `Hola ${fn},\n\nQuería tomar un momento para ver cómo estás — ha pasado aproximadamente un mes desde que te uniste al equipo de Kids Ministry.\n\n  • ¿Cómo te estás sintiendo en tu rol?\n  • ¿Hay algo difícil o poco claro?\n  • ¿Hay algo por lo que pueda estar orando por ti?\n\n"No temas, porque yo estoy contigo; te fortaleceré y te ayudaré." — Isaías 41:10\n\nEstoy genuinamente feliz de que estés en el equipo.\n\nEn Su gracia,\n${sig}`;
+  } else if (lang === 'portuguese') {
+    const pt = getPortugueseTemplates(name);
+    document.getElementById('checkin1-to').value = v.email||'(no email on file)';
+    document.getElementById('checkin1-subject').value = pt.checkin1.subj;
+    document.getElementById('checkin1-body').value = pt.checkin1.body;
+  } else {
+    generateCheckin1(name);
+  }
+}
+
+function generateCheckin3InLang(name, lang) {
+  const v = VOLUNTEERS.find(v=>v.name===name)||{};
+  if (lang === 'spanish') {
+    const sig = getSignature(); const fn = first(name);
+    document.getElementById('checkin3-to').value = v.email||'(no email on file)';
+    document.getElementById('checkin3-subject').value = `Tres meses — y estamos muy contentos de que estés aquí, ${fn}`;
+    document.getElementById('checkin3-body').value = `Hola ${fn},\n\nTres meses. No puedo creer lo rápido que ha pasado — pero quiero pausar para decir algo importante:\n\nGracias. De verdad.\n\n  • ¿Cómo está tu corazón?\n  • ¿Hay algo en tu rol que quieras cambiar?\n  • ¿Tienes peticiones de oración que podamos llevar contigo?\n\n"No nos cansemos de hacer el bien, porque a su debido tiempo cosecharemos." — Gálatas 6:9\n\nMe encantaría tomar un café contigo pronto.\n\nGratamente,\n${sig}`;
+  } else if (lang === 'portuguese') {
+    const pt = getPortugueseTemplates(name);
+    document.getElementById('checkin3-to').value = v.email||'(no email on file)';
+    document.getElementById('checkin3-subject').value = pt.checkin3.subj;
+    document.getElementById('checkin3-body').value = pt.checkin3.body;
+  } else {
+    generateCheckin3(name);
+  }
+}
+
+function generateAnnEmailInLang(name, lang) {
+  const v = VOLUNTEERS.find(v=>v.name===name)||{};
+  const info = v.anniversary ? getAnniversaryInfo(v) : null;
+  const milestone = (info && info.nextMilestone) ? info.nextMilestone : 1;
+  if (lang === 'portuguese') {
+    const pt = getPortugueseTemplates(name);
+    const tmpl = pt.ann[milestone] || pt.ann[1];
+    document.getElementById('ann-draft-to').value = v.email||'(no email on file)';
+    document.getElementById('ann-draft-subject').value = tmpl.subj;
+    document.getElementById('ann-draft-body').value = tmpl.body;
+  } else if (lang === 'spanish') {
+    const sig = getSignature(); const fn = first(name);
+    const milestoneLabels = { 1:`¡Un año de fidelidad — gracias, ${fn}!`, 2:`¡Dos años de fortaleza — celebrándote, ${fn}!`, 5:`Cinco años de servicio fiel — ${fn}, te honramos`, 10:`Diez años — ${fn}, tu fidelidad es un legado` };
+    document.getElementById('ann-draft-to').value = v.email||'(no email on file)';
+    document.getElementById('ann-draft-subject').value = milestoneLabels[milestone]||milestoneLabels[1];
+    document.getElementById('ann-draft-body').value = `Hola ${fn},\n\n${milestone === 1 ? 'Un año' : milestone === 2 ? 'Dos años' : milestone === 5 ? 'Cinco años' : 'Diez años'} sirviendo en Kids Ministry de Calvary Boca. Eso no es poca cosa.\n\nAparecer semana tras semana, invertir en niños que llevarán lo que has plantado en ellos — eso importa eternamente. Y queremos que sepas que lo vemos y lo apreciamos profundamente.\n\n"${milestone >= 5 ? 'Bien está, servo bom e fiel; sobre o poco fuiste fiel, sobre lo mucho te pondré; entra en el gozo de tu señor.' : 'No nos cansemos de hacer el bien, porque a su debido tiempo cosecharemos.'}" — ${milestone >= 5 ? 'Mateo 25:23' : 'Gálatas 6:9'}\n\nGracias por tu fidelidad, ${fn}. ¡Que vengan muchos años más!\n\nCon mucha gratitud,\n${sig}`;
+  } else {
+    generateAnnEmail(name);
+  }
+}
+
+// ── Update language in sheet ───────────────────────────────────────────────────
+async function updateVolunteerLanguage(name, language) {
+  try {
+    await fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify({ action:'update_language', name, language }) });
+    await loadFromSheet();
+  } catch(e) { alert('Could not save language preference.'); }
+}
+
+// ── Language editor in Care Log ────────────────────────────────────────────────
+function renderLanguageEditor() {
+  const el = document.getElementById('lang-editor-list');
+  if (!el) return;
+  const sorted = [...VOLUNTEERS].sort((a,b) => a.name.localeCompare(b.name));
+  el.innerHTML = sorted.map(v => {
+    const c = colorFor(v.month);
+    const lang = v.language || 'english';
+    return `<div class="vol-row">
+      <div class="avatar" style="background:${c.bg};color:${c.text}">${initials(v.name)}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="vol-name">${v.name} ${langBadge(lang)}</div>
+        <div class="vol-sub">${langLabel(lang)}</div>
+      </div>
+      <div class="row-actions">
+        <select onchange="updateVolunteerLanguage('${safe(v.name)}',this.value)" style="font-size:12px;padding:4px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);">
+          <option value="english" ${lang==='english'?'selected':''}>English</option>
+          <option value="spanish" ${lang==='spanish'?'selected':''}>Spanish</option>
+          <option value="portuguese" ${lang==='portuguese'?'selected':''}>Portuguese</option>
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── LANGUAGE SYSTEM END ───────────────────────────────────────────────────────
 
 function populateToolSelects() {
   const sorted = [...VOLUNTEERS].sort((a,b) => a.name.localeCompare(b.name));

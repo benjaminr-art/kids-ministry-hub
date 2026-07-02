@@ -470,33 +470,6 @@
     </div>
   </div>
 
-  <div class="section-title">Email in Spanish</div>
-  <div class="card">
-    <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;">Generate any volunteer email in Spanish for your Spanish-speaking volunteers.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
-        <select id="es-type" style="flex:1;min-width:160px;">
-          <option value="welcome">Welcome email</option>
-          <option value="checkin1">1-month check-in</option>
-          <option value="checkin3">3-month follow-up</option>
-          <option value="birthday">Birthday message</option>
-          <option value="ann1">1-year anniversary</option>
-          <option value="ann2">2-year anniversary</option>
-        </select>
-        <select id="es-vol" style="flex:1;min-width:160px;"><option value="">Select a volunteer...</option></select>
-        <button class="primary" onclick="generateSpanish()">Generate in Spanish</button>
-        <button onclick="copyText('es-body','es-confirm')">Copy</button>
-        <button class="teal" onclick="openGmailSpanish()">Open in Gmail</button>
-      </div>
-      <div class="email-box">
-        <div class="email-field"><div class="email-label">To</div><input id="es-to" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Subject</div><input id="es-subject" type="text" readonly style="background:transparent;border:none;padding:0;font-size:13px;" /></div>
-        <div class="email-field"><div class="email-label">Body</div><textarea id="es-body" rows="14" placeholder="Select email type and volunteer above..."></textarea></div>
-      </div>
-      <div class="copy-confirm" id="es-confirm"></div>
-    </div>
-  </div>
-
 </div>
 
 <!-- SPOTLIGHT PAGE -->
@@ -1977,7 +1950,7 @@ function renderLanguageEditor() {
 
 function populateToolSelects() {
   const sorted = [...VOLUNTEERS].sort((a,b) => a.name.localeCompare(b.name));
-  ['es-vol','spot-vol','prayer-vol','notes-vol'].forEach(id => {
+  ['spot-vol','prayer-vol','notes-vol'].forEach(id => {
     const sel = document.getElementById(id);
     if (!sel) return;
     const cur = sel.value;

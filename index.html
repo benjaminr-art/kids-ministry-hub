@@ -2274,7 +2274,7 @@ function toggleChat() {
     // Personalize greeting if user is selected
     const msgs = document.getElementById('chat-messages');
     if (msgs.children.length === 1 && currentUser && currentUser.name !== 'Ben Rivera') {
-      msgs.children[0].textContent = `Hey ${currentUser.name.split(' ')[0]}! I'm your Calvary Boca Kids Ministry assistant. I know who you are and what you do here — I'm ready to help with emails, messages, prayers, ideas, or anything else you need. What can I help you with today?`;
+      msgs.children[0].textContent = `Hey ${currentUser.name.split(' ')[0]}! I'm your Calvary Boca Kids Ministry assistant. I know who you are and what you do here. I'm ready to help with emails, messages, prayers, ideas, or anything else you need. What can I help you with today?`;
     }
     setTimeout(() => document.getElementById('chat-input').focus(), 100);
   }
@@ -2325,7 +2325,7 @@ async function sendChat() {
 
   // Build dynamic system prompt with current user
   const userContext = currentUser
-    ? `\n\nCURRENT USER: ${currentUser.name} (${currentUser.title}) — this is who is currently using the hub. Address them by first name and sign any emails or messages with their name and title.`
+    ? `\n\nCURRENT USER: ${currentUser.name} (${currentUser.title}). This is who is currently using the hub. Address them by first name and sign any emails or messages with their name and title.`
     : '';
 
   try {

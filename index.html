@@ -2153,5 +2153,216 @@ function clearNote() { document.getElementById('notes-text').value=''; saveNote(
 
 loadFromSheet();
 </script>
+<!-- AI CHAT ASSISTANT -->
+<style>
+  .chat-fab { position:fixed; bottom:24px; right:24px; width:52px; height:52px; border-radius:50%; background:var(--purple-text); color:white; border:none; cursor:pointer; font-size:22px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(83,74,183,0.4); z-index:300; transition:transform 0.2s; }
+  .chat-fab:hover { transform:scale(1.08); }
+  .chat-window { position:fixed; bottom:88px; right:24px; width:380px; max-width:calc(100vw - 48px); height:520px; max-height:calc(100vh - 120px); background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:0 8px 40px rgba(0,0,0,0.15); z-index:300; display:none; flex-direction:column; overflow:hidden; }
+  .chat-window.open { display:flex; }
+  .chat-header { padding:14px 16px; background:var(--purple-text); color:white; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .chat-header-left { display:flex; align-items:center; gap:10px; }
+  .chat-avatar { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .chat-title { font-size:14px; font-weight:600; }
+  .chat-subtitle { font-size:11px; opacity:0.8; }
+  .chat-close { background:none; border:none; color:white; cursor:pointer; font-size:18px; padding:0; opacity:0.8; }
+  .chat-close:hover { opacity:1; }
+  .chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; }
+  .chat-msg { max-width:85%; border-radius:12px; padding:10px 13px; font-size:13px; line-height:1.55; }
+  .chat-msg.user { background:var(--purple-text); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
+  .chat-msg.assistant { background:var(--surface); color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; border:1px solid var(--border); }
+  .chat-msg.thinking { color:var(--muted); font-style:italic; }
+  .chat-msg pre { white-space:pre-wrap; font-family:inherit; margin:0; }
+  .chat-input-row { padding:12px; border-top:1px solid var(--border); display:flex; gap:8px; flex-shrink:0; background:var(--white); }
+  .chat-input { flex:1; border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 12px; font-size:13px; font-family:inherit; outline:none; resize:none; line-height:1.4; max-height:100px; }
+  .chat-input:focus { border-color:var(--purple-text); }
+  .chat-send { background:var(--purple-text); color:white; border:none; border-radius:var(--radius-sm); padding:8px 14px; cursor:pointer; font-size:13px; font-family:inherit; font-weight:500; flex-shrink:0; }
+  .chat-send:hover { background:#3C3489; }
+  .chat-send:disabled { opacity:0.5; cursor:not-allowed; }
+  .chat-suggestions { display:flex; flex-wrap:wrap; gap:6px; padding:0 16px 12px; flex-shrink:0; }
+  .chat-suggestion { font-size:11px; padding:4px 10px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--muted); cursor:pointer; font-family:inherit; transition:all 0.15s; }
+  .chat-suggestion:hover { background:var(--purple-bg); color:var(--purple-text); border-color:var(--purple-text); }
+</style>
+
+<button class="chat-fab" onclick="toggleChat()" title="Ask your ministry assistant">✝</button>
+
+<div class="chat-window" id="chat-window">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-avatar">✝</div>
+      <div>
+        <div class="chat-title">Ministry Assistant</div>
+        <div class="chat-subtitle">Calvary Boca Kids Ministry</div>
+      </div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-msg assistant">Hey! I'm your Calvary Boca Kids Ministry assistant. I can help you draft emails, write WhatsApp messages, compose prayers, brainstorm ideas, answer questions — anything you need. What can I help you with today?</div>
+  </div>
+  <div class="chat-suggestions" id="chat-suggestions">
+    <button class="chat-suggestion" onclick="sendSuggestion('Draft a prayer for our volunteer team this Sunday')">🙏 Team prayer</button>
+    <button class="chat-suggestion" onclick="sendSuggestion('Write a WhatsApp message asking for volunteers this weekend')">💬 Volunteer ask</button>
+    <button class="chat-suggestion" onclick="sendSuggestion('Help me encourage a volunteer who seems burned out')">💛 Encouragement</button>
+    <button class="chat-suggestion" onclick="sendSuggestion('Write a fun post-service thank you message')">🎉 Thank you msg</button>
+  </div>
+  <div class="chat-input-row">
+    <textarea class="chat-input" id="chat-input" placeholder="Ask anything..." rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="chat-send" id="chat-send-btn" onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<script>
+// ─── AI CHAT ──────────────────────────────────────────────────────────────────
+let chatHistory = [];
+let chatOpen = false;
+
+const CHAT_SYSTEM_PROMPT = `You are a warm, faith-centered ministry assistant for Calvary Boca Kids Ministry (Calvary Chapel Boca Raton) in Boca Raton, Florida.
+
+You are embedded in the Calvary Boca Volunteer Care Hub — a tool used by the Kids Ministry staff team to care for their volunteers. You always know who is currently using the site because they select their name from the "Who are you?" dropdown at the top. Use currentUser.name and currentUser.title when signing off emails or referring to the sender.
+
+ABOUT CALVARY BOCA:
+- Full name: Calvary Chapel Boca Raton (Calvary Boca)
+- Part of the Calvary Chapel / Calvary Global Network movement
+- Website: calvaryftl.org
+- Location: Boca Raton, Florida
+- Services: Saturday evenings and Sunday mornings (multiple service times)
+- Scheduling tool: Planning Center
+- Primary team communication: WhatsApp
+
+CALVARY CHAPEL CORE VALUES (always reflect these):
+1. We embrace the exposition of the whole Bible — verse by verse, book by book
+2. We rely on the leading of the Holy Spirit
+3. We cultivate a culture of grace — "God does not call the qualified; He qualifies the called"
+4. We engage with every generation
+5. We live in anticipation of Christ's return
+6. We promote servant leadership — greatness is found in serving, not being served
+
+STAFF TEAM MEMBERS (any of these people may be using this tool):
+- Ben Rivera — Family Ministry Assistant | Boca Raton Campus (benjaminr@calvaryftl.org) — primary builder of this hub, handles volunteer coordination, scheduling, onboarding, and communications for Kids Ministry
+- Gaby Guerrero — Calvary Kids Director | Boca Raton Campus (gabyg@calvaryftl.org) — leads Kids Ministry overall
+- Drew Eales — Family & Outreach Manager | Boca Raton Campus (drewe@calvaryftl.org) — oversees family ministry and outreach
+- Javan Shashaty — Boca Raton Campus Pastor (javans@calvaryftl.org) — campus pastor
+- Rod Pearcy — Pastor of Campus Operations | Boca Raton Campus (rod@calvaryftl.org) — oversees campus operations
+- Joseph Worsham — Calvary Boca Youth and Young Adults Director (josephwo@calvaryftl.org) — leads youth and young adults
+- Angelina Rao — Volunteer & Groups Coordinator (angelinar@calvaryftl.org) — coordinates volunteers and groups
+- Sydnie Nichols — Events & Administrative Coordinator (sydnien@calvaryftl.org) — handles events and admin
+- Emmanuel Guerrero — Boca Raton Technical Director (emmanuelg@calvaryftl.org) — technical director
+- Yuriy Korf — Facilities and Events Coordinator (yuriyk@calvaryftl.org) — facilities and events
+
+VOLUNTEERS (the people being cared for through this hub):
+The volunteer roster includes people serving in Kids Ministry. Several speak Spanish or Portuguese as their primary language. Key volunteers include Aline Silva, Yarleen Sanchez, Walter Gonzalez, Carmem O'Connor, Brieanna Balesteri, Daniella Garagozzo, Marcela Velasco, Alyssa Behrendt, Christina Mummaw, Julie Montano, Rosa Paulino, Hannah Bolden, Christina Joseph, Paulina Giraldo, Elizabeth Coles, Katherine Asencio, Cathy Commagere, Patricia Rico, Tim Eales, Debra Leon, Michele Redmond, Erica Myhre, Elaine Burkert, Nick Torres, Carol Beretta, and others being added over time.
+
+COMMUNICATION STYLE:
+- Warm, personal, and faith-centered
+- Casual but pastoral — not stiff or corporate
+- No excessive dashes in messages
+- Direct and encouraging
+- Scripture references where appropriate but never forced
+- Bilingual awareness — some volunteers speak Spanish or Portuguese; always offer to translate if relevant
+
+YOU CAN HELP WITH:
+- Drafting emails to volunteers (birthday, welcome, check-ins, anniversaries)
+- Writing WhatsApp messages for the team (scheduling, coverage, thanks, prayer)
+- Composing prayers for the team, volunteers, or services
+- Writing volunteer spotlight posts (bulletin, social media, WhatsApp)
+- Sermon or lesson outlines for Kids Church
+- Brainstorming volunteer care ideas or ministry strategies
+- Encouraging language for burned-out or discouraged volunteers
+- General questions about ministry, Calvary Chapel, or anything else
+- Anything the team needs help with day to day
+
+Always be grace-filled, Spirit-led, and practically helpful. You are a trusted ministry partner for this whole team.`;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-window').classList.toggle('open', chatOpen);
+  if (chatOpen) {
+    // Personalize greeting if user is selected
+    const msgs = document.getElementById('chat-messages');
+    if (msgs.children.length === 1 && currentUser && currentUser.name !== 'Ben Rivera') {
+      msgs.children[0].textContent = `Hey ${currentUser.name.split(' ')[0]}! I'm your Calvary Boca Kids Ministry assistant. I know who you are and what you do here — I'm ready to help with emails, messages, prayers, ideas, or anything else you need. What can I help you with today?`;
+    }
+    setTimeout(() => document.getElementById('chat-input').focus(), 100);
+  }
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChat();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+function sendSuggestion(text) {
+  document.getElementById('chat-input').value = text;
+  document.getElementById('chat-suggestions').style.display = 'none';
+  sendChat();
+}
+
+function appendMessage(role, text) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const btn = document.getElementById('chat-send-btn');
+  const text = input.value.trim();
+  if (!text) return;
+
+  document.getElementById('chat-suggestions').style.display = 'none';
+  input.value = '';
+  input.style.height = 'auto';
+  appendMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  btn.disabled = true;
+  const thinkingDiv = appendMessage('assistant', 'Thinking...');
+  thinkingDiv.classList.add('thinking');
+
+  // Build dynamic system prompt with current user
+  const userContext = currentUser
+    ? `\n\nCURRENT USER: ${currentUser.name} (${currentUser.title}) — this is who is currently using the hub. Address them by first name and sign any emails or messages with their name and title.`
+    : '';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: CHAT_SYSTEM_PROMPT + userContext,
+        messages: chatHistory
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.content && data.content[0] ? data.content[0].text : 'Sorry, I had trouble responding. Please try again.';
+
+    thinkingDiv.classList.remove('thinking');
+    thinkingDiv.textContent = reply;
+    document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+    chatHistory.push({ role: 'assistant', content: reply });
+
+  } catch(e) {
+    thinkingDiv.classList.remove('thinking');
+    thinkingDiv.textContent = 'Sorry, something went wrong. Please check your connection and try again.';
+  }
+
+  btn.disabled = false;
+  document.getElementById('chat-input').focus();
+}
+</script>
+
 </body>
 </html>

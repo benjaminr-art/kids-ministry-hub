@@ -2345,16 +2345,20 @@ async function sendChat() {
     });
 
     const data = await response.json();
-    const reply = data.success && data.reply ? data.reply : 'Sorry, I had trouble responding. Please try again.';
-
-    thinkingDiv.classList.remove('thinking');
-    thinkingDiv.textContent = reply;
-    document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-    chatHistory.push({ role: 'assistant', content: reply });
+    if (data.success && data.reply) {
+      const reply = data.reply;
+      thinkingDiv.classList.remove('thinking');
+      thinkingDiv.textContent = reply;
+      document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+      chatHistory.push({ role: 'assistant', content: reply });
+    } else {
+      thinkingDiv.classList.remove('thinking');
+      thinkingDiv.textContent = 'Error: ' + (data.error || 'Unknown error from server. Please try again.');
+    }
 
   } catch(e) {
     thinkingDiv.classList.remove('thinking');
-    thinkingDiv.textContent = 'Sorry, something went wrong. Please check your connection and try again.';
+    thinkingDiv.textContent = 'Error: ' + e.message;
   }
 
   btn.disabled = false;
